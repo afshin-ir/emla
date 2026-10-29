@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "دستور خط فارسی",
+  "short_name": "دستور خط",
+  "description": "متن جست‌وجوپذیر دستور خط فارسی، همراه با قواعد، مثال‌ها، جدول‌ها و مقاله‌ها.",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f4",
+  "theme_color": "#f4f7f4",
+  "categories": ["education", "books", "reference"],
+  "icons": [
+    {
+      "src": "./assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
