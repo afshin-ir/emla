@@ -12,7 +12,7 @@
 <style>
 .site-views{display:flex;align-items:center;justify-content:center;gap:5px;margin:12px 0 8px;padding:0;border:0;background:none;color:var(--muted);font-size:.72rem;line-height:1.6;opacity:.78}
 .site-views-count{font-variant-numeric:tabular-nums;font-size:.72rem;font-weight:400;letter-spacing:0;color:inherit;white-space:nowrap;direction:rtl}
-.site-views-count:empty::after{content:'…';color:inherit}.site-views-icon{flex-basis:36px;width:36px;height:36px}.site-views-title{font-size:.86rem}.site-views-subtitle{font-size:.72rem}.site-views-count{font-size:1.18rem}}
+.site-views-count:empty::after{content:'…';color:inherit}
 </style>
 </head>
 <body><div class="shell">
@@ -26,11 +26,18 @@
 (function(){
   var output=document.getElementById('site-views-count');
   if(!output)return;
-  var toPersian=function(value){return String(value).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]}).replace(/,/g,'٬').replace(/\./g,'٫')};
-  fetch('https://afshin.goatcounter.com/counter/TOTAL.json',{cache:'no-store'})
-    .then(function(response){if(!response.ok)throw new Error('counter unavailable');return response.json()})
-    .then(function(data){if(data&&data.count!==undefined)output.textContent=toPersian(data.count)})
-    .catch(function(){output.textContent='';output.setAttribute('aria-label','آمار بازدید فعلاً در دسترس نیست')});
+  var request=new XMLHttpRequest();
+  request.addEventListener('load',function(){
+    if(request.status<200||request.status>=300)return;
+    try{
+      var data=JSON.parse(request.responseText);
+      if(data&&data.count!==undefined){
+        output.textContent=String(data.count).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]});
+      }
+    }catch(error){}
+  });
+  request.open('GET','https://afshin.goatcounter.com/counter/TOTAL.json');
+  request.send();
 })();
 </script>
 </div></body></html>
