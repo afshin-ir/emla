@@ -13,6 +13,17 @@
 :root{color-scheme:light;--bg:#f4f7f4;--paper:#fff;--ink:#1e2d2b;--muted:#6b7b76;--line:#e1e9e4;--green:#16765d;--green-dark:#105b48;--mint:#e8f4ee;--shadow:0 10px 32px #213b2d0b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Vazirmatn,sans-serif;line-height:2;font-size:16px}.shell{width:min(900px,calc(100% - 32px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--green);color:#fff}.top-link{padding:7px 13px;border:1px solid var(--line);border-radius:12px;color:var(--green-dark);text-decoration:none;background:#fff;font-size:.9rem}.paper{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:clamp(22px,5vw,56px);margin:12px 0 32px}.eyebrow{color:var(--green);font-weight:700;font-size:.9rem;margin:0 0 8px}.article-title{font-size:clamp(1.65rem,4vw,2.35rem);line-height:1.65;margin:0 0 14px}.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:.92rem;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}.article-body{overflow-wrap:anywhere}.article-body p{margin:0 0 1.15em}.article-body blockquote{margin:1.6em 0;padding:14px 20px;border-right:3px solid #8bbca8;background:#f7faf8;border-radius:10px}.article-body ol,.article-body ul{padding-right:1.7em;margin:.4em 0 1.25em}.article-body li{margin:.45em 0}.article-body a{color:var(--green-dark);text-underline-offset:3px}.source-note{display:flex;align-items:flex-start;gap:14px;margin-top:34px;padding:20px 22px;border:1px solid #dcebe2;border-right:4px solid var(--green);background:linear-gradient(135deg,#f7fbf8 0%,#edf6f0 100%);border-radius:16px;color:var(--muted);font-size:.93rem}.source-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:12px;background:#dcefe4;color:var(--green-dark);font-size:1.2rem;line-height:1}.source-content{min-width:0}.source-label{display:block;color:var(--green-dark);font-size:.8rem;font-weight:800;letter-spacing:.02em;margin-bottom:2px}.source-title{display:block;color:var(--ink);font-weight:700;line-height:1.8}.source-link{display:inline-flex;align-items:center;gap:6px;margin-top:7px;color:var(--green-dark);font-weight:600;text-decoration:none;border-bottom:1px solid #a9cdb9;padding-bottom:1px}.source-link:hover{color:var(--green);border-color:var(--green)}@media(max-width:560px){.source-note{padding:16px;gap:11px}.source-icon{flex-basis:36px;width:36px;height:36px;border-radius:10px}}.footer-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px;margin-top:36px}.footer-nav a{color:var(--green-dark);font-weight:600;text-decoration:none}@media(max-width:560px){body{font-size:15px}.paper{border-radius:16px;padding:22px 18px}}
 </style>
+
+<style>
+.site-views{display:flex;align-items:center;gap:13px;max-width:100%;margin:22px 0 18px;padding:15px 18px;border:1px solid #dce9e0;border-radius:16px;background:linear-gradient(135deg,#fff 0%,#edf6f0 100%);color:#536b60}
+.site-views-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:12px;background:#dcefe4;color:#16765d}
+.site-views-copy{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.site-views-title{font-size:.92rem;font-weight:700;color:#214b3b;line-height:1.7}
+.site-views-subtitle{font-size:.78rem;color:#71847a;line-height:1.7}
+.site-views-count{font-variant-numeric:tabular-nums;font-size:1.35rem;font-weight:800;letter-spacing:.02em;color:#16765d;white-space:nowrap;direction:rtl}
+.site-views-count:empty::after{content:'…';color:#9aaca1}
+@media(max-width:420px){.site-views{gap:10px;padding:13px}.site-views-icon{flex-basis:36px;width:36px;height:36px}.site-views-title{font-size:.86rem}.site-views-subtitle{font-size:.72rem}.site-views-count{font-size:1.18rem}}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -28,6 +39,19 @@
 <section class="source-note" aria-label="منبع مقاله"><span class="source-icon" aria-hidden="true">↗</span><div class="source-content"><span class="source-label">منبع این مقاله</span><span class="source-title">{{source_title}}</span><a class="source-link" href="{{source_url}}" target="_blank" rel="noopener noreferrer">مشاهدهٔ نوشتهٔ اصلی <span aria-hidden="true">←</span></a></div></section>
 <nav class="footer-nav" aria-label="پیوندهای پایانی"><a href="./">← فهرست نقدها و مقاله‌ها</a><a href="../">بازگشت به متن کتاب ↑</a></nav>
 </main>
+<section class="site-views" aria-label="آمار بازدید سایت"><span class="site-views-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-7"/><path d="M16 6h4v4"/></svg></span><span class="site-views-copy"><span class="site-views-title">بازدیدهای سایت</span><span class="site-views-subtitle">مجموع بازدید همهٔ صفحه‌ها</span></span><strong class="site-views-count" id="site-views-count" aria-live="polite"></strong></section>
+<script data-goatcounter="https://afshin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+(function(){
+  var output=document.getElementById('site-views-count');
+  if(!output)return;
+  var toPersian=function(value){return String(value).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]}).replace(/,/g,'٬').replace(/\./g,'٫')};
+  fetch('https://afshin.goatcounter.com/counter/TOTAL.json',{cache:'no-store'})
+    .then(function(response){if(!response.ok)throw new Error('counter unavailable');return response.json()})
+    .then(function(data){if(data&&data.count!==undefined)output.textContent=toPersian(data.count)})
+    .catch(function(){output.textContent='';output.setAttribute('aria-label','آمار بازدید فعلاً در دسترس نیست')});
+})();
+</script>
 </div>
 </body>
 </html>
