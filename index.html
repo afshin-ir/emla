@@ -35,7 +35,7 @@
 <style>
 .site-views{display:flex;align-items:center;justify-content:center;gap:5px;margin:12px 0 8px;padding:0;border:0;background:none;color:var(--muted);font-size:.72rem;line-height:1.6;opacity:.78}
 .site-views-count{font-variant-numeric:tabular-nums;font-size:.72rem;font-weight:400;letter-spacing:0;color:inherit;white-space:nowrap;direction:rtl}
-.site-views-count:empty::after{content:'…';color:inherit}.site-views-icon{flex-basis:36px;width:36px;height:36px}.site-views-title{font-size:.86rem}.site-views-subtitle{font-size:.72rem}.site-views-count{font-size:1.18rem}}
+.site-views-count:empty::after{content:'…';color:inherit}
 </style>
 </head>
 <body>
@@ -49,11 +49,18 @@
 (function(){
   var output=document.getElementById('site-views-count');
   if(!output)return;
-  var toPersian=function(value){return String(value).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]}).replace(/,/g,'٬').replace(/\./g,'٫')};
-  fetch('https://afshin.goatcounter.com/counter/TOTAL.json',{cache:'no-store'})
-    .then(function(response){if(!response.ok)throw new Error('counter unavailable');return response.json()})
-    .then(function(data){if(data&&data.count!==undefined)output.textContent=toPersian(data.count)})
-    .catch(function(){output.textContent='';output.setAttribute('aria-label','آمار بازدید فعلاً در دسترس نیست')});
+  var request=new XMLHttpRequest();
+  request.addEventListener('load',function(){
+    if(request.status<200||request.status>=300)return;
+    try{
+      var data=JSON.parse(request.responseText);
+      if(data&&data.count!==undefined){
+        output.textContent=String(data.count).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[Number(d)]});
+      }
+    }catch(error){}
+  });
+  request.open('GET','https://afshin.goatcounter.com/counter/TOTAL.json');
+  request.send();
 })();
 </script>
 <footer class="footer"><div class="footer-note"><span class="footer-mark" aria-hidden="true">ا</span><div class="footer-copy"><strong>نسخۀ دیجیتال و جست‌وجوپذیرِ دستور خط فارسی</strong><span>متن کتابِ فرهنگستان زبان و ادب فارسی</span></div></div><a class="footer-source" href="https://github.com/afshin-ir/emla" target="_blank" rel="noreferrer" aria-label="مشاهدۀ کد منبع پروژه در GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.68-3.75-1.32-3.75-1.32-.5-1.3-1.23-1.64-1.23-1.64-1.01-.7.08-.69.08-.69 1.12.08 1.7 1.15 1.7 1.15 1 1.7 2.62 1.21 3.26.93.1-.72.39-1.21.71-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.05-1.14 3.05-1.14.61 1.54.23 2.68.11 2.96.71.78 1.15 1.78 1.15 3 0 4.29-2.61 5.23-5.1 5.5.4.35.75 1.03.75 2.08v3.1c0 .3.2.65.76.54A11.1 11.1 0 0 0 12 .9Z"/></svg><span>کد منبع در GitHub</span><span class="footer-arrow" aria-hidden="true">↗</span></a></footer>
