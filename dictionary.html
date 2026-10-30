@@ -14,6 +14,7 @@
 .shell{max-width:1000px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
 a{color:var(--green-dark);text-decoration:none}.brand{font-weight:800;color:var(--ink)}.paper{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,4vw,40px)}
 h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);margin:0 0 22px;font-size:.9rem}
+.book-cover-link{display:flex;justify-content:center;margin:4px 0 24px}.book-cover{display:block;width:clamp(112px,22vw,170px);height:auto;border:1px solid var(--line);border-radius:5px;box-shadow:0 8px 22px #213b2d20}.book-cover-link:focus-visible{outline:2px solid var(--green);outline-offset:5px;border-radius:6px}
 .search{display:flex;gap:8px;align-items:center;background:#f7faf8;border:1px solid var(--line);border-radius:14px;padding:8px 12px}
 .search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;padding:7px}
 .search button{border:0;border-radius:9px;background:#e8efea;color:#52635a;padding:7px 10px;font:inherit}
@@ -31,6 +32,7 @@ h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);m
 <main class="paper">
 <h1>فرهنگ املایی خط فارسی</h1>
 <p class="intro">جست‌وجو در فهرست واژه‌ها و صورت‌های املایی ثبت‌شده در کتاب فرهنگ املایی خط فارسی.</p>
+<a class="book-cover-link" href="https://ketabtaha.com/wp-content/uploads/2024/04/50458.jpg.webp" target="_blank" rel="noopener noreferrer" aria-label="مشاهدهٔ تصویر جلد کتاب در وبگاه کتاب طه"><img class="book-cover" src="https://ketabtaha.com/wp-content/uploads/2024/04/50458.jpg.webp" alt="جلد کتاب فرهنگ املایی خط فارسی" loading="lazy" decoding="async"></a>
 <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" autocomplete="off" placeholder="واژه‌ای را جست‌وجو کنید…" aria-label="جست‌وجو در فرهنگ املایی خط فارسی"><button id="clear" type="button">پاک‌کردن</button></label>
 <div class="meta"><span id="count" aria-live="polite">در حال بارگذاری فرهنگ…</span><span>جست‌وجو در صورت‌های ثبت‌شده</span></div>
 <section id="results" class="results" aria-live="polite"><div class="empty">در حال بارگذاری…</div></section>
