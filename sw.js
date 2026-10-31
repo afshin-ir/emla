@@ -3,7 +3,7 @@ const CACHE_NAME = 'emla-static-v5';
 const PRECACHE_URLS = [
   './', './index.html', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
   './manifest.json', './assets/favicon.svg', './assets/book-cover.jpg',
-  './articles/', './articles/index.html', './articles/2', './articles/negahi-be-masale-dasturkhat.html'
+  './articles/', './articles/index.html', './articles/2', './articles/2'
 ];
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
