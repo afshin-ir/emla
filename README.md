@@ -74,7 +74,7 @@
 
 در فایل اکسل موجود، شماره‌های دفتر ۱ تا ۱۲ ثبت شده‌اند.
 
-[**رفتن به واژگان مصوب فرهنگستان**](https://afshin-ir.github.io/emla/approved-words.html)
+[**رفتن به واژگان مصوب فرهنگستان**](https://afshin-ir.github.io/emla/words.html)
 
 ---
 
