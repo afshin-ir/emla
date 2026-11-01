@@ -32,6 +32,13 @@ function resultScore(e,phrase,tokens){
  if(e[11]?.some(x=>x===phrase))return 5.5;if(e[11]?.some(x=>x.startsWith(phrase)))return 5.75;
  if(e[7]?.includes(phrase))return 6;return tokens.every(t=>e[7]?.includes(t))?7:99
 }
+function matchType(e,phrase,tokens){
+ if(!phrase)return'all';
+ if(e[8]?.includes(phrase)||e[9]?.includes(phrase))return'direct';
+ if(e[11]?.some(x=>x.includes(phrase)))return'reference';
+ if(e[13]?.includes(phrase)||tokens.every(t=>e[13]?.includes(t)))return'details';
+ return'details'
+}
 function selected(e,v,s){return(!v||(e[4]||[]).includes(v))&&(!s||e[2]===s)}
 async function load(baseUrl){
  if(!('DecompressionStream'in self))throw new Error('مرورگر از بازکردن فایل فشرده پشتیبانی نمی‌کند.');
@@ -41,21 +48,23 @@ async function load(baseUrl){
   const data=JSON.parse(await new Response(stream).text());postMessage({type:'progress',loaded:i,total:4});return data
  }));
  entries=shards.flat();const volumeCounts=new Map(),subjects=new Set();
- for(const e of entries){e[7]=normalize([e[0],e[1],e[2],e[3],e[5],e[6]].filter(Boolean).join(' '));e[8]=normalize(e[0]);e[9]=normalize(e[1]);if(e[2])subjects.add(e[2]);for(const n of e[4]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1)}
+ for(const e of entries){e[7]=normalize([e[0],e[1],e[2],e[3],e[5],e[6]].filter(Boolean).join(' '));e[8]=normalize(e[0]);e[9]=normalize(e[1]);e[13]=normalize([e[2],e[3],e[5],e[6]].filter(Boolean).join(' '));if(e[2])subjects.add(e[2]);for(const n of e[4]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1)}
  linkCrossReferences(entries);
  const volumes=[...volumeCounts.keys()].sort((a,b)=>a-b),subjectList=[...subjects].sort((a,b)=>a.localeCompare(b,'fa'));
  postMessage({type:'ready',count:entries.length,volumes,volumeCounts:[...volumeCounts],subjects:subjectList})
 }
 function search(message){
  const {id,query='',volume=0,subject='',page=0,pageSize=30}=message,raw=query.trim(),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),phrase=tokens.join(''),v=Number(volume)||0;
- if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[]});return}
+ if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[],groups:{}});return}
  const found=[];
  for(const e of entries){if(e._linkedCrossReference||!selected(e,v,subject))continue;
-  if(!phrase){found.push([e,8]);continue}
-  const score=resultScore(e,phrase,tokens);if(score<99)found.push([e,score])
+  if(!phrase){found.push([e,8,'all']);continue}
+  const score=resultScore(e,phrase,tokens);if(score<99)found.push([e,score,matchType(e,phrase,tokens)])
  }
  found.sort((a,b)=>a[1]-b[1]);
- const start=page*pageSize,rows=found.slice(start,start+pageSize).map(x=>x[0]);
- postMessage({type:'results',id,total:found.length,page,rows})
+ const groups={direct:0,reference:0,details:0,all:0};
+ for(const [, ,type] of found)groups[type]=(groups[type]||0)+1;
+ const start=page*pageSize,rows=found.slice(start,start+pageSize).map(([entry,,matchType])=>({entry,matchType}));
+ postMessage({type:'results',id,total:found.length,page,rows,groups})
 }
 onmessage=event=>{const m=event.data||{};if(m.type==='init')load(m.baseUrl).catch(error=>postMessage({type:'error',message:error.message}));else if(m.type==='search')search(m)};
