@@ -68,6 +68,12 @@ function richText(value,query=''){
  for(const character of text){const part=normalize(character);for(const unit of Array.from(part)){folded+=unit;positions.push([offset,offset+character.length])}offset+=character.length}
  const spans=[];
  for(const term of terms){let from=0,index;while((index=folded.indexOf(term,from))!==-1){const start=positions[index]?.[0],end=positions[index+term.length-1]?.[1];if(start!==undefined&&end!==undefined)spans.push([start,end]);from=index+term.length}}
+ spans=spans.map(([start,end])=>{
+  if(!/\p{Script=Arabic}/u.test(text.slice(start,end)))return[start,end];
+  const left=text.slice(0,start).match(/[\p{L}\p{M}\p{N}_\u200c]+$/u)?.[0].length||0;
+  const right=text.slice(end).match(/^[\p{L}\p{M}\p{N}_\u200c]+/u)?.[0].length||0;
+  return[start-left,end+right]
+ });
  spans.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const merged=[];for(const span of spans){const previous=merged[merged.length-1];if(previous&&span[0]<=previous[1])previous[1]=Math.max(previous[1],span[1]);else merged.push(span.slice())}
  const format=part=>{const re=/[A-Za-z][A-Za-z0-9]*(?:[ -][A-Za-z0-9]+)*/g;let out='',last=0,match;while((match=re.exec(part))!==null){out+=esc(part.slice(last,match.index))+'<i lang="en" dir="ltr">'+esc(match[0])+'</i>';last=match.index+match[0].length}return out+esc(part.slice(last))};
  let out='',last=0;for(const [start,end] of merged){out+=format(text.slice(last,start))+'<mark>'+format(text.slice(start,end))+'</mark>';last=end}return out+format(text.slice(last))
