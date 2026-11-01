@@ -65,6 +65,7 @@ const normalize=s=>String(s??'').normalize('NFKC').replace(/[يى]/g,'ی').repla
 const stripIndex=s=>String(s??'').replace(/[\s\u00a0]+[0-9۰-۹٠-٩]+$/u,'').trim();
 const displayEnglish=s=>String(s??'').split(/[,،;؛]/).map(term=>stripIndex(term)).filter(Boolean).join(', ');
 const displayQuery=s=>stripIndex(s);
+const expandSynonymAbbreviation=s=>String(s??'').replace(/متـ?\s*\.\s*/gu,'مترادف: ');
 
 function richText(value,query=''){
  const text=String(value??''),terms=[...new Set(String(query||'').split(/\s+/).map(normalize).filter(term=>term.length>1))];
@@ -97,7 +98,7 @@ function card(e,matchType,query){
  const subjectTag=e[2]?'<div class="detail"><span class="detail-label">حوزه:</span><span class="detail-text">'+richText(e[2],query)+'</span></div>':'';
  let note='';
  if(e[3]){
-  const n=String(e[3]),isRef=/^\s*←/.test(n),body=isRef?n.replace(/^\s*←\s*/,''):n,chars=Array.from(body);
+  const n=expandSynonymAbbreviation(e[3]),isRef=/^\s*←/.test(n),body=isRef?n.replace(/^\s*←\s*/,''):n,chars=Array.from(body);
   if(isRef)note='<div class="detail"><span class="detail-label">ارجاع به:</span><span class="detail-text">← '+richText(body,query)+'</span></div>';
   else if(chars.length>220)note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><div class="detail-text definition-text"><p class="definition-preview">'+richText(chars.slice(0,220).join(''))+'…</p><details class="definition-more"><summary>دیدن متن کامل</summary><p>'+richText(body,query)+'</p></details></div></div>';
   else note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><span class="detail-text definition-text">'+richText(body,query)+'</span></div>';
@@ -117,7 +118,7 @@ function equivalentGroup(entries,query,isEnglish){
   const subjectTag=e[2]?'<div class="detail"><span class="detail-label">حوزه:</span><span class="detail-text">'+richText(e[2],query)+'</span></div>':'';
   let note='';
   if(e[3]){
-   const n=String(e[3]),isRef=/^\s*←/.test(n),body=isRef?n.replace(/^\s*←\s*/,''):n,chars=Array.from(body);
+   const n=expandSynonymAbbreviation(e[3]),isRef=/^\s*←/.test(n),body=isRef?n.replace(/^\s*←\s*/,''):n,chars=Array.from(body);
    if(isRef)note='<div class="detail"><span class="detail-label">ارجاع به:</span><span class="detail-text">← '+richText(body,query)+'</span></div>';
    else if(chars.length>220)note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><div class="detail-text definition-text"><p class="definition-preview">'+richText(chars.slice(0,220).join(''),query)+'…</p><details class="definition-more"><summary>دیدن متن کامل</summary><p>'+richText(body,query)+'</p></details></div></div>';
    else note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><span class="detail-text definition-text">'+richText(body,query)+'</span></div>';
