@@ -80,7 +80,7 @@ function card(e,matchType,query){
   const n=String(e[3]),isRef=/^\s*←/.test(n),body=isRef?n.replace(/^\s*←\s*/,''):n,chars=Array.from(body);
   if(isRef)note='<div class="detail"><span class="detail-label">ارجاع به:</span><span class="detail-text">← '+esc(body)+'</span></div>';
   else if(chars.length>220)note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><div class="detail-text definition-text"><p class="definition-preview">'+esc(chars.slice(0,220).join(''))+'…</p><details class="definition-more"><summary>دیدن متن کامل</summary><p>'+esc(body)+'</p></details></div></div>';
-  else note='<div class="detail"><span class="detail-label">تعریف و توضیح</span><span class="detail-text definition-text">'+esc(body)+'</span></div>';
+  else note='<div class="detail"><span class="detail-label">تعریف و توضیح:</span><span class="detail-text definition-text">'+esc(body)+'</span></div>';
  }
  const volumeNames=(e[4]||[]).map(fa),volumeText=volumeNames.length===1?'دفتر '+volumeNames[0]:volumeNames.length>1?'دفترهای '+volumeNames.slice(0,-1).join('، ')+' و '+volumeNames[volumeNames.length-1]:'';
  const source=volumeText?'<div class="detail source-detail"><span class="detail-label">منبع:</span><span class="detail-text">'+volumeText+'</span></div>':'';
