@@ -48,7 +48,7 @@ async function load(baseUrl){
 }
 function search(message){
  const {id,query='',volume=0,subject='',page=0,pageSize=30}=message,raw=query.trim(),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),phrase=tokens.join(''),v=Number(volume)||0;
- if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[]});return}
+ if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[],suggestions:[]});return}
  const found=[];
  for(const e of entries){if(e._linkedCrossReference||!selected(e,v,subject))continue;
   if(!phrase){found.push([e,8]);continue}
@@ -56,6 +56,7 @@ function search(message){
  }
  found.sort((a,b)=>a[1]-b[1]);
  const start=page*pageSize,rows=found.slice(start,start+pageSize).map(x=>x[0]);
- postMessage({type:'results',id,total:found.length,page,rows})
+ const suggestions=phrase.length>=2?found.slice(0,6).map(([entry])=>({entry,kind:entry[12]?.some(x=>x===phrase||(x.startsWith(phrase)&&x.length<=phrase.length+2))?'related':'entry'})):[];
+ postMessage({type:'results',id,total:found.length,page,rows,suggestions})
 }
 onmessage=event=>{const m=event.data||{};if(m.type==='init')load(m.baseUrl).catch(error=>postMessage({type:'error',message:error.message}));else if(m.type==='search')search(m)};
