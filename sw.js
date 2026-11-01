@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'emla-';
-const CACHE_NAME = 'emla-static-v29';
+const CACHE_NAME = 'emla-static-v30';
 const PRECACHE_URLS = [
   './', './index.html', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
   './manifest.json', './assets/favicon.svg', './assets/book-cover.jpg',
