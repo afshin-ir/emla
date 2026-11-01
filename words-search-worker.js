@@ -69,7 +69,7 @@ function findSuggestions(query,v,subject){
   if(best)candidates.push(best)
  }
  candidates.sort((a,b)=>a.distance-b.distance||Math.abs(normalize(a.term).length-target.length)-Math.abs(normalize(b.term).length-target.length));
- return candidates.slice(0,3)
+ const unique=[],seen=new Set();for(const item of candidates){const key=normalize(item.term);if(seen.has(key))continue;seen.add(key);unique.push(item);if(unique.length===3)break}return unique
 }
 async function load(baseUrl){
  if(!('DecompressionStream'in self))throw new Error('مرورگر از بازکردن فایل فشرده پشتیبانی نمی‌کند.');
