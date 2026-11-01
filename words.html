@@ -62,6 +62,10 @@
 const $=id=>document.getElementById(id),q=$('q'),results=$('results'),count=$('count'),volume=$('volume'),subject=$('subject'),sortOrder=$('sort-order');
 const PAGE_SIZE=30,fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]),esc=s=>String(s??'').replace(/(?<=[\p{Script=Arabic}])[\u200f\u009d](?=[\p{Script=Arabic}])/gu,'\u200c').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const normalize=s=>String(s??'').normalize('NFKC').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[\u064b-\u065f\u0670ـ]/g,'').toLowerCase().replace(/[^\p{L}\p{N}_]/gu,'');
+const stripIndex=s=>String(s??'').replace(/[\\s\\u00a0]+[0-9۰-۹٠-٩]+$/u,'').trim();
+const displayEnglish=s=>String(s??'').split(/[,،;؛]/).map(term=>stripIndex(term)).filter(Boolean).join(', ');
+const displayQuery=s=>stripIndex(s);
+
 function richText(value,query=''){
  const text=String(value??''),terms=[...new Set(String(query||'').split(/\s+/).map(normalize).filter(term=>term.length>1))];
  let folded='',positions=[],offset=0;
@@ -81,12 +85,12 @@ function richText(value,query=''){
 let rows=[],total=0,page=0,groups={},suggestions=[],ready=false,requestId=0,debounce;
 function addOptions(select,values,label){for(const value of values){const option=document.createElement('option');option.value=value;option.textContent=label(value);select.append(option)}}
 function card(e,matchType,query){
- const englishFirst=matchType==='direct'&&/[A-Za-z]/.test(query||'')&&!/[\u0600-\u06ff]/i.test(query||'')&&e[0]&&e[1]&&normalize(e[1]).includes(normalize(query));
- const word=e[0]||e[1]||'مدخل بدون عنوان';
- const latin=e[0]&&e[1]?'<div class="english-equivalent" aria-label="برابر انگلیسی"><span class="english-label">برابر انگلیسی:</span><span class="english-value" lang="en" dir="ltr">'+richText(e[1],query)+'</span></div>':(!e[0]?'<span class="latin-label missing">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>':'');
- const title=englishFirst?e[1]:word;
- const heading='<h2'+(englishFirst?' class="english-primary" lang="en" dir="ltr"':'')+'>'+richText(title,query)+'</h2>';
- const pair=englishFirst?'<div class="persian-under-english"><span class="persian-under-label">برابر فارسی:</span><span class="persian-under-value" lang="fa" dir="rtl">'+richText(e[0],query)+'</span></div>':latin;
+ const englishFirst=matchType==='direct'&&/[A-Za-z]/.test(query||'')&&!/[\u0600-\u06ff]/i.test(query||'')&&e[0]&&e[1]&&normalize(displayEnglish(e[1])).includes(normalize(displayQuery(query)));
+ const word=stripIndex(e[0]||e[1]||'مدخل بدون عنوان');
+ const latin=e[0]&&e[1]?'<div class="english-equivalent" aria-label="برابر انگلیسی"><span class="english-label">برابر انگلیسی:</span><span class="english-value" lang="en" dir="ltr">'+richText(displayEnglish(e[1]),displayQuery(query))+'</span></div>':(!e[0]?'<span class="latin-label missing">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>':'');
+ const title=englishFirst?displayEnglish(e[1]):word;
+ const heading='<h2'+(englishFirst?' class="english-primary" lang="en" dir="ltr"':'')+''+richText(title,displayQuery(query))+'</h2>';
+ const pair=englishFirst?'<div class="persian-under-english"><span class="persian-under-label">برابر فارسی:</span><span class="persian-under-value" lang="fa" dir="rtl"'+richText(stripIndex(e[0]),displayQuery(query))+'</span></div>':latin;
  const tags=(e[5]?'<span class="tag rank">'+richText(e[5])+'</span>':'');
  const labels={reference:'پیداشده از راه سرنام یا ارجاع',details:'پیداشده در توضیح یا اطلاعات مدخل'};
  const badge=labels[matchType]?'<span class="match-badge '+(matchType==='reference'?'reference':matchType==='details'?'details':'')+'">'+labels[matchType]+'</span>':'';
@@ -103,11 +107,11 @@ function card(e,matchType,query){
  const group=e[6]?'<div class="detail"><span class="detail-label">گروه:</span><span class="detail-text">'+richText(e[6],query)+'</span></div>':'';
  return '<article class="item"><div class="item-head"><div>'+badge+heading+pair+'</div><div class="tags">'+tags+'</div></div><div class="details">'+subjectTag+note+source+group+'</div></article>'
 }
-function equivalentGroup(entries,query){
+function equivalentGroup(entries,query,isEnglish){
  const title=query;
  const rows=entries.map(e=>{
-  const persian=e[0]?'<strong class="equivalent-term" lang="fa" dir="rtl">'+richText(e[0],query)+'</strong>':'<span class="latin-label missing">برابر فارسی در این سطر ثبت نشده است</span>';
-  const english=e[1]?'<div class="equivalent-source" lang="en" dir="ltr">'+richText(e[1],query)+'</div>':'';
+  const persian=e[0]?'<strong class="equivalent-term" lang="fa" dir="rtl">'+richText(stripIndex(e[0]),displayQuery(query))+'</strong>':'<span class="latin-label missing">برابر فارسی در این سطر ثبت نشده است</span>';
+  const english=e[1]?'<div class="equivalent-source" lang="en" dir="ltr">'+richText(isEnglish?displayEnglish(String(e[1]).split(/[,،;؛]/).filter(term=>normalize(stripIndex(term))!==normalize(displayQuery(query))).join(', ')):displayEnglish(e[1]),displayQuery(query))+'</div>':'';
   const rank=e[5]?'<span class="tag rank">'+richText(e[5],query)+'</span>':'';
   const subjectTag=e[2]?'<div class="detail"><span class="detail-label">حوزه:</span><span class="detail-text">'+richText(e[2],query)+'</span></div>':'';
   let note='';
@@ -122,18 +126,23 @@ function equivalentGroup(entries,query){
   const group=e[6]?'<div class="detail"><span class="detail-label">گروه:</span><span class="detail-text">'+richText(e[6],query)+'</span></div>':'';
   return '<div class="equivalent-row"><div class="equivalent-row-head"><div>'+english+persian+'</div>'+rank+'</div><div class="details">'+subjectTag+note+source+group+'</div></div>'
  }).join('');
- return '<article class="item item-equivalent-group"><div class="item-head"><div><h2 class="english-primary" lang="en" dir="ltr">'+richText(title)+'</h2><p class="equivalent-group-caption">شماره‌ها برابرهای مصوبِ واژه را در بافت‌های مختلف از هم جدا می‌کنند</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
+ return '<article class="item item-equivalent-group"><div class="item-head"><div><h2 class="english-primary" lang="en" dir="ltr">'+richText(title)+'</h2><p class="equivalent-group-caption">واژه‌های انگلیسی که این برابر برای آن‌ها ثبت شده است</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
 }
 function displayCards(items,query){
- const isEnglish=/[A-Za-z]/.test(query||'')&&!/[\u0600-\u06ff]/i.test(query||''),needle=normalize(query);
- const exact=isEnglish?items.filter(row=>row.matchType==='direct'&&String(row.entry[1]||'').split(/[,،;؛]/).some(term=>new RegExp('^'+needle+'\\d+$').test(normalize(term)))):[];
+ const isEnglish=/[A-Za-z]/.test(query||'')&&!/[\\u0600-\\u06ff]/i.test(query||'');
+ const needle=normalize(displayQuery(query));
+ const exact=items.filter(row=>{
+  if(row.matchType!=='direct')return false;
+  if(isEnglish)return String(row.entry[1]||'').split(/[,،;؛]/).some(term=>normalize(stripIndex(term))===needle);
+  return row.entry[0]&&normalize(stripIndex(row.entry[0]))===needle;
+ });
  if(exact.length<2)return items.map(row=>card(row.entry,row.matchType,query)).join('');
  const exactSet=new Set(exact);let inserted=false;
  return items.map(row=>{
   if(!exactSet.has(row))return card(row.entry,row.matchType,query);
   if(inserted)return'';
   inserted=true;
-  return equivalentGroup(exact.map(item=>item.entry),query)
+  return equivalentGroup(exact.map(item=>item.entry),query,isEnglish)
  }).join('')
 }
 function render(){
