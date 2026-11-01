@@ -126,10 +126,12 @@ function equivalentGroup(entries,query,isEnglish){
   const group=e[6]?'<div class="detail"><span class="detail-label">گروه:</span><span class="detail-text">'+richText(e[6],query)+'</span></div>':'';
   return '<div class="equivalent-row"><div class="equivalent-row-head"><div>'+english+persian+'</div>'+rank+'</div><div class="details">'+subjectTag+note+source+group+'</div></div>'
  }).join('');
- return '<article class="item item-equivalent-group"><div class="item-head"><div><h2 class="english-primary" lang="en" dir="ltr">'+richText(title,displayQuery(query))+'</h2><p class="equivalent-group-caption">واژه‌های انگلیسی که این برابر برای آن‌ها ثبت شده است</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
+ const titleMarkup=isEnglish?'<h2 class="english-primary" lang="en" dir="ltr">'+richText(title,displayQuery(query))+'</h2>':'<h2>'+richText(title,displayQuery(query))+'</h2>';
+ const caption=isEnglish?'برابرهای فارسیِ این واژه در بافت‌های مختلف':'واژه‌های انگلیسی که این برابر برای آن‌ها ثبت شده است';
+ return '<article class="item item-equivalent-group"><div class="item-head"><div>'+titleMarkup+'<p class="equivalent-group-caption">'+caption+'</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
 }
 function displayCards(items,query){
- const isEnglish=/[A-Za-z]/.test(query||'')&&!/[\\u0600-\\u06ff]/i.test(query||'');
+ const isEnglish=/[A-Za-z]/.test(query||'')&&!/[؀-ۿ]/u.test(query||'');
  const needle=normalize(displayQuery(query));
  const exact=items.filter(row=>{
   if(row.matchType!=='direct')return false;
