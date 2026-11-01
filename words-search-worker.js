@@ -25,12 +25,18 @@ function linkCrossReferences(list){
  for(const e of list){e[10]=e[10].filter((r,i,a)=>a.findIndex(x=>x.text===r.text)===i);e[11]=[...new Set(e[11].filter(Boolean))];e[12]=[...new Set(e[12].filter(Boolean))]}
 }
 function resultScore(e,phrase,tokens){
- if(e[8]===phrase)return 0;if(e[8]?.startsWith(phrase))return 1;if(e[9]===phrase)return 2;
- if(e[12]?.some(x=>x===phrase))return 2.5;
- if(e[12]?.some(x=>x.startsWith(phrase)&&x.length<=phrase.length+2))return 2.75;
- if(e[9]?.startsWith(phrase))return 3;if(e[8]?.includes(phrase))return 4;if(e[9]?.includes(phrase))return 5;
- if(e[11]?.some(x=>x===phrase))return 5.5;if(e[11]?.some(x=>x.startsWith(phrase)))return 5.75;
- if(e[7]?.includes(phrase))return 6;return tokens.every(t=>e[7]?.includes(t))?7:99
+ const main=[e[8],e[9]].filter(Boolean),fields=[e[8],e[9],e[13]].filter(Boolean);
+ if(e[8]===phrase)return 0;
+ if(e[9]===phrase)return 1;
+ if(main.some(x=>x.startsWith(phrase)))return 2;
+ if(fields.some(x=>x.includes(phrase)))return 3;
+ if(e[12]?.some(x=>x===phrase))return 4;
+ if(e[11]?.some(x=>x===phrase))return 5;
+ if(tokens.length&&fields.some(field=>tokens.every(token=>field.includes(token))))return 6;
+ if(tokens.length>1&&tokens.every(token=>e[7]?.includes(token)))return 7;
+ if(tokens.length===1&&e[7]?.includes(tokens[0]))return 8;
+ if(e[11]?.some(x=>x.startsWith(phrase)))return 9;
+ return 99
 }
 function matchType(e,phrase,tokens){
  if(!phrase)return'all';
@@ -40,6 +46,31 @@ function matchType(e,phrase,tokens){
  return'details'
 }
 function selected(e,v,s){return(!v||(e[4]||[]).includes(v))&&(!s||e[2]===s)}
+function distanceWithin(a,b,limit){
+ if(Math.abs(a.length-b.length)>limit)return limit+1;
+ let prev=Array.from({length:b.length+1},(_,i)=>i);
+ for(let i=1;i<=a.length;i++){
+  const row=[i];let min=i;
+  for(let j=1;j<=b.length;j++){const value=Math.min(row[j-1]+1,prev[j]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));row.push(value);if(value<min)min=value}
+  if(min>limit)return limit+1;prev=row
+ }
+ return prev[b.length]
+}
+function findSuggestions(query,v,subject){
+ const target=normalize(query);if(target.length<4)return[];
+ const limit=target.length>=8?2:1,candidates=[];
+ for(const e of entries){if(e._linkedCrossReference||!selected(e,v,subject))continue;
+  const terms=[e[0],...String(e[1]||'').split(/[,،;؛]/)].filter(Boolean);
+  let best=null;
+  for(const term of terms){const value=normalize(term);if(!value||Math.abs(value.length-target.length)>limit)continue;
+   const distance=distanceWithin(target,value,limit);if(distance===0||distance>limit)continue;
+   if(!best||distance<best.distance)best={entry:e,term,distance}
+  }
+  if(best)candidates.push(best)
+ }
+ candidates.sort((a,b)=>a.distance-b.distance||Math.abs(normalize(a.term).length-target.length)-Math.abs(normalize(b.term).length-target.length));
+ return candidates.slice(0,3)
+}
 async function load(baseUrl){
  if(!('DecompressionStream'in self))throw new Error('مرورگر از بازکردن فایل فشرده پشتیبانی نمی‌کند.');
  const shards=await Promise.all(Array.from({length:4},async(_,index)=>{
@@ -55,16 +86,17 @@ async function load(baseUrl){
 }
 function search(message){
  const {id,query='',volume=0,subject='',page=0,pageSize=30}=message,raw=query.trim(),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),phrase=tokens.join(''),v=Number(volume)||0;
- if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[],groups:{}});return}
+ if(!phrase&&!v&&!subject){postMessage({type:'results',id,total:0,page,rows:[],groups:{},suggestions:[]});return}
  const found=[];
  for(const e of entries){if(e._linkedCrossReference||!selected(e,v,subject))continue;
   if(!phrase){found.push([e,8,'all']);continue}
   const score=resultScore(e,phrase,tokens);if(score<99)found.push([e,score,matchType(e,phrase,tokens)])
  }
  found.sort((a,b)=>a[1]-b[1]);
+ const suggestions=phrase&&!found.length?findSuggestions(raw,v,subject):[];
  const groups={direct:0,reference:0,details:0,all:0};
  for(const [, ,type] of found)groups[type]=(groups[type]||0)+1;
  const start=page*pageSize,rows=found.slice(start,start+pageSize).map(([entry,,matchType])=>({entry,matchType}));
- postMessage({type:'results',id,total:found.length,page,rows,groups})
+ postMessage({type:'results',id,total:found.length,page,rows,groups,suggestions})
 }
 onmessage=event=>{const m=event.data||{};if(m.type==='init')load(m.baseUrl).catch(error=>postMessage({type:'error',message:error.message}));else if(m.type==='search')search(m)};
