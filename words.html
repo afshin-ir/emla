@@ -16,7 +16,7 @@
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800;text-decoration:none;white-space:nowrap}.brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--green);color:white;font-size:1.1rem}
 .site-nav{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.site-nav a{display:inline-flex;align-items:center;min-height:36px;padding:6px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--green-dark);font-size:.78rem;font-weight:600;text-decoration:none}.site-nav a:hover,.site-nav a[aria-current=page]{background:var(--mint);border-color:#b9d8c7}
 .paper{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:clamp(22px,4vw,42px);margin:4px 0 28px}
-.eyebrow{margin:0 0 4px;color:var(--green);font-size:.82rem;font-weight:700}.intro h1{font-size:clamp(1.55rem,4vw,2.15rem);line-height:1.5;margin:0 0 5px}.intro p{margin:0;color:var(--muted);font-size:.92rem}
+.eyebrow{margin:0 0 4px;color:var(--green);font-size:.82rem;font-weight:700}.intro h1{font-size:clamp(1.55rem,4vw,2.15rem);line-height:1.5;margin:0 0 5px}.intro p{margin:0;color:var(--muted);font-size:.92rem}.cover-header{display:flex;align-items:center;justify-content:space-between;gap:28px;margin:0 0 24px}.cover-link{display:flex;justify-content:center;flex:0 0 auto;margin-left:4px}.cover-image{display:block;width:clamp(108px,16vw,142px);height:auto;border:1px solid var(--line);border-radius:5px;box-shadow:0 8px 22px #213b2d20}.cover-link:focus-visible{outline:2px solid var(--green);outline-offset:5px;border-radius:6px}
 .search-wrap{margin-top:25px}.search{display:flex;align-items:center;gap:10px;min-height:66px;padding:9px 12px;border:2px solid #8bbda3;border-radius:16px;background:linear-gradient(110deg,#f2faf5,#fff 78%);box-shadow:0 5px 18px #1d654012;transition:.18s}.search:focus-within{border-color:var(--green);box-shadow:0 0 0 4px #16765d18,0 7px 22px #1d654018;background:#fff}
 .search-icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;background:var(--mint);color:var(--green-dark);font-size:1.6rem;font-weight:700}.search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:1rem;padding:7px}.search input::placeholder{color:#82928a;opacity:1}.clear-button{flex:0 0 auto;border:1px solid #dce9e0;border-radius:10px;background:#edf5ef;color:var(--green-dark);padding:7px 12px;font:inherit;font-size:.8rem}
 .filters{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:11px 0 0}.filter{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.8rem}.filter select{max-width:min(310px,52vw);min-height:38px;padding:5px 30px 5px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:inherit;font-size:.8rem}.reset-filters{margin-right:auto;border:0;background:transparent;color:var(--green-dark);font:inherit;font-size:.78rem;text-decoration:underline;text-underline-offset:3px}
@@ -25,7 +25,7 @@
 .details{display:grid;gap:5px;margin-top:8px}.detail{display:flex;align-items:baseline;gap:7px;font-size:.84rem}.detail-label{flex:0 0 auto;color:var(--muted);font-size:.72rem;font-weight:700}.detail-text{min-width:0;overflow-wrap:anywhere}.item mark{background:#fcebbf;color:#5a4519;border-radius:3px;padding:0 2px}
 .pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:17px}.pager button{border:1px solid var(--line);border-radius:9px;background:#fff;padding:7px 13px;color:var(--green-dark);font:inherit}.pager button:disabled{opacity:.4}.page-number{color:var(--muted);font-size:.82rem}
 .source-note{margin-top:24px;padding:12px 14px;border-right:3px solid #8bc1a5;background:#f7faf8;border-radius:9px;color:var(--muted);font-size:.76rem}
-@media(max-width:650px){.shell{width:min(100% - 24px,1080px)}.topbar{align-items:flex-start;padding:14px 0}.site-nav{justify-content:flex-start}.paper{border-radius:17px;padding:20px 15px}.item{padding:14px}.item-head{display:block}.tags{justify-content:flex-start;margin-top:7px}.filter{flex:1 1 170px}.filter select{flex:1;max-width:none}.reset-filters{margin-right:0}}
+@media(max-width:650px){.shell{width:min(100% - 24px,1080px)}.topbar{align-items:flex-start;padding:14px 0}.site-nav{justify-content:flex-start}.paper{border-radius:17px;padding:20px 15px}.cover-header{gap:14px;margin-bottom:20px}.cover-image{width:clamp(88px,25vw,112px)}.item{padding:14px}.item-head{display:block}.tags{justify-content:flex-start;margin-top:7px}.filter{flex:1 1 170px}.filter select{flex:1;max-width:none}.reset-filters{margin-right:0}}
 </style>
 </head>
 <body><div class="shell">
@@ -37,9 +37,9 @@
   </nav>
 </header>
 <main class="paper">
-  <section class="intro"><p class="eyebrow">فرهنگستان زبان و ادب فارسی</p><h1>واژگان مصوب فرهنگستان</h1>
+  <header class="cover-header"><div class="intro"><p class="eyebrow">فرهنگستان زبان و ادب فارسی</p><h1>واژگان مصوب فرهنگستان</h1>
     <p>جست‌وجو در واژه‌ها، برابرهای انگلیسی، حوزه‌های تخصصی و توضیح‌های ثبت‌شده در دفاتر.</p>
-  </section>
+  </div><a class="cover-link" href="./assets/approved-words-cover.jpg" aria-label="نمایش تصویر جلد در اندازۀ اصلی"><img class="cover-image" src="./assets/approved-words-cover.jpg" alt="جلد فرهنگ واژه‌های مصوب فرهنگستان، دفتر بیستم" loading="lazy" decoding="async"></a></header>
   <section class="search-wrap" aria-label="جست‌وجوی واژگان">
     <label class="search"><span class="search-icon" aria-hidden="true">⌕</span>
       <input id="q" type="search" autocomplete="off" placeholder="واژه یا موضوع را بنویسید…" aria-label="جست‌وجو در واژگان مصوب فرهنگستان" disabled>
