@@ -101,8 +101,8 @@ function synonymRuns(value){
 function definitionRow(value,query){
  const body=String(value??'').trim();if(!body)return'';
  const chars=Array.from(body);
- if(chars.length>220)return'<div class="detail"><span class="detail-label">تعریف و توضیح:</span><div class="detail-text definition-text"><p class="definition-preview">'+richText(chars.slice(0,220).join(''),query)+'…</p><details class="definition-more"><summary>دیدن متن کامل</summary><p>'+richText(body,query)+'</p></details></div></div>';
- return'<div class="detail"><span class="detail-label">تعریف و توضیح:</span><span class="detail-text definition-text">'+richText(body,query)+'</span></div>'
+ if(chars.length>220)return'<div class="detail"><span class="detail-label">تعریف:</span><div class="detail-text definition-text"><p class="definition-preview">'+richText(chars.slice(0,220).join(''),query)+'…</p><details class="definition-more"><summary>دیدن متن کامل</summary><p>'+richText(body,query)+'</p></details></div></div>';
+ return'<div class="detail"><span class="detail-label">تعریف:</span><span class="detail-text definition-text">'+richText(body,query)+'</span></div>'
 }
 function definitionMarkup(value,query){
  const text=String(value??'').trim();
