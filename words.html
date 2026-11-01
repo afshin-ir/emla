@@ -72,7 +72,7 @@ function card(e,matchType,query){
  const heading='<h2'+(englishFirst?' class="english-primary" lang="en" dir="ltr"':'')+'>'+esc(title)+'</h2>';
  const pair=englishFirst?'<div class="persian-under-english"><span class="persian-under-label">برابر فارسی</span><span class="persian-under-value" lang="fa" dir="rtl">'+esc(e[0])+'</span></div>':latin;
  const tags=(e[4]||[]).map(n=>'<span class="tag book">دفتر '+fa(n)+'</span>').join('')+(e[5]?'<span class="tag rank">'+esc(e[5])+'</span>':'');
- const labels={direct:'تطبیق مستقیم با مدخل',reference:'پیداشده از راه سرنام یا ارجاع',details:'پیداشده در توضیح یا اطلاعات مدخل'};
+ const labels={reference:'پیداشده از راه سرنام یا ارجاع',details:'پیداشده در توضیح یا اطلاعات مدخل'};
  const badge=labels[matchType]?'<span class="match-badge '+(matchType==='reference'?'reference':matchType==='details'?'details':'')+'">'+labels[matchType]+'</span>':'';
  const subjectTag=e[2]?'<div class="detail"><span class="detail-label">حوزه</span><span class="detail-text">'+esc(e[2])+'</span></div>':'';
  let note='';
@@ -91,7 +91,7 @@ function render(){
  sortOrder.textContent=query?'مرتب‌شده بر اساس میزان ارتباط':'ترتیب اصلی فهرست';
  if(rows.length){
   const grouped=new Map();for(const row of rows){const type=row.matchType||'all';if(!grouped.has(type))grouped.set(type,[]);grouped.get(type).push(row)}
-  const labels={direct:'تطبیق مستقیم با مدخل',reference:'سرنام‌ها و ارجاع‌ها',details:'تطبیق در توضیح یا اطلاعات مدخل',all:'مدخل‌های انتخاب‌شده'};
+  const labels={direct:'مدخل‌های منطبق',reference:'سرنام‌ها و ارجاع‌ها',details:'تطبیق در توضیح یا اطلاعات مدخل',all:'مدخل‌های انتخاب‌شده'};
   results.innerHTML=[...grouped.entries()].map(([type,items])=>'<section class="result-group"><h2 class="result-group-title">'+(labels[type]||'نتیجه‌ها')+'<span>'+fa(groups[type]||items.length)+' در کل · '+fa(items.length)+' در این صفحه</span></h2><div class="result-group-items">'+items.map(row=>card(row.entry,row.matchType,query)).join('')+'</div></section>').join('')
  }else results.innerHTML='<div class="empty">'+(query||volume.value||subject.value?'برای این جست‌وجو مدخلی پیدا نشد.':'برای شروع، واژه‌ای جست‌وجو کنید یا یک دفتر یا حوزه را برگزینید.')+'</div>';
  const pagesText=rows.length?fa(page+1)+' از '+fa(pages):'';$('page').textContent=pagesText;$('prev').disabled=page===0||!rows.length;$('next').disabled=page>=pages-1||!rows.length
