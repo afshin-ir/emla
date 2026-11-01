@@ -122,7 +122,7 @@ function equivalentGroup(entries,query){
   const group=e[6]?'<div class="detail"><span class="detail-label">گروه:</span><span class="detail-text">'+richText(e[6],query)+'</span></div>':'';
   return '<div class="equivalent-row"><div class="equivalent-row-head"><div>'+english+persian+'</div>'+rank+'</div><div class="details">'+subjectTag+note+source+group+'</div></div>'
  }).join('');
- return '<article class="item item-equivalent-group"><div class="item-head"><div><h2 class="english-primary" lang="en" dir="ltr">'+richText(title)+'</h2><p class="equivalent-group-caption">صورت‌های شماره‌دار و برابرهایشان</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
+ return '<article class="item item-equivalent-group"><div class="item-head"><div><h2 class="english-primary" lang="en" dir="ltr">'+richText(title)+'</h2><p class="equivalent-group-caption">شماره‌ها برابرهای مصوبِ واژه را در بافت‌های مختلف از هم جدا می‌کنند</p></div></div><div class="equivalent-list">'+rows+'</div></article>'
 }
 function displayCards(items,query){
  const isEnglish=/[A-Za-z]/.test(query||'')&&!/[\u0600-\u06ff]/i.test(query||''),needle=normalize(query);
