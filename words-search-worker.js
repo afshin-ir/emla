@@ -35,13 +35,11 @@ function resultScore(e,phrase,tokens){
 function selected(e,v,s){return(!v||(e[4]||[]).includes(v))&&(!s||e[2]===s)}
 async function load(baseUrl){
  if(!('DecompressionStream'in self))throw new Error('مرورگر از بازکردن فایل فشرده پشتیبانی نمی‌کند.');
- const shards=[];
- for(let i=1;i<=4;i++){
-  const response=await fetch(new URL('approved-words-'+i+'.json.gz',baseUrl));if(!response.ok)throw new Error('فهرست واژگان دریافت نشد.');
+ const shards=await Promise.all(Array.from({length:4},async(_,index)=>{
+  const i=index+1,response=await fetch(new URL('approved-words-'+i+'.json.gz',baseUrl));if(!response.ok)throw new Error('فهرست واژگان دریافت نشد.');
   const stream=new Blob([await response.arrayBuffer()]).stream().pipeThrough(new DecompressionStream('gzip'));
-  shards.push(JSON.parse(await new Response(stream).text()));
-  postMessage({type:'progress',loaded:i,total:4})
- }
+  const data=JSON.parse(await new Response(stream).text());postMessage({type:'progress',loaded:i,total:4});return data
+ }));
  entries=shards.flat();const volumeCounts=new Map(),subjects=new Set();
  for(const e of entries){e[7]=normalize([e[0],e[1],e[2],e[3],e[5],e[6]].filter(Boolean).join(' '));e[8]=normalize(e[0]);e[9]=normalize(e[1]);if(e[2])subjects.add(e[2]);for(const n of e[4]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1)}
  linkCrossReferences(entries);
