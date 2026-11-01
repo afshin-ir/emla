@@ -66,7 +66,7 @@ function richText(value,query=''){
  const text=String(value??''),terms=[...new Set(String(query||'').split(/\s+/).map(normalize).filter(term=>term.length>1))];
  let folded='',positions=[],offset=0;
  for(const character of text){const part=normalize(character);for(const unit of Array.from(part)){folded+=unit;positions.push([offset,offset+character.length])}offset+=character.length}
- const spans=[];
+ let spans=[];
  for(const term of terms){let from=0,index;while((index=folded.indexOf(term,from))!==-1){const start=positions[index]?.[0],end=positions[index+term.length-1]?.[1];if(start!==undefined&&end!==undefined)spans.push([start,end]);from=index+term.length}}
  spans=spans.map(([start,end])=>{
   if(!/\p{Script=Arabic}/u.test(text.slice(start,end)))return[start,end];
