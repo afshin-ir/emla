@@ -127,12 +127,12 @@ function displayCards(items,query){
  const isEnglish=/[A-Za-z]/.test(query||'')&&!/[\u0600-\u06ff]/i.test(query||''),needle=normalize(query);
  const exact=isEnglish?items.filter(row=>row.matchType==='direct'&&row.entry[1]&&normalize(row.entry[1])===needle):[];
  const equivalents=new Set(exact.map(row=>normalize(row.entry[0])).filter(Boolean));
- if(equivalents.size<2)return displayCards(items,query);
- const exactSet=new Set(exact),seen=new Set();let inserted=false;
+ if(equivalents.size<2)return items.map(row=>card(row.entry,row.matchType,query)).join('');
+ const exactSet=new Set(exact);let inserted=false;
  return items.map(row=>{
   if(!exactSet.has(row))return card(row.entry,row.matchType,query);
   if(inserted)return'';
-  inserted=true;for(const item of exact)seen.add(item);
+  inserted=true;
   return equivalentGroup(exact.map(item=>item.entry),query)
  }).join('')
 }
@@ -143,7 +143,7 @@ function render(){
  if(rows.length){
   const grouped=new Map();for(const row of rows){const type=row.matchType||'all';if(!grouped.has(type))grouped.set(type,[]);grouped.get(type).push(row)}
   const labels={direct:'مدخل‌های منطبق',reference:'سرنام‌ها و ارجاع‌ها',details:'تطبیق در توضیح یا اطلاعات مدخل',all:'مدخل‌های انتخاب‌شده'};
-  results.innerHTML=[...grouped.entries()].map(([type,items])=>'<section class="result-group"><h2 class="result-group-title">'+(labels[type]||'نتیجه‌ها')+': <span>'+fa(groups[type]||items.length)+' در کل · '+fa(items.length)+' در این صفحه</span></h2><div class="result-group-items">'+items.map(row=>card(row.entry,row.matchType,query)).join('')+'</div></section>').join('')
+  results.innerHTML=[...grouped.entries()].map(([type,items])=>'<section class="result-group"><h2 class="result-group-title">'+(labels[type]||'نتیجه‌ها')+': <span>'+fa(groups[type]||items.length)+' در کل · '+fa(items.length)+' در این صفحه</span></h2><div class="result-group-items">'+displayCards(items,query)+'</div></section>').join('')
  }else {
   const empty='<div class="empty">'+(query||volume.value||subject.value?'برای این جست‌وجو مدخلی پیدا نشد.':'برای شروع، واژه‌ای جست‌وجو کنید یا یک دفتر یا حوزه را برگزینید.')+'</div>';
   const suggestionsHtml=suggestions.length?'<div class="suggestions"><p>شاید منظورتان یکی از این‌هاست:</p>'+suggestions.map(item=>'<button class="suggestion" type="button" data-query="'+esc(item.term)+'">'+richText(item.term)+'</button>').join('')+'</div>':'';
