@@ -2,10 +2,11 @@
 const normalize=s=>String(s??'').normalize('NFKC').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[\u064b-\u065f\u0670ـ]/g,'').toLowerCase().replace(/[^\p{L}\p{N}_]/gu,'');
 let entries=[];
 function addIndex(index,key,entry){const bucket=index.get(key);if(bucket)bucket.push(entry);else index.set(key,[entry])}
-function sameContext(a,b){if(a._subjectKey!==b._subjectKey)return false;const av=a[4]||[],bv=b[4]||[];return!av.length||!bv.length||av.some(n=>bv.includes(n))}
+function sameSubject(a,b){return a._subjectKey===b._subjectKey}
+function sameVolume(a,b){const av=a[4]||[],bv=b[4]||[];return!av.length||!bv.length||av.some(n=>bv.includes(n))}
 function splitArrow(value){const m=String(value||'').match(/\s*(?:→|->)\s*/);if(!m)return null;const i=m.index;return[String(value).slice(0,i).trim(),String(value).slice(i+m[0].length).trim()]}
 function englishTerms(value){return String(value||'').split(/[,،;؛]/).map(normalize).filter(Boolean)}
-function findUnique(index,source,term){const bucket=index.get(source._subjectKey+'\u0000'+term)||[];let hit=null;for(const e of bucket){if(e===source||!sameContext(source,e))continue;if(hit&&hit!==e)return null;hit=e}return hit}
+function findUnique(index,source,term){const bucket=index.get(source._subjectKey+'\u0000'+term)||[],candidates=bucket.filter(e=>e!==source&&sameSubject(source,e));if(!candidates.length)return null;const sameVolumeCandidates=candidates.filter(e=>sameVolume(source,e)),pool=sameVolumeCandidates.length?sameVolumeCandidates:candidates;return pool.length===1?pool[0]:null}
 function linkCrossReferences(list){
  const englishIndex=new Map(),persianIndex=new Map();
  for(const e of list){e[10]=[];e[11]=[];e[12]=[];e._subjectKey=normalize(e[2]);if(!e[0])continue;
