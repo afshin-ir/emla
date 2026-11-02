@@ -201,7 +201,7 @@ function equivalentGroup(entries,query,isEnglish){
  const rows=entries.map(e=>{
   const persian=e[0]?'<strong class="equivalent-term" lang="fa" dir="rtl">'+richText(stripIndex(e[0]),displayQuery(query))+'</strong>':'<span class="latin-label missing">برابر فارسی در این سطر ثبت نشده است</span>';
   const englishText=isEnglish?displayEnglish(String(e[1]||'').split(/[,،;؛]/).filter(term=>normalize(stripIndex(term))!==normalize(displayQuery(query))).join(', ')):displayEnglish(e[1]);
-  const english=englishText?'<div class="equivalent-source-line"><span class="equivalent-source-label">'+(isEnglish?'صورت انگلیسی دیگر:':'برابر انگلیسی:')+'</span><span class="equivalent-source'+(!isEnglish?' english-code-like':'')+'" lang="en" dir="ltr">'+richText(englishText,displayQuery(query))+'</span></div>':'';
+  const english=englishText?'<div class="equivalent-source-line"><span class="equivalent-source-label">'+(isEnglish?'مدخل‌های انگلیسیِ دیگر برای این برابر:':'برابر انگلیسی:')+'</span><span class="equivalent-source'+(!isEnglish?' english-code-like':'')+'" lang="en" dir="ltr">'+richText(englishText,displayQuery(query))+'</span></div>':'';
   const rank=e[5]?'<span class="tag rank">'+richText(e[5],query)+'</span>':'';
   const subjectTag=e[2]?'<div class="detail"><span class="detail-label">حوزه:</span><span class="detail-text">'+richText(e[2],query)+'</span></div>':'';
   const note=e[3]?definitionMarkup(e[3],query,e[2]):'';
