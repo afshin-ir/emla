@@ -74,7 +74,24 @@ function highlighted(value,query){
  spans=spans.map(([a,b])=>{if(!/\p{Script=Arabic}/u.test(text.slice(a,b)))return[a,b];const l=text.slice(0,a).match(/[\p{L}\p{M}\p{N}_\u200c]+$/u)?.[0].length||0,r=text.slice(b).match(/^[\p{L}\p{M}\p{N}_\u200c]+/u)?.[0].length||0;return[a-l,b+r];});
  spans.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const merged=[];for(const s of spans){const p=merged[merged.length-1];if(p&&s[0]<=p[1])p[1]=Math.max(p[1],s[1]);else merged.push(s.slice());}
  const format=s=>{const re=/[A-Za-z][A-Za-z0-9]*(?:[ -][A-Za-z0-9]+)*/g;let out="",last=0,m;while((m=re.exec(s))!==null){out+=esc(s.slice(last,m.index))+"<code class=\"latin\" lang=\"en\" dir=\"ltr\">"+esc(m[0])+"</code>";last=m.index+m[0].length;}return out+esc(s.slice(last));};
- let out="",last=0;for(const[a,b]of merged){out+=format(text.slice(last,a))+"<mark>"+format(text.slice(a,b))+"</mark>";last=b;}return out+format(text.slice(last));
+ const latinGroups=[],covered=new Set(),latinTokens=/[A-Za-z][A-Za-z0-9]*/g;let token;
+ while((token=latinTokens.exec(text))!==null){
+  const a=token.index,b=a+token[0].length,hits=merged.filter(([x,y])=>x>=a&&y<=b);
+  if(hits.length){latinGroups.push({a,b,hits});for(const hit of hits)covered.add(hit);}
+ }
+ const blocks=latinGroups.map(group=>({...group,type:"latin"})).concat(merged.filter(span=>!covered.has(span)).map(([a,b])=>({a,b,type:"mark"}))).sort((a,b)=>a.a-b.a||a.b-b.b);
+ let out="",last=0;
+ for(const block of blocks){
+  out+=format(text.slice(last,block.a));
+  if(block.type==="latin"){
+   let inner="",cursor=block.a;
+   for(const[a,b]of block.hits){inner+=esc(text.slice(cursor,a))+"<mark>"+esc(text.slice(a,b))+"</mark>";cursor=b;}
+   inner+=esc(text.slice(cursor,block.b));
+   out+="<code class=\"latin\" lang=\"en\" dir=\"ltr\">"+inner+"</code>";
+  }else out+="<mark>"+format(text.slice(block.a,block.b))+"</mark>";
+  last=block.b;
+ }
+ return out+format(text.slice(last));
 }
 function makeExcerpt(text,query,max=240){
  const chars=Array.from(String(text??""));if(chars.length<=max)return {text:chars.join(""),more:false};
