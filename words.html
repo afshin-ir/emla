@@ -43,7 +43,7 @@ let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[],subjectLabels={};
-const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-14",location.href));
+const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-15",location.href));
 const persianDigits="۰۱۲۳۴۵۶۷۸۹";
 const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
 const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
