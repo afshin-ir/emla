@@ -45,7 +45,7 @@ const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).fi
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
 const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-4",location.href));
 const persianDigits="۰۱۲۳۴۵۶۷۸۹";
-const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d.charCodeAt(0)-0x0660]);
+const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits.charCodeAt(0)>=0&&d>="0"&&d<="9"?persianDigits[d.charCodeAt(0)-48]:persianDigits[d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
 function formatDefinitionText(value){
  let text=String(value??"").replace(/(^|\n)([ \t]*)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
  const hasPersian=value=>/[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]/u.test(value);
@@ -55,7 +55,7 @@ function formatDefinitionText(value){
  return text;
 }
 function highlightedDefinition(value,query){
- const normalizedQuery=String(query??"").replace(/[0-9٠-٩]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d.charCodeAt(0)-0x0660]);
+ const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0);
  return highlighted(formatDefinitionText(value),normalizedQuery);
 }
 function highlighted(value,query){
