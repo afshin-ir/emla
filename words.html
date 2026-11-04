@@ -42,8 +42,8 @@ const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").repla
 let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
-let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
-const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-10",location.href));
+let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[],subjectLabels={};
+const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-11",location.href));
 const persianDigits="۰۱۲۳۴۵۶۷۸۹";
 const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
 const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
@@ -152,7 +152,7 @@ function card(e,query,isEnglish,matchType,grouped=false){
    if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
   }
  }
- const domain=domainTerms(e[2]).join("، ");
+ const domain=domainTerms(e[2]).map(term=>subjectLabels[term]||term).join("، ");
  const body=detailsMarkup(e,query,matchType);
  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
@@ -173,6 +173,7 @@ function render(message){
 function search(){if(!ready)return;const id=++requestId;clearTimeout(timer);timer=setTimeout(()=>worker.postMessage({type:"search",id,query:q.value,volume:volume.value,subject:subject.value,exactOnly:exactOnly.checked,page}),170);}
 worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";if(m.type==="ready"){
  indexedBases=new Set(m.indexedBases||[]);
+ subjectLabels=m.subjectLabels||{};
  ready=true;
  for(const n of m.volumes){const o=document.createElement("option");o.value=String(n);o.textContent="دفتر "+fa(n);volume.appendChild(o);}
  for(const s of m.subjects){const o=document.createElement("option");o.value=s.value;o.textContent=s.label.replace(/^\[|\]$/g,"");subject.appendChild(o);}
