@@ -177,15 +177,28 @@ async function load(){
 }
 function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.includes(q)}
 function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||subjectTerms(e[2]).some(term=>normalize(term)===s))}
+function termMatchRank(raw,q){
+ const value=stripIndex(raw);let rank=Infinity;
+ for(const match of value.matchAll(/[\\p{L}\\p{M}\\p{N}_]+(?:\\u200c[\\p{L}\\p{M}\\p{N}_]+)*/gu)){
+  const token=normalize(match[0]);if(!token)continue;
+  if(token===q){
+   const before=value.slice(0,match.index),after=value.slice(match.index+match[0].length),hyphen= /[-‐‑–—]$/u.test(before)||/^[-‐‑–—]/u.test(after);
+   if(hyphen)rank=Math.min(rank,3);
+   else rank=Math.min(rank,!before.trim()||/^[\\p{P}\\p{S}]+$/u.test(before.trim())?1:2);
+  }else if(token.startsWith(q))rank=Math.min(rank,4);
+  else if(token.includes(q))rank=Math.min(rank,5);
+ }
+ return rank;
+}
 function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
- const primaryEnglish=e._englishTerms[0]||"",primaryRawEnglish=splitEnglishTerms(e[3])[0]||"",alternateEnglish=e._englishTerms.slice(1);
- const primaryTerms=e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]);
- const primaryWords=splitTerms(e[0]).concat(primaryRawEnglish?[primaryRawEnglish]:[]).flatMap(term=>wordTokens(stripIndex(term)).map(normalize));
+ const primaryEnglish=e._englishTerms[0]||"",primaryRawTerms=splitTerms(e[0]).concat(splitEnglishTerms(e[3]).slice(0,1)),alternateEnglish=e._englishTerms.slice(1),alternateRawTerms=splitEnglishTerms(e[3]).slice(1);
  const exactPrimary=e._wordTerms.includes(q)||primaryEnglish===q,exactAlternate=alternateEnglish.includes(q);
+ const primaryRank=Math.min(Infinity,...primaryRawTerms.map(term=>termMatchRank(term,q)));
+ const alternateRank=Math.min(Infinity,...alternateRawTerms.map(term=>termMatchRank(term,q)));
  if(exactOnly){
-  const titleTerms=splitTerms(e[0]).concat(primaryRawEnglish?[primaryRawEnglish]:[]).map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
+  const titleTerms=primaryRawTerms.map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
   if(exactPrimary)return {score:0,type:"direct",exact:true};
   if(titleTerms.some(words=>words[0]===q))return {score:1,type:"direct",exact:false};
   if(titleWords.includes(q))return {score:2,type:"direct",exact:false};
@@ -194,14 +207,14 @@ function matchEntry(e,q,tokens,exactOnly=false){
   return null;
  }
  if(exactPrimary)return {score:0,type:"direct",exact:true};
- if(primaryWords.includes(q))return {score:1,type:"direct",exact:false};
- if(primaryTerms.some(term=>term.startsWith(q))||primaryWords.some(word=>word.startsWith(q)))return {score:2,type:"direct",exact:false};
- if(primaryTerms.some(term=>term.includes(q)))return {score:3,type:"direct",exact:false};
- if(exactAlternate)return {score:4,type:"direct",exact:true};
- if(alternateEnglish.some(term=>term.startsWith(q)))return {score:5,type:"direct",exact:false};
- if(alternateEnglish.some(term=>term.includes(q))||e._compact.includes(q))return {score:6,type:"direct",exact:false};
- if(e._refBaseTerms.includes(q))return {score:7,type:"direct",exact:true};
- if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:8,type:"direct",exact:false};
+ if(exactAlternate)return {score:1,type:"direct",exact:true};
+ if(primaryRank<Infinity)return {score:primaryRank+1,type:"direct",exact:primaryRank<=3};
+ if(e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]).some(term=>term.includes(q)))return {score:7,type:"direct",exact:false};
+ if(alternateRank<Infinity)return {score:alternateRank+7,type:"direct",exact:alternateRank<=3};
+ if(alternateEnglish.some(term=>term.includes(q)))return {score:13,type:"direct",exact:false};
+ if(e._compact.includes(q))return {score:14,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:15,type:"direct",exact:true};
+ if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:16,type:"direct",exact:false};
  return null;
 }
 function search(m){
