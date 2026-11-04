@@ -102,24 +102,27 @@ function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||normalize(e[2]
 function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
- const primaryEnglish=e._englishTerms[0]||"",alternateEnglish=e._englishTerms.slice(1),head=e._wordTerms.concat(e._englishTerms);
+ const primaryEnglish=e._englishTerms[0]||"",alternateEnglish=e._englishTerms.slice(1);
+ const primaryTerms=e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]);
+ const primaryWords=primaryTerms.flatMap(term=>wordTokens(term).map(normalize));
  const exactPrimary=e._wordTerms.includes(q)||primaryEnglish===q,exactAlternate=alternateEnglish.includes(q);
  if(exactOnly){
-  const titleTerms=splitTerms(e[0]).concat(splitTerms(e[3])).map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
+  const titleTerms=splitTerms(e[0]).concat(primaryEnglish?[primaryEnglish]:[]).map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
   if(exactPrimary)return {score:0,type:"direct",exact:true};
-  if(exactAlternate)return {score:1,type:"direct",exact:true};
-  if(titleTerms.some(words=>words[0]===q))return {score:2,type:"direct",exact:false};
-  if(titleWords.includes(q))return {score:3,type:"direct",exact:false};
+  if(titleTerms.some(words=>words[0]===q))return {score:1,type:"direct",exact:false};
+  if(titleWords.includes(q))return {score:2,type:"direct",exact:false};
+  if(exactAlternate)return {score:3,type:"direct",exact:true};
   if(e._refBaseTerms.includes(q))return {score:4,type:"direct",exact:false};
   return null;
  }
  if(exactPrimary)return {score:0,type:"direct",exact:true};
- if(exactAlternate)return {score:1,type:"direct",exact:true};
- if(e._wordTerms.some(x=>x.startsWith(q))||primaryEnglish.startsWith(q))return {score:2,type:"direct",exact:false};
- if(alternateEnglish.some(x=>x.startsWith(q)))return {score:3,type:"direct",exact:false};
- if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:4,type:"direct",exact:false};
- if(e._refBaseTerms.includes(q))return {score:5,type:"direct",exact:true};
- if(e._refBaseTerms.some(x=>x.startsWith(q)))return {score:6,type:"direct",exact:false};
+ if(primaryTerms.some(term=>term.startsWith(q))||primaryWords.some(word=>word.startsWith(q)))return {score:1,type:"direct",exact:false};
+ if(primaryTerms.some(term=>term.includes(q))||primaryWords.includes(q))return {score:2,type:"direct",exact:false};
+ if(exactAlternate)return {score:3,type:"direct",exact:true};
+ if(alternateEnglish.some(term=>term.startsWith(q)))return {score:4,type:"direct",exact:false};
+ if(alternateEnglish.some(term=>term.includes(q))||e._compact.includes(q))return {score:5,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:6,type:"direct",exact:true};
+ if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:7,type:"direct",exact:false};
  return null;
 }
 function search(m){
