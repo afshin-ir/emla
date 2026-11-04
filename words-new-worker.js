@@ -73,9 +73,10 @@ async function saveCachedIndex(record){
   tx.onabort=()=>{db.close();reject(tx.error||new Error("Could not save the local index cache"));};
  });
 }
+function subjectTerms(value){let raw=String(value??"").trim();if(raw.startsWith("[")&&raw.endsWith("]"))raw=raw.slice(1,-1);return raw.split(/[,،;؛]/u).map(term=>term.trim()).filter(Boolean);}
 function readyMetadata(){
  const volumeCounts=new Map(),subjects=new Set();let displayableCount=0;
- for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);if(e[2])subjects.add(e[2]);}
+ for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);for(const term of subjectTerms(e[2]))subjects.add(term);}
  return {type:"ready",count:displayableCount,volumes:[...volumeCounts.keys()].sort((a,b)=>a-b),volumeCounts:[...volumeCounts],subjects:[...subjects].sort((a,b)=>a.localeCompare(b,"fa")),indexedBases:[...indexedBases]};
 }
 async function load(){
@@ -83,7 +84,7 @@ async function load(){
   const cached=await readCachedIndex().catch(()=>null);
   if(cached&&cached.dataVersion===DATA_VERSION&&Array.isArray(cached.entries)){
    entries=cached.entries;indexedBases=new Set(cached.indexedBases||[]);
-   postMessage({...cached.metadata,type:"ready",indexedBases:[...indexedBases],cached:true});
+   postMessage({...readyMetadata(),cached:true});
    return;
   }
   postMessage({type:"progress",message:"در حال آماده‌سازی فهرست واژگان…"});
@@ -98,7 +99,7 @@ async function load(){
  }catch(error){postMessage({type:"error",message:error.message||"بارگذاری فهرست ناموفق بود."})}
 }
 function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.includes(q)}
-function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||normalize(e[2])===s)}
+function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||subjectTerms(e[2]).some(term=>normalize(term)===s))}
 function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
