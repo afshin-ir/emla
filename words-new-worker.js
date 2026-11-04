@@ -154,7 +154,7 @@ const SUBJECT_LABELS={
 function readyMetadata(){
  const volumeCounts=new Map(),subjects=new Set();let displayableCount=0;
  for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);for(const term of subjectTerms(e[2]))subjects.add(term);}
- return {type:"ready",count:displayableCount,volumes:[...volumeCounts.keys()].sort((a,b)=>a-b),volumeCounts:[...volumeCounts],subjects:[...subjects].sort((a,b)=>a.localeCompare(b,"fa")).map(value=>({value,label:SUBJECT_LABELS[value]||value})),indexedBases:[...indexedBases]};
+ return {type:"ready",count:displayableCount,volumes:[...volumeCounts.keys()].sort((a,b)=>a-b),volumeCounts:[...volumeCounts],subjects:[...subjects].sort((a,b)=>a.localeCompare(b,"fa")).map(value=>({value,label:SUBJECT_LABELS[value]||value})),subjectLabels:Object.fromEntries([...subjects].map(value=>[value,SUBJECT_LABELS[value]||value])),indexedBases:[...indexedBases]};
 }
 async function load(){
  try{
