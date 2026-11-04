@@ -110,7 +110,7 @@ function volumeLabel(list){const vals=(list||[]).map(fa);return vals.length===1?
 function parseRef(value){const t=String(value||"").trim();return /^←/.test(t)?t.replace(/^←\s*/,""):"";}
 function detailsMarkup(e,query,type){
  const parts=splitSynonyms(e[4]);let html="";
- if(parts.definition){const formattedDefinition=formatDefinitionText(parts.definition),ex=makeExcerpt(formattedDefinition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlightedDefinition(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlightedDefinition(formattedDefinition,query)+"</p></details>":"")+"</div></div>";}
+ if(parts.definition){const isReference=/^\s*←/u.test(parts.definition),rawDefinition=isReference?parts.definition.replace(/^\s*←\s*/u,""):parts.definition,formattedDefinition=formatDefinitionText(rawDefinition),ex=makeExcerpt(formattedDefinition,query),label=isReference?"ارجاع به:":"تعریف:";html+="<div class=\"detail\"><span class=\"detail-label\">"+label+"</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlightedDefinition(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlightedDefinition(formattedDefinition,query)+"</p></details>":"")+"</div></div>";}
  const visibleTerms=e._displayWordTerms||[];
  const hiddenTerms=e._hiddenWordTerms||[];
  const synonyms=englishTerms(parts.synonyms).map(stripIndex).filter(term=>!visibleTerms.some(word=>normalize(word)===normalize(term))&&!hiddenTerms.includes(normalize(term)));
@@ -140,7 +140,7 @@ function card(e,query,isEnglish,matchType,grouped=false){
    if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
   }
  }
- const domain=String(e[2]||"").replace(/^\[|\]$/g,"").trim();
+ const rawDomain=String(e[2]||"").replace(/^\[|\]$/g,"").trim(),domain=/^\s*←/u.test(rawDomain)?"":rawDomain;
  const body=detailsMarkup(e,query,matchType);
  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
