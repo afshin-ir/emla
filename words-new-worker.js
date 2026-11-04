@@ -56,7 +56,7 @@ function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
  const head=e._wordTerms.concat(e._englishTerms);
- if(exactOnly){const titleWords=splitTerms(e[0]).concat(splitTerms(e[3])).flatMap(term=>wordTokens(stripIndex(term))).map(normalize),headExact=head.includes(q),referenceExact=e._refBaseTerms.includes(q);return headExact||referenceExact||titleWords.includes(q)?{score:0,type:"direct",exact:headExact||referenceExact}:null;}
+ if(exactOnly){const titleWords=splitTerms(e[0]).concat(splitTerms(e[3])).flatMap(term=>wordTokens(stripIndex(term))).map(normalize),headExact=head.includes(q);if(headExact)return {score:0,type:"direct",exact:true};if(titleWords.includes(q))return {score:1,type:"direct",exact:false};if(e._refBaseTerms.includes(q))return {score:2,type:"direct",exact:false};return null;}
  if(head.includes(q))return {score:0,type:"direct",exact:true};
  if(head.some(x=>x.startsWith(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
