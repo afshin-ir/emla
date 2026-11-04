@@ -73,7 +73,7 @@ async function saveCachedIndex(record){
   tx.onabort=()=>{db.close();reject(tx.error||new Error("Could not save the local index cache"));};
  });
 }
-function subjectTerms(value){let raw=String(value??"").trim();if(raw.startsWith("[")&&raw.endsWith("]"))raw=raw.slice(1,-1);return raw.split(/[,،;؛]/u).map(term=>term.trim()).filter(Boolean);}
+function subjectTerms(value){let raw=String(value??"").trim();if(raw.startsWith("[")&&raw.endsWith("]"))raw=raw.slice(1,-1);return raw.split(/[,،;؛]/u).map(term=>term.trim()).filter(term=>term&&!term.startsWith("←"));}
 function readyMetadata(){
  const volumeCounts=new Map(),subjects=new Set();let displayableCount=0;
  for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);for(const term of subjectTerms(e[2]))subjects.add(term);}
