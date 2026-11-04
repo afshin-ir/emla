@@ -44,6 +44,20 @@ const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9�
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
 const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-4",location.href));
+const persianDigits="۰۱۲۳۴۵۶۷۸۹";
+const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d.charCodeAt(0)-0x0660]);
+function formatDefinitionText(value){
+ let text=String(value??"").replace(/(^|\n)([ \t]*)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
+ const hasPersian=value=>/[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]/u.test(value);
+ for(const [pattern,open,close] of [[/“([^”\n]*)”/gu,"«","»"],[/"([^"\n]*)"/gu,"«","»"],[/‘([^’\n]*)’/gu,"«","»"],[/'([^'\n]*)'/gu,"«","»"]]){
+  text=text.replace(pattern,(match,inside)=>hasPersian(inside)?open+inside+close:match);
+ }
+ return text;
+}
+function highlightedDefinition(value,query){
+ const normalizedQuery=String(query??"").replace(/[0-9٠-٩]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d.charCodeAt(0)-0x0660]);
+ return highlighted(formatDefinitionText(value),normalizedQuery);
+}
 function highlighted(value,query){
  const text=String(value??""),terms=[...new Set(stripIndex(query).split(/\s+/).map(normalize).filter(t=>t.length>1))];if(!terms.length)return esc(text);
  let folded="",positions=[],offset=0;for(const ch of text){const f=normalize(ch);for(const unit of Array.from(f)){folded+=unit;positions.push([offset,offset+ch.length]);}offset+=ch.length;}
@@ -70,7 +84,7 @@ function volumeLabel(list){const vals=(list||[]).map(fa);return vals.length===1?
 function parseRef(value){const t=String(value||"").trim();return /^←/.test(t)?t.replace(/^←\s*/,""):"";}
 function detailsMarkup(e,query,type){
  const parts=splitSynonyms(e[4]);let html="";
- if(parts.definition){const ex=makeExcerpt(parts.definition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlighted(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlighted(parts.definition,query)+"</p></details>":"")+"</div></div>";}
+ if(parts.definition){const ex=makeExcerpt(parts.definition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlightedDefinition(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlightedDefinition(parts.definition,query)+"</p></details>":"")+"</div></div>";}
  const visibleTerms=e._displayWordTerms||[];
  const hiddenTerms=e._hiddenWordTerms||[];
  const synonyms=englishTerms(parts.synonyms).map(stripIndex).filter(term=>!visibleTerms.some(word=>normalize(word)===normalize(term))&&!hiddenTerms.includes(normalize(term)));
