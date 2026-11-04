@@ -45,17 +45,26 @@ const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).fi
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
 const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-4",location.href));
 const persianDigits="۰۱۲۳۴۵۶۷۸۹";
-const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits.charCodeAt(0)>=0&&d>="0"&&d<="9"?persianDigits[d.charCodeAt(0)-48]:persianDigits[d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
+const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
+const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
 function formatDefinitionText(value){
- let text=String(value??"").replace(/(^|\n)([ \t]*)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
- const hasPersian=value=>/[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]/u.test(value);
- for(const [pattern,open,close] of [[/“([^”\n]*)”/gu,"«","»"],[/"([^"\n]*)"/gu,"«","»"],[/‘([^’\n]*)’/gu,"«","»"],[/'([^'\n]*)'/gu,"«","»"]]){
+ let text=String(value??"");
+ const markerPattern=/(^|\\s)([0-9٠-٩۰-۹]+)([.)])(?=\\s)/gu;
+ const markers=[...text.matchAll(markerPattern)],sequenceStarts=new Set();
+ if(markers.length>1&&text.slice(0,markers[0].index).trim()===""&&numberValue(markers[0][2])===1){
+  let expected=2;
+  for(const marker of markers.slice(1)){if(numberValue(marker[2])!==expected)break;sequenceStarts.add(marker.index);expected++;}
+ }
+ if(sequenceStarts.size)text=text.replace(markerPattern,(match,space,number,punctuation,index)=>(sequenceStarts.has(index)?"\\n":space)+toPersianDigits(number)+punctuation);
+ text=text.replace(/(^|\\n)([ \\t]*)([0-9٠-٩۰-۹]+)([.)])(?=\\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
+ const hasPersian=value=>/[\\u0600-\\u06ff\\u0750-\\u077f\\u08a0-\\u08ff]/u.test(value);
+ for(const [pattern,open,close] of [[/“([^”\\n]*)”/gu,"«","»"],[/"([^"\\n]*)"/gu,"«","»"],[/‘([^’\\n]*)’/gu,"«","»"],[/'([^'\\n]*)'/gu,"«","»"]]){
   text=text.replace(pattern,(match,inside)=>hasPersian(inside)?open+inside+close:match);
  }
  return text;
 }
 function highlightedDefinition(value,query){
- const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
+ const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0);
  return highlighted(formatDefinitionText(value),normalizedQuery);
 }
 function highlighted(value,query){
@@ -84,7 +93,7 @@ function volumeLabel(list){const vals=(list||[]).map(fa);return vals.length===1?
 function parseRef(value){const t=String(value||"").trim();return /^←/.test(t)?t.replace(/^←\s*/,""):"";}
 function detailsMarkup(e,query,type){
  const parts=splitSynonyms(e[4]);let html="";
- if(parts.definition){const ex=makeExcerpt(parts.definition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlightedDefinition(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlightedDefinition(parts.definition,query)+"</p></details>":"")+"</div></div>";}
+ if(parts.definition){const formattedDefinition=formatDefinitionText(parts.definition),ex=makeExcerpt(formattedDefinition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlightedDefinition(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlightedDefinition(formattedDefinition,query)+"</p></details>":"")+"</div></div>";}
  const visibleTerms=e._displayWordTerms||[];
  const hiddenTerms=e._hiddenWordTerms||[];
  const synonyms=englishTerms(parts.synonyms).map(stripIndex).filter(term=>!visibleTerms.some(word=>normalize(word)===normalize(term))&&!hiddenTerms.includes(normalize(term)));
