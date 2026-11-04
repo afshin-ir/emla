@@ -7,7 +7,7 @@
 <title>واژگان مصوب فرهنگستان — نسخۀ آزمایشی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./words-new-style.css">
+<link rel="stylesheet" href="./words-new-style.css?v=code-style-1">
 </head>
 <body>
 <div class="shell">
@@ -38,7 +38,7 @@ function highlighted(value,query){
  let spans=[];for(const term of terms){let start=0,index;while((index=folded.indexOf(term,start))!==-1){const a=positions[index]?.[0],b=positions[index+term.length-1]?.[1];if(a!==undefined&&b!==undefined)spans.push([a,b]);start=index+term.length;}}
  spans=spans.map(([a,b])=>{if(!/\p{Script=Arabic}/u.test(text.slice(a,b)))return[a,b];const l=text.slice(0,a).match(/[\p{L}\p{M}\p{N}_\u200c]+$/u)?.[0].length||0,r=text.slice(b).match(/^[\p{L}\p{M}\p{N}_\u200c]+/u)?.[0].length||0;return[a-l,b+r];});
  spans.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const merged=[];for(const s of spans){const p=merged[merged.length-1];if(p&&s[0]<=p[1])p[1]=Math.max(p[1],s[1]);else merged.push(s.slice());}
- const format=s=>{const re=/[A-Za-z][A-Za-z0-9]*(?:[ -][A-Za-z0-9]+)*/g;let out="",last=0,m;while((m=re.exec(s))!==null){out+=esc(s.slice(last,m.index))+"<i class=\"latin\" lang=\"en\" dir=\"ltr\">"+esc(m[0])+"</i>";last=m.index+m[0].length;}return out+esc(s.slice(last));};
+ const format=s=>{const re=/[A-Za-z][A-Za-z0-9]*(?:[ -][A-Za-z0-9]+)*/g;let out="",last=0,m;while((m=re.exec(s))!==null){out+=esc(s.slice(last,m.index))+"<code class=\"latin\" lang=\"en\" dir=\"ltr\">"+esc(m[0])+"</code>";last=m.index+m[0].length;}return out+esc(s.slice(last));};
  let out="",last=0;for(const[a,b]of merged){out+=format(text.slice(last,a))+"<mark>"+format(text.slice(a,b))+"</mark>";last=b;}return out+format(text.slice(last));
 }
 function makeExcerpt(text,query,max=240){
