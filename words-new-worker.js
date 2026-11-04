@@ -194,13 +194,14 @@ function matchEntry(e,q,tokens,exactOnly=false){
   return null;
  }
  if(exactPrimary)return {score:0,type:"direct",exact:true};
- if(primaryTerms.some(term=>term.startsWith(q))||primaryWords.some(word=>word.startsWith(q)))return {score:1,type:"direct",exact:false};
- if(primaryTerms.some(term=>term.includes(q))||primaryWords.includes(q))return {score:2,type:"direct",exact:false};
- if(exactAlternate)return {score:3,type:"direct",exact:true};
- if(alternateEnglish.some(term=>term.startsWith(q)))return {score:4,type:"direct",exact:false};
- if(alternateEnglish.some(term=>term.includes(q))||e._compact.includes(q))return {score:5,type:"direct",exact:false};
- if(e._refBaseTerms.includes(q))return {score:6,type:"direct",exact:true};
- if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:7,type:"direct",exact:false};
+ if(primaryWords.includes(q))return {score:1,type:"direct",exact:false};
+ if(primaryTerms.some(term=>term.startsWith(q))||primaryWords.some(word=>word.startsWith(q)))return {score:2,type:"direct",exact:false};
+ if(primaryTerms.some(term=>term.includes(q)))return {score:3,type:"direct",exact:false};
+ if(exactAlternate)return {score:4,type:"direct",exact:true};
+ if(alternateEnglish.some(term=>term.startsWith(q)))return {score:5,type:"direct",exact:false};
+ if(alternateEnglish.some(term=>term.includes(q))||e._compact.includes(q))return {score:6,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:7,type:"direct",exact:true};
+ if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:8,type:"direct",exact:false};
  return null;
 }
 function search(m){
