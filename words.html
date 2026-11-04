@@ -9,7 +9,7 @@
 <title>واژگان مصوب فرهنگستان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./words-new-style.css?v=code-style-2">
+<link rel="stylesheet" href="./words-new-style.css?v=code-style-3">
 </head>
 <body>
 <div class="shell">
@@ -132,7 +132,7 @@ function domainTerms(value){
  }
  return [...new Set(terms)];
 }
-function card(e,query,isEnglish,matchType,grouped=false){
+function card(e,query,isEnglish,matchType,grouped=false,resultNumber=0){
  const word=(e._displayWordTerms||visiblePersianTerms(e[0])).join("، "),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(english[0]):"";
  const badge=matchType==="reference"?"<span class=\"match-badge reference\">پیداشده از راه سرنام یا ارجاع</span>":matchType==="details"?"<span class=\"match-badge details\">تطبیق در اطلاعات مدخل</span>":"";
  let head="";
@@ -153,11 +153,11 @@ function card(e,query,isEnglish,matchType,grouped=false){
   }
  }
  const domain=domainTerms(e[2]).map(term=>subjectLabels[term]||term).join("، ");
- const body=detailsMarkup(e,query,matchType);
- return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
+ const body=detailsMarkup(e,query,matchType),rank=resultNumber?"<span class=\"result-rank\" title=\"نتیجۀ "+fa(resultNumber)+"\" aria-label=\"نتیجۀ شمارۀ "+fa(resultNumber)+"\">"+fa(resultNumber)+"</span>":"";
+ return "<article class=\"item\">"+rank+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
-function groupExact(items,query,isEnglish){
- return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
+function groupExact(items,query,isEnglish,offset=0){
+ return items.map((r,index)=>card(r.entry,query,isEnglish,r.matchType,false,offset+index+1)).join("");
 }
 function render(message){
  total=message.total;page=message.page;groups=message.groups||{};shownRows=message.rows||[];
@@ -166,7 +166,12 @@ function render(message){
  else{
   const order=["direct","reference","all"],labels={direct:"برابرهای مصوب",reference:"سرنام‌ها و ارجاع‌ها",all:"مدخل‌ها"};
   const grouped=new Map();for(const row of shownRows){if(!grouped.has(row.matchType))grouped.set(row.matchType,[]);grouped.get(row.matchType).push(row);}
-  results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>"<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+": "+fa(groups[k]??grouped.get(k).length)+" مدخل</h2><div class=\"result-group-items\">"+(k==="direct"?groupExact(grouped.get(k),query,isEnglish):grouped.get(k).map(r=>card(r.entry,query,isEnglish,r.matchType)).join(""))+"</div></section>").join("");
+  let resultOffset=page*30;
+  results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>{
+   const items=grouped.get(k),offset=resultOffset;resultOffset+=items.length;
+   const cards=k==="direct"?groupExact(items,query,isEnglish,offset):items.map((r,index)=>card(r.entry,query,isEnglish,r.matchType,false,offset+index+1)).join("");
+   return "<section class=\\\"result-group\\\"><h2 class=\\\"result-group-title\\\">"+labels[k]+": "+fa(groups[k]??items.length)+" مدخل</h2><div class=\\\"result-group-items\\\">"+cards+"</div></section>";
+  }).join("");
  }
  const pages=Math.max(1,Math.ceil(total/30));pageText.textContent=total?fa(page+1)+" از "+fa(pages):"";prev.disabled=page<=0;next.disabled=page>=pages-1;
 }
