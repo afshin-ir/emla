@@ -73,7 +73,18 @@ async function saveCachedIndex(record){
   tx.onabort=()=>{db.close();reject(tx.error||new Error("Could not save the local index cache"));};
  });
 }
-function subjectTerms(value){let raw=String(value??"").trim();if(raw.startsWith("[")&&raw.endsWith("]"))raw=raw.slice(1,-1);return raw.split(/[,،;؛]/u).map(term=>term.trim()).filter(term=>term&&!term.startsWith("←"));}
+function subjectTerms(value){
+ let raw=String(value??"").replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").trim();
+ raw=raw.replace(/^\[+|\]+$/gu,"").trim();
+ const terms=[];
+ for(const part of raw.split(/[,،;؛]/u)){
+  const term=part.replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").replace(/\u200c+$/gu,"").trim().replace(/^[\[\]]+|[\[\]]+$/gu,"").trim();
+  if(!term||term.startsWith("←"))continue;
+  if(term==="شیمی م. شیمی"){terms.push("شیمی","م. شیمی");continue;}
+  terms.push(term);
+ }
+ return [...new Set(terms)];
+}
 function readyMetadata(){
  const volumeCounts=new Map(),subjects=new Set();let displayableCount=0;
  for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);for(const term of subjectTerms(e[2]))subjects.add(term);}
