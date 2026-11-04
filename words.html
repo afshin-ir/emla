@@ -170,7 +170,7 @@ function render(message){
   results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>{
    const items=grouped.get(k),offset=resultOffset;resultOffset+=items.length;
    const cards=k==="direct"?groupExact(items,query,isEnglish,offset):items.map((r,index)=>card(r.entry,query,isEnglish,r.matchType,false,offset+index+1)).join("");
-   return "<section class=\\\"result-group\\\"><h2 class=\\\"result-group-title\\\">"+labels[k]+": "+fa(groups[k]??items.length)+" مدخل</h2><div class=\\\"result-group-items\\\">"+cards+"</div></section>";
+   return "<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+": "+fa(groups[k]??items.length)+" مدخل</h2><div class=\"result-group-items\">"+cards+"</div></section>";
   }).join("");
  }
  const pages=Math.max(1,Math.ceil(total/30));pageText.textContent=total?fa(page+1)+" از "+fa(pages):"";prev.disabled=page<=0;next.disabled=page>=pages-1;
