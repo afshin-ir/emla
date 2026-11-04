@@ -81,7 +81,7 @@ function detailsMarkup(e,query,type){
 }
 function englishTerms(s){return String(s||"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);}
 function card(e,query,isEnglish,matchType,grouped=false){
- const word=(e._displayWordTerms||visiblePersianTerms(e[0])).join("، "),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(e[3]):"";
+ const word=(e._displayWordTerms||visiblePersianTerms(e[0])).join("، "),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(english[0]):"";
  const badge=matchType==="reference"?"<span class=\"match-badge reference\">پیداشده از راه سرنام یا ارجاع</span>":matchType==="details"?"<span class=\"match-badge details\">تطبیق در اطلاعات مدخل</span>":"";
  let head="";
  if(grouped){
@@ -90,9 +90,15 @@ function card(e,query,isEnglish,matchType,grouped=false){
   if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">مدخل‌های انگلیسیِ دیگر برای این برابر:</span><span class=\"english-code\">"+highlighted(alternatives.map(stripIndex).join(", "),query)+"</span></div>";
  }else if(mainEnglish){
   head="<h2 class=\"english-primary\" lang=\"en\" dir=\"ltr\"><code>"+highlighted(mainEnglish,query)+"</code></h2>"+(word?"<div class=\"persian-under\"><span class=\"term-label\">برابر فارسی:</span>"+highlighted(word,query)+"</div>":"<span class=\"term-label\">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>");
+  const alternatives=english.slice(1).map(stripIndex).filter(Boolean);
+  if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
  }else{
-  const title=word||displayEnglish(e[3])||"مدخل بدون عنوان";head="<h2>"+highlighted(title,query)+"</h2>";
-  if(e[3])head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">برابر انگلیسی:</span><span class=\"english-code\">"+highlighted(displayEnglish(e[3]),query)+"</span></div>";
+  const title=word||displayEnglish(english[0]||e[3])||"مدخل بدون عنوان";head="<h2>"+highlighted(title,query)+"</h2>";
+  if(english.length){
+   head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">برابر انگلیسی:</span><span class=\"english-code\">"+highlighted(displayEnglish(english[0]),query)+"</span></div>";
+   const alternatives=english.slice(1).map(stripIndex).filter(Boolean);
+   if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
+  }
  }
  const domain=String(e[2]||"").replace(/^\[|\]$/g,"").trim();
  const body=detailsMarkup(e,query,matchType);
