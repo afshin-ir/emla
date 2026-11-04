@@ -1,12 +1,12 @@
 const CACHE_PREFIX = 'emla-';
-const CACHE_NAME = 'emla-static-v60';
+const CACHE_NAME = 'emla-static-v61';
 const PRECACHE_URLS = [
   './', './index.html', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
   './manifest.json', './assets/favicon.svg', './assets/book-cover.jpg',
   './assets/approved-words-cover.jpg',
   './articles/', './articles/index.html', './articles/1/', './articles/2/', './articles/3/',
   './articles/3/assets/figure-1.png', './articles/3/assets/figure-2.png', './articles/3/assets/figure-3.png',
-  './words.html', './words-search-worker.js', './words-new-worker.js?v=single-gzip-2', './words-new-data.json.gz?v=single-gzip-2', './approved-words.html', './approved-words-1.json.gz', './approved-words-2.json.gz',
+  './words.html', './words-search-worker.js', './words-new-worker.js?v=single-gzip-3', './words-new-data.json.gz?v=single-gzip-2', './approved-words.html', './approved-words-1.json.gz', './approved-words-2.json.gz',
   './approved-words-3.json.gz', './approved-words-4.json.gz'
 ];
 self.addEventListener('install', event => {
