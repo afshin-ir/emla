@@ -49,22 +49,22 @@ const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>pe
 const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
 function formatDefinitionText(value){
  let text=String(value??"");
- const markerPattern=/(^|\\s)([0-9٠-٩۰-۹]+)([.)])(?=\\s)/gu;
+ const markerPattern=/(^|\s)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu;
  const markers=[...text.matchAll(markerPattern)],sequenceStarts=new Set();
  if(markers.length>1&&text.slice(0,markers[0].index).trim()===""&&numberValue(markers[0][2])===1){
   let expected=2;
   for(const marker of markers.slice(1)){if(numberValue(marker[2])!==expected)break;sequenceStarts.add(marker.index);expected++;}
  }
- if(sequenceStarts.size)text=text.replace(markerPattern,(match,space,number,punctuation,index)=>(sequenceStarts.has(index)?"\\n":space)+toPersianDigits(number)+punctuation);
- text=text.replace(/(^|\\n)([ \\t]*)([0-9٠-٩۰-۹]+)([.)])(?=\\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
- const hasPersian=value=>/[\\u0600-\\u06ff\\u0750-\\u077f\\u08a0-\\u08ff]/u.test(value);
- for(const [pattern,open,close] of [[/“([^”\\n]*)”/gu,"«","»"],[/"([^"\\n]*)"/gu,"«","»"],[/‘([^’\\n]*)’/gu,"«","»"],[/'([^'\\n]*)'/gu,"«","»"]]){
+ if(sequenceStarts.size)text=text.replace(markerPattern,(match,space,number,punctuation,index)=>(sequenceStarts.has(index)?"\n":space)+toPersianDigits(number)+punctuation);
+ text=text.replace(/(^|\n)([ \t]*)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu,(_,line,space,number,punctuation)=>line+space+toPersianDigits(number)+punctuation);
+ const hasPersian=value=>/[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff]/u.test(value);
+ for(const [pattern,open,close] of [[/“([^”\n]*)”/gu,"«","»"],[/"([^"\n]*)"/gu,"«","»"],[/‘([^’\n]*)’/gu,"«","»"],[/'([^'\n]*)'/gu,"«","»"]]){
   text=text.replace(pattern,(match,inside)=>hasPersian(inside)?open+inside+close:match);
  }
  return text;
 }
 function highlightedDefinition(value,query){
- const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0);
+ const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
  return highlighted(formatDefinitionText(value),normalizedQuery);
 }
 function highlighted(value,query){
