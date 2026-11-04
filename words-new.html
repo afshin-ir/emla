@@ -103,7 +103,7 @@ function render(message){
  $("sort").textContent=query?"نتیجه‌های دقیق‌تر در ابتدای فهرست":"ترتیب اصلی دفترها";
  if(!shownRows.length){results.innerHTML="<div class=\"empty\"><strong>برای این جست‌وجو مدخلی پیدا نشد.</strong><div class=\"empty-samples\">عبارت کوتاه‌تری را امتحان کنید یا فیلترها را پاک کنید.</div></div>";}
  else{
-  const order=["direct","reference","details","all"],labels={direct:"برابرهای مصوب",reference:"سرنام‌ها و ارجاع‌ها",details:"تطبیق در تعریف یا اطلاعات مدخل",all:"مدخل‌ها"};
+  const order=["direct","reference","all"],labels={direct:"برابرهای مصوب",reference:"سرنام‌ها و ارجاع‌ها",all:"مدخل‌ها"};
   const grouped=new Map();for(const row of shownRows){if(!grouped.has(row.matchType))grouped.set(row.matchType,[]);grouped.get(row.matchType).push(row);}
   results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>"<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+" <span>"+fa(groups[k]||grouped.get(k).length)+" مدخل</span></h2><div class=\"result-group-items\">"+(k==="direct"?groupExact(grouped.get(k),query,isEnglish):grouped.get(k).map(r=>card(r.entry,query,isEnglish,r.matchType)).join(""))+"</div></section>").join("");
  }

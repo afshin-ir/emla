@@ -60,9 +60,6 @@ function matchEntry(e,q,tokens){
  if(e._refBaseTerms.includes(q))return {score:1,type:"direct",exact:true};
  if(e._refBaseTerms.some(x=>x.includes(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
- const info=[e._subject,e._definition,e._notes];
- if(info.some(x=>x.includes(q)))return {score:4,type:"details",exact:false};
- if(tokens.length>1&&tokens.every(t=>e._all.includes(t)))return {score:5,type:"details",exact:false};
  return null;
 }
 function search(m){
