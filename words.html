@@ -43,7 +43,7 @@ let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
-const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-8",location.href));
+const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-9",location.href));
 const persianDigits="۰۱۲۳۴۵۶۷۸۹";
 const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
 const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
@@ -175,7 +175,7 @@ worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.i
  indexedBases=new Set(m.indexedBases||[]);
  ready=true;
  for(const n of m.volumes){const o=document.createElement("option");o.value=String(n);o.textContent="دفتر "+fa(n);volume.appendChild(o);}
- for(const s of m.subjects){const o=document.createElement("option");o.value=s;o.textContent=s.replace(/^\[|\]$/g,"");subject.appendChild(o);}
+ for(const s of m.subjects){const o=document.createElement("option");o.value=s.value;o.textContent=s.label.replace(/^\[|\]$/g,"");subject.appendChild(o);}
  results.innerHTML="";
  }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
 q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});exactOnly.addEventListener("change",()=>{page=0;search();});
