@@ -60,25 +60,27 @@ function parseRef(value){const t=String(value||"").trim();return /^←/.test(t)?
 function detailsMarkup(e,query,type){
  const parts=splitSynonyms(e[4]);let html="";
  if(parts.definition){const ex=makeExcerpt(parts.definition,query);html+="<div class=\"detail\"><span class=\"detail-label\">تعریف:</span><div class=\"detail-text definition-text\"><p class=\"definition-preview\">"+highlighted(ex.text,query)+"</p>"+(ex.more?"<details class=\"definition-more\"><summary></summary><p class=\"definition-full\">"+highlighted(parts.definition,query)+"</p></details>":"")+"</div></div>";}
- if(parts.synonyms)html+=detail("مترادف:",highlighted(parts.synonyms,query),"synonym-detail");
- const ref=parseRef(e[1]);if(ref)html+=detail("ارجاع به:","← "+highlighted(ref,query));
+ const visibleTerms=e._displayWordTerms||[];
+ const hiddenTerms=e._hiddenWordTerms||[];
+ const synonyms=englishTerms(parts.synonyms).map(stripIndex).filter(term=>!visibleTerms.some(word=>normalize(word)===normalize(term))&&!hiddenTerms.includes(normalize(term)));
+ if(synonyms.length)html+=detail("مترادف:",highlighted(synonyms.join("، "),query),"synonym-detail");
  const books=volumeLabel(e[7]);if(books)html+=detail("منبع:",esc(books),"source-detail");
  if(e[8])html+="<details class=\"note-more\"><summary>دیدن یادداشت دفتر</summary><div style=\"white-space:pre-line\">"+highlighted(e[8],query)+"</div></details>";
  return html;
 }
 function englishTerms(s){return String(s||"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);}
 function card(e,query,isEnglish,matchType,grouped=false){
- const word=String(e[0]||"").trim(),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(e[3]):"";
+ const word=(e._displayWordTerms||visiblePersianTerms(e[0])).join("، "),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(e[3]):"";
  const badge=matchType==="reference"?"<span class=\"match-badge reference\">پیداشده از راه سرنام یا ارجاع</span>":matchType==="details"?"<span class=\"match-badge details\">تطبیق در اطلاعات مدخل</span>":"";
  let head="";
  if(grouped){
-  head=word?"<h3 lang=\"fa\" dir=\"rtl\">"+highlighted(stripIndex(word),query)+"</h3>":"<div class=\"persian-under\">برابر فارسی در این سطر ثبت نشده است</div>";
+  head=word?"<h3 lang=\"fa\" dir=\"rtl\">"+highlighted(word,query)+"</h3>":"<div class=\"persian-under\">برابر فارسی در این سطر ثبت نشده است</div>";
   const alternatives=english.filter(t=>normalize(stripIndex(t))!==normalize(stripIndex(query)));
   if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">مدخل‌های انگلیسیِ دیگر برای این برابر:</span><span class=\"english-code\">"+highlighted(alternatives.map(stripIndex).join(", "),query)+"</span></div>";
  }else if(mainEnglish){
-  head="<h2 class=\"english-primary\" lang=\"en\" dir=\"ltr\"><code>"+highlighted(mainEnglish,query)+"</code></h2>"+(word?"<div class=\"persian-under\"><span class=\"term-label\">برابر فارسی:</span>"+highlighted(stripIndex(word),query)+"</div>":"<span class=\"term-label\">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>");
+  head="<h2 class=\"english-primary\" lang=\"en\" dir=\"ltr\"><code>"+highlighted(mainEnglish,query)+"</code></h2>"+(word?"<div class=\"persian-under\"><span class=\"term-label\">برابر فارسی:</span>"+highlighted(word,query)+"</div>":"<span class=\"term-label\">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>");
  }else{
-  const title=stripIndex(word||displayEnglish(e[3])||"مدخل بدون عنوان");head="<h2>"+highlighted(title,query)+"</h2>";
+  const title=word||displayEnglish(e[3])||"مدخل بدون عنوان";head="<h2>"+highlighted(title,query)+"</h2>";
   if(e[3])head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">برابر انگلیسی:</span><span class=\"english-code\">"+highlighted(displayEnglish(e[3]),query)+"</span></div>";
  }
  const domain=String(e[2]||"").replace(/^\[|\]$/g,"").trim();
@@ -101,7 +103,7 @@ function render(message){
  $("sort").textContent=query?"نتیجه‌های دقیق‌تر در ابتدای فهرست":"ترتیب اصلی دفترها";
  if(!shownRows.length){results.innerHTML="<div class=\"empty\"><strong>برای این جست‌وجو مدخلی پیدا نشد.</strong><div class=\"empty-samples\">عبارت کوتاه‌تری را امتحان کنید یا فیلترها را پاک کنید.</div></div>";}
  else{
-  const order=["direct","reference","details","all"],labels={direct:"مدخل‌های منطبق",reference:"سرنام‌ها و ارجاع‌ها",details:"تطبیق در تعریف یا اطلاعات مدخل",all:"مدخل‌ها"};
+  const order=["direct","reference","details","all"],labels={direct:"برابرهای مصوب",reference:"سرنام‌ها و ارجاع‌ها",details:"تطبیق در تعریف یا اطلاعات مدخل",all:"مدخل‌ها"};
   const grouped=new Map();for(const row of shownRows){if(!grouped.has(row.matchType))grouped.set(row.matchType,[]);grouped.get(row.matchType).push(row);}
   results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>"<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+" <span>"+fa(groups[k]||grouped.get(k).length)+" مدخل</span></h2><div class=\"result-group-items\">"+(k==="direct"?groupExact(grouped.get(k),query,isEnglish):grouped.get(k).map(r=>card(r.entry,query,isEnglish,r.matchType)).join(""))+"</div></section>").join("");
  }

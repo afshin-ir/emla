@@ -10,9 +10,13 @@ function collectIndexedBases(rows){
  indexedBases=new Set([...suffixes.entries()].filter(([base,nums])=>nums.size>1||plain.has(base)).map(([base])=>base));
 }
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
+const hasIndexSuffix=term=>{const m=String(term??"").trim().match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);return Boolean(m&&m[1].trim()&&indexedBases.has(normalize(m[1].trim()))&&!/\s[0-9۰-۹٠-٩]+$/u.test(term));};
+function visiblePersianTerms(raw){const terms=splitTerms(raw),hasPlain=terms.some(term=>!hasIndexSuffix(term)),chosen=hasPlain?terms.filter(term=>!hasIndexSuffix(term)):terms,out=[],seen=new Set();for(const term of chosen){const clean=stripIndex(term),key=normalize(clean);if(key&&!seen.has(key)){seen.add(key);out.push(clean);}}return out;}
 function makeEntry(raw){
  const e=raw;
- e._displayable=Boolean(String(e[0]||"").trim()||String(e[3]||"").trim());e._refTerms=[];
+ const rawWordTerms=splitTerms(e[0]);e._displayWordTerms=visiblePersianTerms(e[0]);e._hiddenWordTerms=rawWordTerms.filter(term=>!e._displayWordTerms.some(visible=>normalize(stripIndex(visible))===normalize(stripIndex(term)))).map(term=>normalize(stripIndex(term)));
+ e._displayable=Boolean(String(e[0]||"").trim()&&String(e[3]||"").trim());e._refTerms=[];
+ e._rawWordTerms=splitTerms(e[0]).map(normalize);e._rawEnglishTerms=splitTerms(e[3]).map(normalize);
  e._wordTerms=splitTerms(e[0]).map(x=>normalize(stripIndex(x)));
  e._englishTerms=splitTerms(e[3]).map(x=>normalize(stripIndex(x)));
  e._subject=normalize(e[2]);e._ref=normalize(e[1]);e._definition=normalize(e[4]);e._notes=normalize(e[8]);
@@ -28,9 +32,9 @@ function linkReferenceRows(list){
   const rawEnglish=String(source[5]||""),arrow=rawEnglish.match(/\s*(?:→|->)\s*/);
   if(arrow){const at=arrow.index,left=rawEnglish.slice(0,at).replace(/^\*/g,"").trim(),right=rawEnglish.slice(at+arrow[0].length).trim(),target=choose(englishIndex,normalize(right),source);if(target&&left)target._refTerms.push(normalize(left));continue;}
   const rawTarget=String(source[1]||"").trim(),persianArrow=rawTarget.match(/^←\s*(.+)$/);
-  if(persianArrow&&source[6]){const target=choose(persianIndex,normalize(stripIndex(persianArrow[1])),source);if(target)target._refTerms.push(normalize(source[6]));}
+  if(persianArrow&&(source[0]||source[6])){const target=choose(persianIndex,normalize(stripIndex(persianArrow[1])),source);if(target)for(const alias of splitTerms(source[0]||source[6]))target._refTerms.push(normalize(alias));}
  }
- for(const e of list)e._refTerms=[...new Set(e._refTerms.filter(Boolean))];
+ for(const e of list){e._refTerms=[...new Set(e._refTerms.filter(Boolean))];e._refBaseTerms=[...new Set(e._refTerms.map(x=>normalize(stripIndex(x))).filter(Boolean))];}
 }
 async function load(){
  try{
@@ -49,19 +53,20 @@ function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.include
 function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||normalize(e[2])===s)}
 function matchEntry(e,q,tokens){
  if(!q)return {score:8,type:"all",exact:false};
+ if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
  const head=e._wordTerms.concat(e._englishTerms);
  if(head.includes(q))return {score:0,type:"direct",exact:true};
  if(head.some(x=>x.startsWith(q)))return {score:1,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:1,type:"direct",exact:true};
+ if(e._refBaseTerms.some(x=>x.includes(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
- if(e._refTerms.some(x=>x.includes(q)))return {score:3,type:"reference",exact:false};
- if(e._ref.includes(q))return {score:3,type:"reference",exact:false};
  const info=[e._subject,e._definition,e._notes];
  if(info.some(x=>x.includes(q)))return {score:4,type:"details",exact:false};
  if(tokens.length>1&&tokens.every(t=>e._all.includes(t)))return {score:5,type:"details",exact:false};
  return null;
 }
 function search(m){
- const raw=String(m.query||"").trim(),q=normalize(stripIndex(raw)),tokens=stripIndex(raw).split(/\s+/).map(normalize).filter(Boolean),volume=Number(m.volume)||0,subject=normalize(m.subject||"");
+ const raw=String(m.query||"").trim(),q=normalize(/[0-9۰-۹٠-٩]+$/u.test(raw)?raw:stripIndex(raw)),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),volume=Number(m.volume)||0,subject=normalize(m.subject||"");
  if(!q&&!volume&&!subject){postMessage({type:"results",id:m.id,total:0,page:m.page||0,rows:[],groups:{}});return;}
  const found=[];for(const e of entries){if(!e._displayable||!selected(e,volume,subject))continue;const match=matchEntry(e,q,tokens);if(match)found.push({entry:e,score:match.score,matchType:match.type,exact:match.exact});}
  found.sort((a,b)=>a.score-b.score||String(a.entry[0]||a.entry[3]).localeCompare(String(b.entry[0]||b.entry[3]),"fa"));
