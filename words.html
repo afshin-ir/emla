@@ -55,7 +55,7 @@ function formatDefinitionText(value){
  return text;
 }
 function highlightedDefinition(value,query){
- const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0);
+ const normalizedQuery=String(query??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
  return highlighted(formatDefinitionText(value),normalizedQuery);
 }
 function highlighted(value,query){
