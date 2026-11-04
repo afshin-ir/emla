@@ -17,7 +17,6 @@
   <section class="search-wrap" aria-label="جست‌وجو"><label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" autocomplete="off" placeholder="واژه یا موضوع را جست‌وجو کنید…" aria-label="جست‌وجو در واژگان مصوب"><button class="clear-button" id="clear" type="button">پاک‌کردن</button></label>
    <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><label class="filter">حوزه<select id="subject"><option value="">همۀ حوزه‌ها</option></select></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
   </section>
-  <div class="meta"><span id="count">در حال بارگذاری فهرست…</span><span id="sort">نتیجه‌های دقیق‌تر در ابتدای فهرست</span></div>
   <section class="results" id="results" aria-live="polite"><div class="empty">در حال آماده‌سازی فهرست واژگان…</div></section>
   <nav class="pager" aria-label="صفحه‌های نتیجه"><button id="prev" type="button" disabled>قبلی</button><span class="page-number" id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
   <aside class="source-note">نسخۀ آزمایشی بر پایۀ فایل تازه است؛ برای بررسی پیش از افزودن پیوند به صفحهٔ اصلی. ردیف‌های کمکیِ بدون سرواژه در جست‌وجو به کار می‌روند و به شکل کارت خالی نمایش داده نمی‌شوند.</aside>
@@ -25,7 +24,7 @@
 </div>
 <script>
 (()=>{
-const $=id=>document.getElementById(id),q=$("query"),volume=$("volume"),subject=$("subject"),results=$("results"),count=$("count"),pageText=$("page"),prev=$("prev"),next=$("next");
+const $=id=>document.getElementById(id),q=$("query"),volume=$("volume"),subject=$("subject"),results=$("results"),pageText=$("page"),prev=$("prev"),next=$("next");
 const fa=n=>Number(n||0).toLocaleString("fa-IR"),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
 let indexedBases=new Set();
@@ -99,24 +98,22 @@ function groupExact(items,query,isEnglish){
 function render(message){
  total=message.total;page=message.page;groups=message.groups||{};shownRows=message.rows||[];
  const query=q.value.trim(),isEnglish=/[A-Za-z]/.test(query)&&!/[\u0600-\u06ff]/u.test(query);
- count.innerHTML=query?"<strong>مدخل‌های منطبق: "+fa(total)+" در کل · "+fa(shownRows.length)+" در این صفحه</strong>":"<strong>"+fa(total)+" مدخل</strong>";
- $("sort").textContent=query?"نتیجه‌های دقیق‌تر در ابتدای فهرست":"ترتیب اصلی دفترها";
  if(!shownRows.length){results.innerHTML="<div class=\"empty\"><strong>برای این جست‌وجو مدخلی پیدا نشد.</strong><div class=\"empty-samples\">عبارت کوتاه‌تری را امتحان کنید یا فیلترها را پاک کنید.</div></div>";}
  else{
   const order=["direct","reference","all"],labels={direct:"برابرهای مصوب",reference:"سرنام‌ها و ارجاع‌ها",all:"مدخل‌ها"};
   const grouped=new Map();for(const row of shownRows){if(!grouped.has(row.matchType))grouped.set(row.matchType,[]);grouped.get(row.matchType).push(row);}
-  results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>"<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+" <span>"+fa(groups[k]||grouped.get(k).length)+" مدخل</span></h2><div class=\"result-group-items\">"+(k==="direct"?groupExact(grouped.get(k),query,isEnglish):grouped.get(k).map(r=>card(r.entry,query,isEnglish,r.matchType)).join(""))+"</div></section>").join("");
+  results.innerHTML=order.filter(k=>grouped.has(k)).map(k=>"<section class=\"result-group\"><h2 class=\"result-group-title\">"+labels[k]+": "+fa(groups[k]??grouped.get(k).length)+" مدخل</h2><div class=\"result-group-items\">"+(k==="direct"?groupExact(grouped.get(k),query,isEnglish):grouped.get(k).map(r=>card(r.entry,query,isEnglish,r.matchType)).join(""))+"</div></section>").join("");
  }
  const pages=Math.max(1,Math.ceil(total/30));pageText.textContent=total?fa(page+1)+" از "+fa(pages):"";prev.disabled=page<=0;next.disabled=page>=pages-1;
 }
 function search(){if(!ready)return;const id=++requestId;clearTimeout(timer);timer=setTimeout(()=>worker.postMessage({type:"search",id,query:q.value,volume:volume.value,subject:subject.value,page}),170);}
-worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")count.textContent=m.message;if(m.type==="ready"){
+worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";if(m.type==="ready"){
  indexedBases=new Set(m.indexedBases||[]);
- ready=true;count.textContent=fa(m.count)+" مدخل از دفترهای ۱ تا ۲۰";
+ ready=true;
  for(const n of m.volumes){const o=document.createElement("option");o.value=String(n);o.textContent="دفتر "+fa(n);volume.appendChild(o);}
  for(const s of m.subjects){const o=document.createElement("option");o.value=s;o.textContent=s.replace(/^\[|\]$/g,"");subject.appendChild(o);}
  results.innerHTML="<div class=\"empty\"><strong>برای شروع، واژه یا موضوعی جست‌وجو کنید.</strong><div class=\"empty-samples\">مثلاً: level، map یا تراز</div></div>";
- }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){count.textContent="بارگذاری فهرست ناموفق بود";results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
+ }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
 q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});
 $("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
 $("theme").addEventListener("click",()=>{const dark=document.body.dataset.theme!=="dark";document.body.dataset.theme=dark?"dark":"light";$("theme").textContent=dark?"تم روشن":"تم تیره";try{localStorage.setItem("words20-preview-theme",dark?"dark":"light");}catch{}});
