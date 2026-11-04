@@ -2,6 +2,7 @@ const PARTS=Array.from({length:231},(_,i)=>new URL("./words-new-data/part-"+Stri
 "use strict";
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
 const splitTerms=s=>String(s??"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);
+const wordTokens=s=>String(s??"").match(/[\p{L}\p{M}\p{N}_]+(?:\u200c[\p{L}\p{M}\p{N}_]+)*/gu)||[];
 let entries=[];
 let indexedBases=new Set();
 function collectIndexedBases(rows){
@@ -55,7 +56,7 @@ function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
  const head=e._wordTerms.concat(e._englishTerms);
- if(exactOnly)return head.concat(e._refBaseTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
+ if(exactOnly){const titleWords=splitTerms(e[0]).concat(splitTerms(e[3])).flatMap(term=>wordTokens(stripIndex(term))).map(normalize),headExact=head.includes(q),referenceExact=e._refBaseTerms.includes(q);return headExact||referenceExact||titleWords.includes(q)?{score:0,type:"direct",exact:headExact||referenceExact}:null;}
  if(head.includes(q))return {score:0,type:"direct",exact:true};
  if(head.some(x=>x.startsWith(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
