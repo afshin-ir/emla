@@ -57,9 +57,9 @@ function matchEntry(e,q,tokens){
  const head=e._wordTerms.concat(e._englishTerms);
  if(head.includes(q))return {score:0,type:"direct",exact:true};
  if(head.some(x=>x.startsWith(q)))return {score:1,type:"direct",exact:false};
- if(e._refBaseTerms.includes(q))return {score:1,type:"direct",exact:true};
- if(e._refBaseTerms.some(x=>x.includes(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:3,type:"direct",exact:true};
+ if(e._refBaseTerms.some(x=>x.startsWith(q)))return {score:4,type:"direct",exact:false};
  return null;
 }
 function search(m){
