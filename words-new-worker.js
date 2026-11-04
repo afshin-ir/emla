@@ -51,10 +51,11 @@ async function load(){
 }
 function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.includes(q)}
 function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||normalize(e[2])===s)}
-function matchEntry(e,q,tokens){
- if(!q)return {score:8,type:"all",exact:false};
+function matchEntry(e,q,tokens,exactOnly=false){
+ if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
  const head=e._wordTerms.concat(e._englishTerms);
+ if(exactOnly)return head.concat(e._refBaseTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
  if(head.includes(q))return {score:0,type:"direct",exact:true};
  if(head.some(x=>x.startsWith(q)))return {score:1,type:"direct",exact:false};
  if(head.some(x=>x.includes(q))||e._compact.includes(q))return {score:2,type:"direct",exact:false};
@@ -63,9 +64,9 @@ function matchEntry(e,q,tokens){
  return null;
 }
 function search(m){
- const raw=String(m.query||"").trim(),q=normalize(/[0-9۰-۹٠-٩]+$/u.test(raw)?raw:stripIndex(raw)),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),volume=Number(m.volume)||0,subject=normalize(m.subject||"");
+ const raw=String(m.query||"").trim(),q=normalize(/[0-9۰-۹٠-٩]+$/u.test(raw)?raw:stripIndex(raw)),tokens=raw.split(/\s+/).map(normalize).filter(Boolean),volume=Number(m.volume)||0,subject=normalize(m.subject||""),exactOnly=Boolean(m.exactOnly);
  if(!q&&!volume&&!subject){postMessage({type:"results",id:m.id,total:0,page:m.page||0,rows:[],groups:{}});return;}
- const found=[];for(const e of entries){if(!e._displayable||!selected(e,volume,subject))continue;const match=matchEntry(e,q,tokens);if(match)found.push({entry:e,score:match.score,matchType:match.type,exact:match.exact});}
+ const found=[];for(const e of entries){if(!e._displayable||!selected(e,volume,subject))continue;const match=matchEntry(e,q,tokens,exactOnly);if(match)found.push({entry:e,score:match.score,matchType:match.type,exact:match.exact});}
  found.sort((a,b)=>a.score-b.score||String(a.entry[0]||a.entry[3]).localeCompare(String(b.entry[0]||b.entry[3]),"fa"));
  const groups={direct:0,reference:0,details:0,all:0};for(const r of found)groups[r.matchType]=(groups[r.matchType]||0)+1;
  const page=Number(m.page)||0,pageSize=30,start=page*pageSize;

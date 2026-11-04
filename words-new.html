@@ -15,7 +15,7 @@
  <main class="paper">
   <section class="intro"><div><p class="eyebrow">نسخۀ آزمایشی بر پایۀ فایل تازه</p><h1>واژگان مصوب فرهنگستان</h1><p>جست‌وجو در واژه‌ها، برابرهای انگلیسی، حوزه‌ها، تعریف‌ها و یادداشت‌های دفترهای ۱ تا ۲۰.</p></div><button class="theme-toggle" id="theme" type="button">تم تیره</button></section>
   <section class="search-wrap" aria-label="جست‌وجو"><label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" autocomplete="off" placeholder="واژه یا موضوع را جست‌وجو کنید…" aria-label="جست‌وجو در واژگان مصوب"><button class="clear-button" id="clear" type="button">پاک‌کردن</button></label>
-   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><label class="filter">حوزه<select id="subject"><option value="">همۀ حوزه‌ها</option></select></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
+   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><label class="filter">حوزه<select id="subject"><option value="">همۀ حوزه‌ها</option></select></label><label class="exact-toggle" title="فقط مدخل‌هایی را نشان بده که عنوان یا صورت ارجاعی‌شان دقیقاً با عبارت جست‌وجو یکی است"><input id="exact-only" type="checkbox"><span>فقط تطبیق دقیق</span></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
   </section>
   <section class="results" id="results" aria-live="polite"><div class="empty">در حال آماده‌سازی فهرست واژگان…</div></section>
   <nav class="pager" aria-label="صفحه‌های نتیجه"><button id="prev" type="button" disabled>قبلی</button><span class="page-number" id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
@@ -24,7 +24,7 @@
 </div>
 <script>
 (()=>{
-const $=id=>document.getElementById(id),q=$("query"),volume=$("volume"),subject=$("subject"),results=$("results"),pageText=$("page"),prev=$("prev"),next=$("next");
+const $=id=>document.getElementById(id),q=$("query"),volume=$("volume"),subject=$("subject"),exactOnly=$("exact-only"),results=$("results"),pageText=$("page"),prev=$("prev"),next=$("next");
 const fa=n=>Number(n||0).toLocaleString("fa-IR"),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
 let indexedBases=new Set();
@@ -106,7 +106,7 @@ function render(message){
  }
  const pages=Math.max(1,Math.ceil(total/30));pageText.textContent=total?fa(page+1)+" از "+fa(pages):"";prev.disabled=page<=0;next.disabled=page>=pages-1;
 }
-function search(){if(!ready)return;const id=++requestId;clearTimeout(timer);timer=setTimeout(()=>worker.postMessage({type:"search",id,query:q.value,volume:volume.value,subject:subject.value,page}),170);}
+function search(){if(!ready)return;const id=++requestId;clearTimeout(timer);timer=setTimeout(()=>worker.postMessage({type:"search",id,query:q.value,volume:volume.value,subject:subject.value,exactOnly:exactOnly.checked,page}),170);}
 worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";if(m.type==="ready"){
  indexedBases=new Set(m.indexedBases||[]);
  ready=true;
@@ -114,8 +114,8 @@ worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.i
  for(const s of m.subjects){const o=document.createElement("option");o.value=s;o.textContent=s.replace(/^\[|\]$/g,"");subject.appendChild(o);}
  results.innerHTML="";
  }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
-q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});
-$("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
+q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});exactOnly.addEventListener("change",()=>{page=0;search();});
+$("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";exactOnly.checked=false;page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
 $("theme").addEventListener("click",()=>{const dark=document.body.dataset.theme!=="dark";document.body.dataset.theme=dark?"dark":"light";$("theme").textContent=dark?"تم روشن":"تم تیره";try{localStorage.setItem("words20-preview-theme",dark?"dark":"light");}catch{}});
 try{if(localStorage.getItem("words20-preview-theme")==="dark"){document.body.dataset.theme="dark";$("theme").textContent="تم روشن";}}catch{}
 worker.postMessage({type:"init"});
