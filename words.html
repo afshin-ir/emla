@@ -9,7 +9,7 @@
 <title>واژگان مصوب فرهنگستان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./words-new-style.css?v=code-style-3">
+<link rel="stylesheet" href="./words-new-style.css?v=code-style-2">
 </head>
 <body>
 <div class="shell">
@@ -152,9 +152,9 @@ function card(e,query,isEnglish,matchType,grouped=false){
    if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
   }
  }
- const domain=domainTerms(e[2]).map(term=>"<button class=\"domain-filter-link\" type=\"button\" data-domain=\""+esc(term)+"\" title=\"نمایش مدخل‌های این حوزه\">"+highlighted(subjectLabels[term]||term,query)+"</button>").join("، ");
+ const domain=domainTerms(e[2]).map(term=>subjectLabels[term]||term).join("، ");
  const body=detailsMarkup(e,query,matchType);
- return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",domain,"domain-detail")+body+"</div></article>";
+ return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
 function groupExact(items,query,isEnglish){
  return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
@@ -179,7 +179,6 @@ worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.i
  for(const s of m.subjects){const o=document.createElement("option");o.value=s.value;o.textContent=s.label.replace(/^\[|\]$/g,"");subject.appendChild(o);}
  results.innerHTML="";
  }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
-results.addEventListener("click",event=>{const button=event.target.closest(".domain-filter-link");if(!button)return;subject.value=button.dataset.domain||"";page=0;subject.dispatchEvent(new Event("change",{bubbles:true}));});
 q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});exactOnly.addEventListener("change",()=>{page=0;search();});
 $("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";exactOnly.checked=false;page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
 applyReadingSettings();
