@@ -41,7 +41,7 @@ let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
-const worker=new Worker(new URL("./words-new-worker.js?v=exact-match-5",location.href));
+const worker=new Worker(new URL("./words-new-worker.js?v=single-gzip-1",location.href));
 function highlighted(value,query){
  const text=String(value??""),terms=[...new Set(stripIndex(query).split(/\s+/).map(normalize).filter(t=>t.length>1))];if(!terms.length)return esc(text);
  let folded="",positions=[],offset=0;for(const ch of text){const f=normalize(ch);for(const unit of Array.from(f)){folded+=unit;positions.push([offset,offset+ch.length]);}offset+=ch.length;}

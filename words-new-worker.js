@@ -1,5 +1,5 @@
-const PARTS=Array.from({length:231},(_,i)=>new URL("./words-new-data/part-"+String(i).padStart(3,"0")+".txt",self.location.href).href);
 "use strict";
+const DATA_URL=new URL("./words-new-data.json.gz",self.location.href).href;
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
 const splitTerms=s=>String(s??"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);
 const splitEnglishTerms=s=>{const raw=String(s??"").trim();return /,\s*(?:and|or)\s+/i.test(raw)?[raw]:splitTerms(raw);};
@@ -42,9 +42,8 @@ async function load(){
  try{
   if(!("DecompressionStream" in self))throw new Error("مرورگر این فایل فشرده را باز نمی‌کند.");
   postMessage({type:"progress",message:"در حال آماده‌سازی فهرست واژگان…"});
-  const encoded=(await Promise.all(PARTS.map(async path=>{const response=await fetch(path);if(!response.ok)throw new Error("بارگیری بخشی از داده‌ها ناموفق بود.");return response.text()}))).join("");
-  const binary=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0));
-  const stream=new Blob([binary]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const response=await fetch(DATA_URL);if(!response.ok)throw new Error("بارگیری فهرست واژگان ناموفق بود.");
+  const stream=new Blob([await response.arrayBuffer()]).stream().pipeThrough(new DecompressionStream("gzip"));
   const raw=JSON.parse(await new Response(stream).text());collectIndexedBases(raw);entries=raw.map(makeEntry);linkReferenceRows(entries);
   const volumeCounts=new Map(),subjects=new Set();let displayableCount=0;
   for(const e of entries){if(!e._displayable)continue;displayableCount++;for(const n of e[7]||[])volumeCounts.set(n,(volumeCounts.get(n)||0)+1);if(e[2])subjects.add(e[2]);}
