@@ -112,7 +112,7 @@ worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.i
  ready=true;
  for(const n of m.volumes){const o=document.createElement("option");o.value=String(n);o.textContent="دفتر "+fa(n);volume.appendChild(o);}
  for(const s of m.subjects){const o=document.createElement("option");o.value=s;o.textContent=s.replace(/^\[|\]$/g,"");subject.appendChild(o);}
- results.innerHTML="<div class=\"empty\"><strong>برای شروع، واژه یا موضوعی جست‌وجو کنید.</strong><div class=\"empty-samples\">مثلاً: level، map یا تراز</div></div>";
+ results.innerHTML="";
  }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
 q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});
 $("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
