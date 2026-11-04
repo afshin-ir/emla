@@ -48,7 +48,7 @@ const persianDigits="۰۱۲۳۴۵۶۷۸۹";
 const toPersianDigits=value=>String(value??"").replace(/[0-9٠-٩۰-۹]/gu,d=>persianDigits[d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0]);
 const numberValue=value=>Array.from(String(value??"")).reduce((sum,d)=>sum*10+(d>="0"&&d<="9"?d.charCodeAt(0)-48:d>="٠"&&d<="٩"?d.charCodeAt(0)-0x0660:d.charCodeAt(0)-0x06f0),0);
 function formatDefinitionText(value){
- let text=String(value??"");
+ let text=String(value??"").replace(/(?<=[\p{L}\p{M}])ـ+(?=[\p{L}\p{M}])/gu,"");
  const markerPattern=/(^|\s)([0-9٠-٩۰-۹]+)([.)])(?=\s)/gu;
  const markers=[...text.matchAll(markerPattern)],sequenceStarts=new Set();
  if(markers.length>1&&text.slice(0,markers[0].index).trim()===""&&numberValue(markers[0][2])===1){
