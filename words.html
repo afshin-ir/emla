@@ -120,6 +120,18 @@ function detailsMarkup(e,query,type){
  return html;
 }
 function englishTerms(s){return String(s||"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);}
+function domainTerms(value){
+ let raw=String(value??"").replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").trim();
+ raw=raw.replace(/^\[+|\]+$/gu,"").trim();
+ const terms=[];
+ for(const part of raw.split(/[,،;؛]/u)){
+  const term=part.replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").replace(/\u200c+$/gu,"").trim().replace(/^[\[\]]+|[\[\]]+$/gu,"").trim();
+  if(!term||term.startsWith("←"))continue;
+  if(term==="شیمی م. شیمی"){terms.push("شیمی","م. شیمی");continue;}
+  terms.push(term);
+ }
+ return [...new Set(terms)];
+}
 function card(e,query,isEnglish,matchType,grouped=false){
  const word=(e._displayWordTerms||visiblePersianTerms(e[0])).join("، "),english=englishTerms(e[3]),mainEnglish=isEnglish&&english.length?displayEnglish(english[0]):"";
  const badge=matchType==="reference"?"<span class=\"match-badge reference\">پیداشده از راه سرنام یا ارجاع</span>":matchType==="details"?"<span class=\"match-badge details\">تطبیق در اطلاعات مدخل</span>":"";
@@ -140,7 +152,7 @@ function card(e,query,isEnglish,matchType,grouped=false){
    if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
   }
  }
- const rawDomain=String(e[2]||"").replace(/^\[|\]$/g,"").trim(),domain=/^\s*←/u.test(rawDomain)?"":rawDomain;
+ const domain=domainTerms(e[2]).join("، ");
  const body=detailsMarkup(e,query,matchType);
  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
