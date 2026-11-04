@@ -179,12 +179,12 @@ function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.include
 function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||subjectTerms(e[2]).some(term=>normalize(term)===s))}
 function termMatchRank(raw,q){
  const value=stripIndex(raw);let rank=Infinity;
- for(const match of value.matchAll(/[\\p{L}\\p{M}\\p{N}_]+(?:\\u200c[\\p{L}\\p{M}\\p{N}_]+)*/gu)){
+ for(const match of value.matchAll(/[\p{L}\p{M}\p{N}_]+(?:\u200c[\p{L}\p{M}\p{N}_]+)*/gu)){
   const token=normalize(match[0]);if(!token)continue;
   if(token===q){
-   const before=value.slice(0,match.index),after=value.slice(match.index+match[0].length),hyphen= /[-‐‑–—]$/u.test(before)||/^[-‐‑–—]/u.test(after);
+   const before=value.slice(0,match.index),after=value.slice(match.index+match[0].length),hyphen=/[-‐‑–—]$/u.test(before)||/^[-‐‑–—]/u.test(after);
    if(hyphen)rank=Math.min(rank,3);
-   else rank=Math.min(rank,!before.trim()||/^[\\p{P}\\p{S}]+$/u.test(before.trim())?1:2);
+   else rank=Math.min(rank,!before.trim()||/^[\p{P}\p{S}]+$/u.test(before.trim())?1:2);
   }else if(token.startsWith(q))rank=Math.min(rank,4);
   else if(token.includes(q))rank=Math.min(rank,5);
  }
