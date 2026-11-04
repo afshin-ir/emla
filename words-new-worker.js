@@ -2,6 +2,7 @@ const PARTS=Array.from({length:231},(_,i)=>new URL("./words-new-data/part-"+Stri
 "use strict";
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
 const splitTerms=s=>String(s??"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);
+const splitEnglishTerms=s=>{const raw=String(s??"").trim();return /,\s*(?:and|or)\s+/i.test(raw)?[raw]:splitTerms(raw);};
 const wordTokens=s=>String(s??"").match(/[\p{L}\p{M}\p{N}_]+(?:\u200c[\p{L}\p{M}\p{N}_]+)*/gu)||[];
 let entries=[];
 let indexedBases=new Set();
@@ -17,9 +18,9 @@ function makeEntry(raw){
  const e=raw;
  const rawWordTerms=splitTerms(e[0]);e._displayWordTerms=visiblePersianTerms(e[0]);e._hiddenWordTerms=rawWordTerms.filter(term=>!e._displayWordTerms.some(visible=>normalize(stripIndex(visible))===normalize(stripIndex(term)))).map(term=>normalize(stripIndex(term)));
  e._displayable=Boolean(String(e[0]||"").trim()&&String(e[3]||"").trim());e._refTerms=[];
- e._rawWordTerms=splitTerms(e[0]).map(normalize);e._rawEnglishTerms=splitTerms(e[3]).map(normalize);
+ e._rawWordTerms=splitTerms(e[0]).map(normalize);e._rawEnglishTerms=splitEnglishTerms(e[3]).map(normalize);
  e._wordTerms=splitTerms(e[0]).map(x=>normalize(stripIndex(x)));
- e._englishTerms=splitTerms(e[3]).map(x=>normalize(stripIndex(x)));
+ e._englishTerms=splitEnglishTerms(e[3]).map(x=>normalize(stripIndex(x)));
  e._subject=normalize(e[2]);e._ref=normalize(e[1]);e._definition=normalize(e[4]);e._notes=normalize(e[8]);
  e._compact=normalize(e[5]+" "+e[6]);e._all=normalize([e[0],e[1],e[2],e[3],e[4],e[5],e[6],e[8]].join(" "));
  return e;
