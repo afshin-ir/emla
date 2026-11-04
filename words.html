@@ -105,13 +105,7 @@ function card(e,query,isEnglish,matchType,grouped=false){
  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
 function groupExact(items,query,isEnglish){
- const exact=items.filter(r=>r.matchType==="direct"&&r.exact&&(!isEnglish||normalize(stripIndex(r.entry[3]))===normalize(stripIndex(query))));if(exact.length<2)return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
- const exactSet=new Set(exact);let inserted=false;const rest=[];
- for(const r of items){if(!exactSet.has(r)){rest.push(card(r.entry,query,isEnglish,r.matchType));continue;}if(inserted)continue;inserted=true;
-  const rows=exact.map(r=>card(r.entry,query,isEnglish,"direct",true)).join("");
-  rest.push("<article class=\"item item-group\"><div class=\"item-head\"><div><h2"+(isEnglish?" class=\"english-primary\" lang=\"en\" dir=\"ltr\"":"")+">"+(isEnglish?"<code class=\"english-code\">":"")+highlighted(stripIndex(query),query)+(isEnglish?"</code>":"")+"</h2><p class=\"group-caption\">"+(isEnglish?"برابرهای فارسیِ این واژه در بافت‌های گوناگون":"مدخل‌های ثبت‌شده برای این واژه")+" · "+fa(exact.length)+" ردیف</p></div></div><div class=\"equivalent-list\">"+rows+"</div></article>");
- }
- return rest.join("");
+ return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
 }
 function render(message){
  total=message.total;page=message.page;groups=message.groups||{};shownRows=message.rows||[];
