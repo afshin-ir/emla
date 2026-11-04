@@ -31,7 +31,7 @@ let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
 let page=0,total=0,groups={},ready=false,requestId=0,timer=0,shownRows=[];
-const worker=new Worker(new URL("./words-new-worker.js?v=exact-match-4",location.href));
+const worker=new Worker(new URL("./words-new-worker.js?v=exact-match-5",location.href));
 function highlighted(value,query){
  const text=String(value??""),terms=[...new Set(stripIndex(query).split(/\s+/).map(normalize).filter(t=>t.length>1))];if(!terms.length)return esc(text);
  let folded="",positions=[],offset=0;for(const ch of text){const f=normalize(ch);for(const unit of Array.from(f)){folded+=unit;positions.push([offset,offset+ch.length]);}offset+=ch.length;}
@@ -87,7 +87,7 @@ function card(e,query,isEnglish,matchType,grouped=false){
  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
 function groupExact(items,query,isEnglish){
- const exact=items.filter(r=>r.matchType==="direct"&&r.exact);if(exact.length<2)return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
+ const exact=items.filter(r=>r.matchType==="direct"&&r.exact&&(!isEnglish||normalize(stripIndex(r.entry[3]))===normalize(stripIndex(query))));if(exact.length<2)return items.map(r=>card(r.entry,query,isEnglish,r.matchType)).join("");
  const exactSet=new Set(exact);let inserted=false;const rest=[];
  for(const r of items){if(!exactSet.has(r)){rest.push(card(r.entry,query,isEnglish,r.matchType));continue;}if(inserted)continue;inserted=true;
   const rows=exact.map(r=>card(r.entry,query,isEnglish,"direct",true)).join("");
