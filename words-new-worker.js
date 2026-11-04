@@ -180,12 +180,12 @@ function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||subjectTerms(e
 function matchEntry(e,q,tokens,exactOnly=false){
  if(!q)return exactOnly?null:{score:8,type:"all",exact:false};
  if(/[0-9۰-۹٠-٩]+$/u.test(q))return e._rawWordTerms.concat(e._rawEnglishTerms,e._refTerms).includes(q)?{score:0,type:"direct",exact:true}:null;
- const primaryEnglish=e._englishTerms[0]||"",alternateEnglish=e._englishTerms.slice(1);
+ const primaryEnglish=e._englishTerms[0]||"",primaryRawEnglish=splitEnglishTerms(e[3])[0]||"",alternateEnglish=e._englishTerms.slice(1);
  const primaryTerms=e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]);
- const primaryWords=primaryTerms.flatMap(term=>wordTokens(term).map(normalize));
+ const primaryWords=splitTerms(e[0]).concat(primaryRawEnglish?[primaryRawEnglish]:[]).flatMap(term=>wordTokens(stripIndex(term)).map(normalize));
  const exactPrimary=e._wordTerms.includes(q)||primaryEnglish===q,exactAlternate=alternateEnglish.includes(q);
  if(exactOnly){
-  const titleTerms=splitTerms(e[0]).concat(primaryEnglish?[primaryEnglish]:[]).map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
+  const titleTerms=splitTerms(e[0]).concat(primaryRawEnglish?[primaryRawEnglish]:[]).map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
   if(exactPrimary)return {score:0,type:"direct",exact:true};
   if(titleTerms.some(words=>words[0]===q))return {score:1,type:"direct",exact:false};
   if(titleWords.includes(q))return {score:2,type:"direct",exact:false};
