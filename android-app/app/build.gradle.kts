@@ -27,5 +27,6 @@ android {
 
 dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.core:core:1.13.1")
 }
 
