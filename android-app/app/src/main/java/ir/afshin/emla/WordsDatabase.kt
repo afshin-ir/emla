@@ -12,7 +12,6 @@ import com.google.gson.stream.JsonReader
 import java.io.InputStreamReader
 import java.text.Normalizer
 import java.util.Locale
-import java.util.zip.GZIPInputStream
 
 data class WordEntry(
     val id: Long,
@@ -170,41 +169,39 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
 
     private fun importApprovedWords(db: SQLiteDatabase, progress: (String) -> Unit) {
         var count = 0
-        appContext.assets.open("words-new-data.json").use { compressed ->
-            GZIPInputStream(compressed).use { gzip ->
-                InputStreamReader(gzip, Charsets.UTF_8).use { input ->
-                    JsonReader(input).use { reader ->
-                        reader.beginArray()
-                        while (reader.hasNext()) {
-                            val element = JsonParser.parseReader(reader)
-                            if (element.isJsonArray) {
-                                val row = element.asJsonArray
-                                val title = cell(row, 0)
-                                val source = cell(row, 1)
-                                val domain = cell(row, 2)
-                                val english = cell(row, 3)
-                                val definition = cell(row, 4)
-                                val extraOne = cell(row, 5)
-                                val extraTwo = cell(row, 6)
-                                val volumes = cell(row, 7)
-                                val notes = cell(row, 8)
-                                insertEntry(
-                                    db = db,
-                                    kind = 0,
-                                    title = title,
-                                    english = english,
-                                    domain = domain,
-                                    definition = definition,
-                                    volumes = volumes,
-                                    notes = notes,
-                                    searchExtras = listOf(source, extraOne, extraTwo).filter { it.isNotBlank() }.joinToString(" ")
-                                )
-                            }
-                            count++
-                            if (count % 1000 == 0) progress("آماده‌سازی واژگان مصوب: " + count.toString())
+        appContext.assets.open("words-new-data.json").use { stream ->
+            InputStreamReader(stream, Charsets.UTF_8).use { input ->
+                JsonReader(input).use { reader ->
+                    reader.beginArray()
+                    while (reader.hasNext()) {
+                        val element = JsonParser.parseReader(reader)
+                        if (element.isJsonArray) {
+                            val row = element.asJsonArray
+                            val title = cell(row, 0)
+                            val source = cell(row, 1)
+                            val domain = cell(row, 2)
+                            val english = cell(row, 3)
+                            val definition = cell(row, 4)
+                            val extraOne = cell(row, 5)
+                            val extraTwo = cell(row, 6)
+                            val volumes = cell(row, 7)
+                            val notes = cell(row, 8)
+                            insertEntry(
+                                db = db,
+                                kind = 0,
+                                title = title,
+                                english = english,
+                                domain = domain,
+                                definition = definition,
+                                volumes = volumes,
+                                notes = notes,
+                                searchExtras = listOf(source, extraOne, extraTwo).filter { it.isNotBlank() }.joinToString(" ")
+                            )
                         }
-                        reader.endArray()
+                        count++
+                        if (count % 1000 == 0) progress("آماده‌سازی واژگان مصوب: " + count.toString())
                     }
+                    reader.endArray()
                 }
             }
         }
