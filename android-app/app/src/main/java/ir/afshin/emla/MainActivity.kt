@@ -435,14 +435,14 @@ class MainActivity : Activity() {
     private fun splitEnglishTerms(raw: String): List<String> {
         val text = raw.trim()
         if (text.isBlank()) return emptyList()
-        if (Regex(""",\\s*(?:and|or)\\s+""", RegexOption.IGNORE_CASE).containsMatchIn(text)) {
+        if (Regex(""",\s*(?:and|or)\s+""", RegexOption.IGNORE_CASE).containsMatchIn(text)) {
             return listOf(text)
         }
         return text.split(Regex("[,،;؛]")).map { it.trim() }.filter { it.isNotBlank() }
     }
 
     private fun splitDefinitionAndSynonyms(raw: String): Pair<String, String> {
-        val marker = Regex("""متـ?\\s*\\.\\s*""")
+        val marker = Regex("""متـ?\s*\.\s*""")
         val matches = marker.findAll(raw).toList()
         if (matches.isEmpty()) return raw.trim() to ""
         val definition = raw.substring(0, matches.first().range.first).trim()
@@ -456,7 +456,7 @@ class MainActivity : Activity() {
     private fun formatDefinitionRows(raw: String): List<String> {
         val text = raw.trim()
         if (text.isBlank()) return emptyList()
-        val marker = Regex("""(^|\\s)(\\[[^]\\n]+]\\s*)?([0-9٠-٩۰-۹]+)([.)])(?=\\s)""")
+        val marker = Regex("""(^|\s)(\[[^\]\n]+\]\s*)?([0-9٠-٩۰-۹]+)([.)])(?=\s)""")
         val matches = marker.findAll(text).toList()
         if (matches.size < 2) return listOf(formatDefinition(text))
 
