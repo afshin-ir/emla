@@ -33,3 +33,9 @@ body[data-theme="dark"]{color-scheme:dark;--bg:#151d1a;--paper:#1d2723;--ink:#e3
 .subject-empty{padding:8px;color:var(--muted);font-size:.8rem}
 .subject-empty[hidden]{display:none}
 @media(max-width:650px){.subject-toggle{width:min(240px,52vw);min-width:145px}.subject-menu{max-height:min(var(--subject-menu-max-height,360px),65vh)}}
+
+.search-row{display:flex;align-items:center;gap:9px}
+.search-row>.search{flex:1;min-width:0}
+.search-row>.subject-filter{flex:0 0 auto}
+.search-row .subject-toggle{width:min(230px,27vw);min-width:175px}
+@media(max-width:650px){.search-row{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.search-row>.search{grid-row:1}.search-row>.subject-filter{grid-row:2;justify-self:start}.search-row .subject-toggle{width:min(280px,calc(100vw - 64px));min-width:180px}}
