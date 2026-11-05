@@ -2,6 +2,8 @@ package ir.afshin.emla
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -28,10 +30,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ProgressBar
+import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.Normalizer
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
@@ -44,6 +50,7 @@ class MainActivity : Activity() {
     private lateinit var status: TextView
     private lateinit var progress: ProgressBar
     private lateinit var emptyHint: LinearLayout
+    private lateinit var loadMoreButton: Button
     private lateinit var results: RecyclerView
     private lateinit var adapter: EntryAdapter
     private lateinit var clearButton: TextView
@@ -55,6 +62,14 @@ class MainActivity : Activity() {
     private var ready = false
     private var searchSerial = 0
     private var pendingSearch: Runnable? = null
+    private var textScale = 1f
+    private var showingFavorites = false
+    private var currentOffset = 0
+    private var currentTotal = 0
+    private var hasMoreResults = false
+    private val favoriteEntries = LinkedHashMap<String, WordEntry>()
+    private val recentSearches = mutableListOf<String>()
+    private val appPreferences by lazy { getSharedPreferences("afra_preferences", MODE_PRIVATE) }
 
     private val green = Color.rgb(22, 118, 93)
     private val greenDark = Color.rgb(16, 91, 72)
@@ -67,6 +82,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = WordsDatabase(this)
+        loadLocalState()
         buildScreen()
         importDatabase()
     }
@@ -245,6 +261,8 @@ class MainActivity : Activity() {
                 isFocusable = true
                 contentDescription = "جست‌وجوی نمونهٔ $term"
                 setOnClickListener {
+                    recordRecentSearch(term)
+                    showingFavorites = false
                     searchInput.setText(term)
                     searchInput.setSelection(searchInput.text.length)
                     searchInput.requestFocus()
@@ -265,12 +283,22 @@ class MainActivity : Activity() {
             itemAnimator = null
         }
         root.addView(results, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
+
+        loadMoreButton = filterButton("نمایش نتایج بعدی").apply {
+            background = rounded(paper, line, 1, 10)
+            setTextColor(greenDark)
+            visibility = View.GONE
+            setOnClickListener { loadMoreResults() }
+        }
+        root.addView(loadMoreButton, matchWrap())
+
         setContentView(root)
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (showingFavorites) showingFavorites = false
                 scheduleSearch()
             }
             override fun afterTextChanged(s: Editable?) = Unit
@@ -278,6 +306,7 @@ class MainActivity : Activity() {
         searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 pendingSearch?.let(mainHandler::removeCallbacks)
+                recordRecentSearch(searchInput.text?.toString().orEmpty())
                 searchNow()
                 true
             } else {
@@ -295,11 +324,16 @@ class MainActivity : Activity() {
         val popup = PopupMenu(this, anchor)
         popup.menu.add(0, 1, 0, "دربارهٔ اَفرا")
         popup.menu.add(0, 2, 1, "منابع و داده‌ها")
+        popup.menu.add(0, 3, 2, "جست‌وجوهای اخیر")
+        popup.menu.add(0, 4, 3, "نشان‌شده‌ها")
+        popup.menu.add(0, 5, 4, "اندازۀ نوشته")
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 1 -> showAboutDialog()
                 2 -> showSourcesDialog()
-            }
+                3 -> showRecentSearches()
+                4 -> showFavorites()
+                5 -> showTextSizeDialog()
             true
         }
         popup.show()
@@ -388,6 +422,230 @@ class MainActivity : Activity() {
             .show()
     }
 
+    private fun loadLocalState() {
+        textScale = appPreferences.getFloat("result_text_scale", 1f).coerceIn(0.9f, 1.3f)
+        runCatching {
+            val storedFavorites = JSONArray(appPreferences.getString("favorites", "[]"))
+            for (index in 0 until storedFavorites.length()) {
+                val item = storedFavorites.optJSONObject(index) ?: continue
+                val entry = WordEntry(
+                    id = item.optLong("id"),
+                    kind = item.optInt("kind"),
+                    title = item.optString("title"),
+                    english = item.optString("english"),
+                    domain = item.optString("domain"),
+                    definition = item.optString("definition"),
+                    volumes = item.optString("volumes"),
+                    notes = item.optString("notes"),
+                    refTerms = item.optString("refTerms")
+                )
+                favoriteEntries[entryKey(entry)] = entry
+            }
+        }
+        runCatching {
+            val storedSearches = JSONArray(appPreferences.getString("recent_searches", "[]"))
+            for (index in 0 until storedSearches.length()) {
+                val term = storedSearches.optString(index).trim()
+                if (term.isNotBlank() && term !in recentSearches) recentSearches.add(term)
+            }
+        }
+    }
+
+    private fun entryKey(entry: WordEntry): String = listOf(
+        entry.kind.toString(),
+        entry.title,
+        entry.english,
+        entry.domain,
+        entry.volumes,
+        entry.definition.take(120)
+    ).joinToString("\u001f")
+
+    private fun isFavorite(entry: WordEntry): Boolean = entryKey(entry) in favoriteEntries
+
+    private fun toggleFavorite(entry: WordEntry) {
+        val key = entryKey(entry)
+        if (key in favoriteEntries) favoriteEntries.remove(key) else favoriteEntries[key] = entry
+        val stored = JSONArray()
+        favoriteEntries.values.forEach { item ->
+            stored.put(JSONObject().apply {
+                put("id", item.id)
+                put("kind", item.kind)
+                put("title", item.title)
+                put("english", item.english)
+                put("domain", item.domain)
+                put("definition", item.definition)
+                put("volumes", item.volumes)
+                put("notes", item.notes)
+                put("refTerms", item.refTerms)
+            })
+        }
+        appPreferences.edit().putString("favorites", stored.toString()).apply()
+        if (showingFavorites) {
+            adapter.submit(favoriteEntries.values.toList())
+            status.text = "نشان‌شده‌ها · " + persianDigits(favoriteEntries.size) + " مدخل"
+        } else {
+            adapter.refresh()
+        }
+    }
+
+    private fun recordRecentSearch(raw: String) {
+        val term = raw.trim()
+        if (term.length < 2) return
+        recentSearches.remove(term)
+        recentSearches.add(0, term)
+        while (recentSearches.size > 10) recentSearches.removeAt(recentSearches.lastIndex)
+        val stored = JSONArray()
+        recentSearches.forEach { stored.put(it) }
+        appPreferences.edit().putString("recent_searches", stored.toString()).apply()
+    }
+
+    private fun showRecentSearches() {
+        if (recentSearches.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("جست‌وجوهای اخیر")
+                .setMessage("هنوز جست‌وجویی در تاریخچه ثبت نشده است.")
+                .setPositiveButton("بستن", null)
+                .show()
+            return
+        }
+        val searches = recentSearches.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("جست‌وجوهای اخیر")
+            .setItems(searches) { _, which ->
+                showingFavorites = false
+                searchInput.setText(searches[which])
+                searchInput.setSelection(searchInput.text.length)
+            }
+            .setNeutralButton("پاک‌کردن تاریخچه") { _, _ ->
+                recentSearches.clear()
+                appPreferences.edit().putString("recent_searches", "[]").apply()
+            }
+            .setNegativeButton("بستن", null)
+            .show()
+    }
+
+    private fun showFavorites() {
+        showingFavorites = true
+        emptyHint.visibility = View.GONE
+        loadMoreButton.visibility = View.GONE
+        adapter.submit(favoriteEntries.values.toList())
+        status.text = if (favoriteEntries.isEmpty()) {
+            "هنوز مدخلی نشان نشده است."
+        } else {
+            "نشان‌شده‌ها · " + persianDigits(favoriteEntries.size) + " مدخل"
+        }
+    }
+
+    private fun showTextSizeDialog() {
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            setPadding(dp(24), dp(6), dp(24), dp(4))
+        }
+        val current = TextView(this).apply {
+            gravity = Gravity.RIGHT
+            setTextColor(muted)
+            textSize = 14f
+        }
+        val seekBar = SeekBar(this).apply {
+            max = 4
+            progress = ((textScale - 0.9f) * 10f).toInt().coerceIn(0, 4)
+        }
+        fun updateScale(progressValue: Int) {
+            textScale = 0.9f + progressValue * 0.1f
+            val percent = 90 + progressValue * 10
+            current.text = "اندازۀ نوشته: " + persianDigits(percent) + "٪"
+            appPreferences.edit().putFloat("result_text_scale", textScale).apply()
+            if (::adapter.isInitialized) adapter.refresh()
+        }
+        updateScale(seekBar.progress)
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = updateScale(progress)
+            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+        })
+        content.addView(current, matchWrap())
+        content.addView(seekBar, matchWrap())
+        AlertDialog.Builder(this)
+            .setTitle("اندازۀ نوشته‌های نتیجه")
+            .setView(content)
+            .setPositiveButton("بستن", null)
+            .show()
+    }
+
+    private fun showEntryActions(anchor: View, entry: WordEntry) {
+        val popup = PopupMenu(this, anchor)
+        val mainText = if (entry.kind == 2) entry.definition.ifBlank { entry.title } else entry.title
+        popup.menu.add(0, 1, 0, if (entry.kind == 2) "کپی متن" else "کپی واژۀ فارسی")
+        if (entry.english.isNotBlank()) popup.menu.add(0, 2, 1, "کپی برابر انگلیسی")
+        popup.menu.add(0, 3, 2, "اشتراک‌گذاری")
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                1 -> copyToClipboard(mainText, if (entry.kind == 2) "متن دستور خط" else "واژه")
+                2 -> copyToClipboard(entry.english, "برابر انگلیسی")
+                3 -> {
+                    val sharedText = buildString {
+                        append(entry.title)
+                        if (entry.kind == 2 && entry.definition.isNotBlank()) append("\n").append(entry.definition)
+                        else if (entry.english.isNotBlank()) append("\n").append(entry.english)
+                        if (entry.volumes.isNotBlank()) {
+                            append("\nصفحه: ").append(persianDigits(entry.volumes.replace(",", "،")))
+                        }
+                    }
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, sharedText)
+                    }
+                    startActivity(Intent.createChooser(intent, "اشتراک‌گذاری مدخل"))
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun copyToClipboard(text: String, label: String) {
+        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText(label, text))
+        Toast.makeText(this, "«" + label + "» کپی شد.", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun loadMoreResults() {
+        if (!ready || !hasMoreResults || showingFavorites) return
+        val query = searchInput.text?.toString().orEmpty().trim()
+        val filter = selectedKind
+        val exactOnly = exactMatchFilter.isChecked
+        val offset = currentOffset
+        val serial = ++searchSerial
+        searchWork?.cancel(true)
+        loadMoreButton.isEnabled = false
+        progress.visibility = View.VISIBLE
+        status.text = "در حال بارگذاری نتایج بیشتر…"
+        searchWork = databaseExecutor.submit {
+            val page = database.search(query, filter, exactOnly, offset, SEARCH_PAGE_SIZE)
+            mainHandler.post {
+                if (serial != searchSerial) return@post
+                progress.visibility = View.GONE
+                loadMoreButton.isEnabled = true
+                adapter.append(page.entries)
+                currentOffset += page.entries.size
+                currentTotal = page.total
+                hasMoreResults = currentOffset < currentTotal
+                updateLoadMoreButton()
+                status.text = resultStatus(query)
+            }
+        }
+    }
+
+    private fun updateLoadMoreButton() {
+        val remaining = (currentTotal - currentOffset).coerceAtLeast(0)
+        loadMoreButton.visibility = if (!showingFavorites && hasMoreResults) View.VISIBLE else View.GONE
+        loadMoreButton.text = "نمایش " + persianDigits(minOf(SEARCH_PAGE_SIZE, remaining)) + " نتیجۀ بعدی"
+    }
+
+    private fun resultStatus(query: String): String =
+        persianDigits(currentOffset) + " از " + persianDigits(currentTotal) + " نتیجه برای «" + query + "»"
+
     private fun importDatabase() {
         progress.visibility = View.VISIBLE
         databaseExecutor.execute {
@@ -417,6 +675,7 @@ class MainActivity : Activity() {
     }
 
     private fun setFilter(kind: Int?) {
+        showingFavorites = false
         selectedKind = kind
         updateFilterStyles()
         scheduleSearch()
@@ -438,8 +697,13 @@ class MainActivity : Activity() {
     private fun searchNow() {
         if (!ready) return
         val query = searchInput.text?.toString().orEmpty().trim()
+        showingFavorites = false
         val serial = ++searchSerial
         searchWork?.cancel(true)
+        loadMoreButton.visibility = View.GONE
+        currentOffset = 0
+        currentTotal = 0
+        hasMoreResults = false
         if (query.isEmpty()) {
             progress.visibility = View.GONE
             emptyHint.visibility = View.VISIBLE
@@ -454,19 +718,25 @@ class MainActivity : Activity() {
             status.text = "برای جست‌وجو دست‌کم دو نویسه بنویسید."
             return
         }
+        adapter.submit(emptyList())
         status.text = "در حال جست‌وجو…"
         progress.visibility = View.VISIBLE
         val filter = selectedKind
+        val exactOnly = exactMatchFilter.isChecked
         searchWork = databaseExecutor.submit {
-            val matches = database.search(query, filter, exactMatchFilter.isChecked)
+            val page = database.search(query, filter, exactOnly, 0, SEARCH_PAGE_SIZE)
             mainHandler.post {
                 if (serial != searchSerial) return@post
                 progress.visibility = View.GONE
-                adapter.submit(matches)
-                status.text = if (matches.isEmpty()) {
+                adapter.submit(page.entries)
+                currentOffset = page.entries.size
+                currentTotal = page.total
+                hasMoreResults = currentOffset < currentTotal
+                updateLoadMoreButton()
+                status.text = if (page.total == 0) {
                     "برای «" + query + "» نتیجه‌ای پیدا نشد. املای واژه یا بخش دیگری از آن را جست‌وجو کنید."
                 } else {
-                    persianDigits(matches.size) + " نتیجه برای «" + query + "»"
+                    resultStatus(query)
                 }
             }
         }
@@ -514,6 +784,17 @@ class MainActivity : Activity() {
             notifyDataSetChanged()
         }
 
+        fun append(values: List<WordEntry>) {
+            if (values.isEmpty()) return
+            val start = items.size
+            items = items + values
+            notifyItemRangeInserted(start, values.size)
+        }
+
+        fun refresh() {
+            notifyDataSetChanged()
+        }
+
         override fun getItemCount(): Int = items.size
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryHolder {
@@ -538,14 +819,49 @@ class MainActivity : Activity() {
     private inner class EntryHolder(private val card: LinearLayout) : RecyclerView.ViewHolder(card) {
         fun bind(entry: WordEntry, resultNumber: Int) {
             card.removeAllViews()
+            val cardActions = LinearLayout(this@MainActivity).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                layoutDirection = View.LAYOUT_DIRECTION_RTL
+            }
+            val favoriteButton = TextView(this@MainActivity).apply {
+                text = if (isFavorite(entry)) "★" else "☆"
+                textSize = 19f
+                setTextColor(green)
+                gravity = Gravity.CENTER
+                minWidth = dp(38)
+                minHeight = dp(38)
+                contentDescription = if (isFavorite(entry)) "برداشتن از نشان‌شده‌ها" else "افزودن به نشان‌شده‌ها"
+                isClickable = true
+                isFocusable = true
+                setOnClickListener { toggleFavorite(entry) }
+            }
+            cardActions.addView(favoriteButton, LinearLayout.LayoutParams(dp(38), dp(38)))
+
+            val actionsButton = TextView(this@MainActivity).apply {
+                text = "⋮"
+                textSize = 20f
+                setTextColor(muted)
+                gravity = Gravity.CENTER
+                minWidth = dp(38)
+                minHeight = dp(38)
+                contentDescription = "کپی یا اشتراک‌گذاری مدخل"
+                isClickable = true
+                isFocusable = true
+                setOnClickListener { showEntryActions(this, entry) }
+            }
+            cardActions.addView(actionsButton, LinearLayout.LayoutParams(dp(38), dp(38)))
+            cardActions.addView(View(this@MainActivity), LinearLayout.LayoutParams(0, 1, 1f))
+
             val number = TextView(this@MainActivity).apply {
                 text = persianDigits(resultNumber)
-                textSize = 11f
+                textSize = 11f * textScale
                 setTextColor(green)
                 gravity = Gravity.LEFT
                 setPadding(0, 0, 0, dp(3))
             }
-            card.addView(number, matchWrap())
+            cardActions.addView(number, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+            card.addView(cardActions, matchWrap())
 
             val type = when (entry.kind) {
                 0 -> "واژگان مصوب فرهنگستان"
@@ -580,7 +896,8 @@ class MainActivity : Activity() {
                         card,
                         "متن:",
                         entry.definition,
-                        queryToHighlight = searchInput.text?.toString()
+                        queryToHighlight = searchInput.text?.toString(),
+                        expandable = true
                     )
                 }
                 if (entry.volumes.isNotBlank()) {
@@ -605,7 +922,8 @@ class MainActivity : Activity() {
             label: String,
             value: String,
             ltr: Boolean = false,
-            queryToHighlight: String? = null
+            queryToHighlight: String? = null,
+            expandable: Boolean = false
         ) {
             val row = LinearLayout(this@MainActivity).apply {
                 orientation = LinearLayout.HORIZONTAL
@@ -615,7 +933,7 @@ class MainActivity : Activity() {
             }
             val labelView = TextView(this@MainActivity).apply {
                 text = label
-                textSize = 12f
+                textSize = 12f * textScale
                 setTextColor(muted)
                 typeface = Typeface.create("sans-serif", Typeface.BOLD)
                 gravity = Gravity.RIGHT
@@ -624,7 +942,7 @@ class MainActivity : Activity() {
             if (ltr) {
                 val valueView = TextView(this@MainActivity).apply {
                     text = value
-                    textSize = 13f
+                    textSize = 13f * textScale
                     setTextColor(Color.rgb(51, 83, 111))
                     typeface = Typeface.create("monospace", Typeface.NORMAL)
                     gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
@@ -643,14 +961,37 @@ class MainActivity : Activity() {
             } else {
                 val valueView = TextView(this@MainActivity).apply {
                     text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
-                    textSize = 14f
+                    textSize = 14f * textScale
                     setTextColor(ink)
                     gravity = Gravity.RIGHT
                     textDirection = View.TEXT_DIRECTION_FIRST_STRONG
                     setTextIsSelectable(true)
+                    maxLines = if (expandable && value.length > 240) 4 else Int.MAX_VALUE
+                    ellipsize = if (expandable && value.length > 240) android.text.TextUtils.TruncateAt.END else null
                     setPadding(0, 0, dp(7), 0)
                 }
                 row.addView(valueView, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+                if (expandable && value.length > 240) {
+                    var expanded = false
+                    val expandButton = TextView(this@MainActivity).apply {
+                        text = "نمایش ادامۀ متن"
+                        textSize = 12f * textScale
+                        setTextColor(green)
+                        gravity = Gravity.RIGHT
+                        setPadding(0, dp(5), 0, 0)
+                        isClickable = true
+                        isFocusable = true
+                        setOnClickListener {
+                            expanded = !expanded
+                            valueView.maxLines = if (expanded) Int.MAX_VALUE else 4
+                            valueView.ellipsize = if (expanded) null else android.text.TextUtils.TruncateAt.END
+                            text = if (expanded) "بستن ادامهٔ متن" else "نمایش ادامۀ متن"
+                        }
+                    }
+                    parent.addView(row, matchWrap())
+                    parent.addView(expandButton, matchWrap())
+                    return
+                }
             }
             parent.addView(row, matchWrap())
         }
@@ -668,7 +1009,7 @@ class MainActivity : Activity() {
     ) {
         val text = TextView(this).apply {
             this.text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
-            textSize = size
+            textSize = size * textScale
             setTextColor(color)
             gravity = Gravity.RIGHT
             textDirection = View.TEXT_DIRECTION_FIRST_STRONG
