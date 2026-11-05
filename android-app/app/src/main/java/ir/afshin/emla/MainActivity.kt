@@ -43,6 +43,7 @@ import java.util.concurrent.Future
 
 class MainActivity : Activity() {
     private val mainHandler = Handler(Looper.getMainLooper())
+    private val searchPageSize = 40
     private val databaseExecutor = Executors.newSingleThreadExecutor()
     private var searchWork: Future<*>? = null
     private lateinit var database: WordsDatabase
@@ -528,6 +529,10 @@ class MainActivity : Activity() {
     }
 
     private fun showFavorites() {
+        pendingSearch?.let(mainHandler::removeCallbacks)
+        searchWork?.cancel(true)
+        searchSerial += 1
+        progress.visibility = View.GONE
         showingFavorites = true
         emptyHint.visibility = View.GONE
         loadMoreButton.visibility = View.GONE
@@ -625,7 +630,7 @@ class MainActivity : Activity() {
         progress.visibility = View.VISIBLE
         status.text = "در حال بارگذاری نتایج بیشتر…"
         searchWork = databaseExecutor.submit {
-            val page = database.search(query, filter, exactOnly, offset, SEARCH_PAGE_SIZE)
+            val page = database.search(query, filter, exactOnly, offset, searchPageSize)
             mainHandler.post {
                 if (serial != searchSerial) return@post
                 progress.visibility = View.GONE
@@ -644,7 +649,7 @@ class MainActivity : Activity() {
         val remaining = (currentTotal - currentOffset).coerceAtLeast(0)
         loadMoreButton.visibility = if (!showingFavorites && hasMoreResults) View.VISIBLE else View.GONE
         loadMoreButton.isEnabled = true
-        loadMoreButton.text = "نمایش " + persianDigits(minOf(SEARCH_PAGE_SIZE, remaining)) + " نتیجۀ بعدی"
+        loadMoreButton.text = "نمایش " + persianDigits(minOf(searchPageSize, remaining)) + " نتیجۀ بعدی"
     }
 
     private fun resultStatus(query: String): String =
@@ -729,7 +734,7 @@ class MainActivity : Activity() {
         val filter = selectedKind
         val exactOnly = exactMatchFilter.isChecked
         searchWork = databaseExecutor.submit {
-            val page = database.search(query, filter, exactOnly, 0, SEARCH_PAGE_SIZE)
+            val page = database.search(query, filter, exactOnly, 0, searchPageSize)
             mainHandler.post {
                 if (serial != searchSerial) return@post
                 progress.visibility = View.GONE
