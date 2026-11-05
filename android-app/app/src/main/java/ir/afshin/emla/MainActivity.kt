@@ -1,6 +1,7 @@
 package ir.afshin.emla
 
 import android.app.Activity
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -33,6 +35,7 @@ class MainActivity : Activity() {
     private lateinit var allFilter: Button
     private lateinit var approvedFilter: Button
     private lateinit var spellingFilter: Button
+    private lateinit var exactMatchFilter: CheckBox
     private var selectedKind: Int? = null
     private var ready = false
     private var searchSerial = 0
@@ -138,6 +141,16 @@ class MainActivity : Activity() {
         root.addView(filters, matchWrap())
         updateFilterStyles()
 
+        exactMatchFilter = CheckBox(this).apply {
+            text = "تطبیق دقیق واژه"
+            textSize = 13f
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+            buttonTintList = ColorStateList.valueOf(green)
+            setPadding(0, dp(2), 0, dp(2))
+        }
+        root.addView(exactMatchFilter, matchWrap())
+
         status = TextView(this).apply {
             text = "در حال آماده‌سازی پایگاه‌داده…"
             textSize = 12f
@@ -179,6 +192,7 @@ class MainActivity : Activity() {
         allFilter.setOnClickListener { setFilter(null) }
         approvedFilter.setOnClickListener { setFilter(0) }
         spellingFilter.setOnClickListener { setFilter(1) }
+        exactMatchFilter.setOnCheckedChangeListener { _, _ -> scheduleSearch() }
     }
 
     private fun importDatabase() {
@@ -236,7 +250,7 @@ class MainActivity : Activity() {
         status.text = "در حال جست‌وجو…"
         val filter = selectedKind
         databaseExecutor.execute {
-            val matches = database.search(query, filter)
+            val matches = database.search(query, filter, exactMatchFilter.isChecked)
             mainHandler.post {
                 if (serial != searchSerial) return@post
                 adapter.submit(matches)
@@ -296,6 +310,10 @@ class MainActivity : Activity() {
                 layoutDirection = View.LAYOUT_DIRECTION_RTL
                 background = rounded(paper, line, 1, 14)
                 setPadding(dp(15), dp(12), dp(15), dp(13))
+                layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { bottomMargin = dp(8) }
             }
             return EntryHolder(card)
         }
@@ -325,11 +343,11 @@ class MainActivity : Activity() {
                 addField(card, "برابر انگلیسی:", entry.english, ltr = true)
             }
             if (entry.domain.isNotBlank()) addField(card, "حوزه:", entry.domain)
-            if (entry.definition.isNotBlank()) {
+            if (entry.kind == 0 && entry.definition.isNotBlank()) {
                 val definition = entry.definition.replace(Regex("\\s*متـ?\\s*\\.\\s*"), "\nمترادف: ")
                 addField(card, "تعریف:", definition)
             }
-            if (entry.volumes.isNotBlank()) addField(card, "منبع:", "دفتر " + entry.volumes)
+            if (entry.volumes.isNotBlank()) addField(card, "منبع:", formatVolumes(entry.volumes))
             if (entry.notes.isNotBlank()) addField(card, "یادداشت:", entry.notes)
         }
 
@@ -396,10 +414,22 @@ class MainActivity : Activity() {
     private fun dp(value: Int): Int =
         (value * resources.displayMetrics.density + 0.5f).toInt()
 
-    private fun persianDigits(value: Int): String =
-        value.toString().map { ch ->
-            if (ch in '0'..'9') ('۰'.code + (ch.code - '0'.code)).toChar() else ch
-        }.joinToString("")
+    private fun persianDigits(value: Int): String = persianDigits(value.toString())
+
+    private fun persianDigits(value: String): String = value.map { ch ->
+        if (ch in '0'..'9') ('۰'.code + (ch.code - '0'.code)).toChar() else ch
+    }.joinToString("")
+
+    private fun formatVolumes(raw: String): String {
+        val volumes = raw.split(Regex("[،,]"))
+            .map { persianDigits(it.trim()) }
+            .filter { it.isNotBlank() }
+        return when (volumes.size) {
+            0 -> ""
+            1 -> "دفتر " + volumes[0]
+            else -> "دفترهای " + volumes.dropLast(1).joinToString("، ") + " و " + volumes.last()
+        }
+    }
 
     override fun onDestroy() {
         pendingSearch?.let(mainHandler::removeCallbacks)
