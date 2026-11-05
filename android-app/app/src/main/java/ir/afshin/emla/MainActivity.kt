@@ -136,7 +136,7 @@ class MainActivity : Activity() {
         val heading = TextView(this).apply {
             text = "اَفرا"
             textSize = 23f
-            setTextColor(ink)
+            setTextColor(greenDark)
             typeface = appTypeface(Typeface.BOLD)
             gravity = Gravity.RIGHT
         }
