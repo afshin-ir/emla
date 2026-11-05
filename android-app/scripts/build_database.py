@@ -182,9 +182,11 @@ def link_reference_rows(rows, records, indexed_bases):
             persian_index.setdefault(normalize(strip_index(term, indexed_bases)), []).append(record)
 
     def choose(index, key, source_volumes):
-        available = list(dict.fromkeys(id(target) for target in index.get(normalize(key), [])))
-        targets = {id(target): target for target in records}
-        available = [targets[item] for item in available]
+        available, seen = [], set()
+        for target in index.get(normalize(key), []):
+            if id(target) not in seen:
+                seen.add(id(target))
+                available.append(target)
         if not available:
             return None
         same_book = [target for target in available
