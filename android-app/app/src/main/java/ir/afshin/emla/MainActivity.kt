@@ -319,13 +319,22 @@ class MainActivity : Activity() {
         }
 
         override fun onBindViewHolder(holder: EntryHolder, position: Int) {
-            holder.bind(items[position])
+            holder.bind(items[position], position + 1)
         }
     }
 
     private inner class EntryHolder(private val card: LinearLayout) : RecyclerView.ViewHolder(card) {
-        fun bind(entry: WordEntry) {
+        fun bind(entry: WordEntry, resultNumber: Int) {
             card.removeAllViews()
+            val number = TextView(this@MainActivity).apply {
+                text = persianDigits(resultNumber)
+                textSize = 11f
+                setTextColor(green)
+                gravity = Gravity.LEFT
+                setPadding(0, 0, 0, dp(3))
+            }
+            card.addView(number, matchWrap())
+
             val type = if (entry.kind == 0) "واژگان مصوب فرهنگستان" else "فرهنگ املایی خط فارسی"
             addText(card, type, 11f, muted, bold = false, top = 0, bottom = 4)
 
