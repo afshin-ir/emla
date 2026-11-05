@@ -9,7 +9,7 @@
 <title>واژگان مصوب فرهنگستان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./words-new-style.css?v=code-style-7">
+<link rel="stylesheet" href="./words-new-style.css?v=code-style-8">
 </head>
 <body>
 <div class="shell">
@@ -81,11 +81,14 @@ function positionSubjectMenu(){
  const above=rect.top-edge-gap;
  const openUp=below<190&&above>below;
  const available=Math.max(96,openUp?above:below);
- const cap=window.matchMedia("(max-width: 650px)").matches?360:390;
- const menuHeight=Math.min(cap,available);
+ const mobile=window.matchMedia("(max-width: 650px)").matches;
+ const cap=Math.min(mobile?360:390,window.innerHeight*(mobile?0.65:0.70));
+ const naturalHeight=subjectSearch.offsetHeight+subjectListbox.scrollHeight+(subjectEmpty.hidden?0:subjectEmpty.scrollHeight)+26;
+ const menuHeight=Math.min(cap,available,Math.max(90,naturalHeight));
  subjectMenu.classList.toggle("opens-up",openUp);
+ subjectMenu.style.setProperty("--subject-menu-height",menuHeight+"px");
  subjectMenu.style.setProperty("--subject-menu-max-height",menuHeight+"px");
- subjectMenu.style.setProperty("--subject-list-max-height",Math.max(40,menuHeight-72)+"px");
+ subjectMenu.style.setProperty("--subject-list-max-height",Math.max(40,menuHeight-subjectSearch.offsetHeight-30)+"px");
 }
 function openSubjectMenu(){
  subjectMenu.hidden=false;
