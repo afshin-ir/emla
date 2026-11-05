@@ -9,7 +9,7 @@
 <title>واژگان مصوب فرهنگستان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./words-new-style.css?v=code-style-5">
+<link rel="stylesheet" href="./words-new-style.css?v=code-style-6">
 </head>
 <body>
 <div class="shell">
@@ -17,7 +17,7 @@
  <main class="paper">
   <section class="intro cover-intro"><div class="intro-copy"><div><h1>واژگان مصوب فرهنگستان</h1><p>جست‌وجو در واژه‌ها، برابرهای انگلیسی، حوزه‌ها، تعریف‌ها و یادداشت‌های دفترهای ۱ تا ۲۰.</p></div></div><a class="cover-link" href="./assets/approved-words-cover.jpg" aria-label="نمایش تصویر جلد در اندازۀ اصلی"><img class="cover-image" src="./assets/approved-words-cover.jpg" alt="جلد فرهنگ واژه‌های مصوب فرهنگستان، دفتر بیستم" loading="eager" decoding="async"></a></section>
   <section class="search-wrap" aria-label="جست‌وجو"><label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" autocomplete="off" placeholder="واژه یا موضوع را جست‌وجو کنید…" aria-label="جست‌وجو در واژگان مصوب"><button class="clear-button" id="clear" type="button">پاک‌کردن</button></label>
-   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><label class="filter">حوزه<select id="subject"><option value="">همۀ حوزه‌ها</option></select></label><label class="exact-toggle" title="فقط عنوان‌هایی را نشان می‌دهد که کلیدواژۀ جست‌وجو در آن‌ها یک واژۀ کامل باشد، نه بخشی از واژه‌ای دیگر"><input id="exact-only" type="checkbox"><span>تطبیق دقیق واژه</span></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
+   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><div class="filter subject-filter"><span class="subject-filter-label" id="subject-filter-label">حوزه</span><div class="subject-picker" id="subject-picker"><button class="subject-toggle" id="subject-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-menu" aria-labelledby="subject-filter-label subject-current"><span class="subject-current" id="subject-current">همۀ حوزه‌ها</span><span class="subject-chevron" aria-hidden="true">⌄</span></button><div class="subject-menu" id="subject-menu" hidden><input class="subject-search" id="subject-search" type="search" role="combobox" aria-label="جست‌وجو در حوزه‌ها" aria-autocomplete="list" aria-expanded="false" aria-controls="subject-listbox" placeholder="جست‌وجو در حوزه‌ها…"><div class="subject-listbox" id="subject-listbox" role="listbox" aria-label="حوزه‌ها"></div><div class="subject-empty" id="subject-empty" hidden>حوزه‌ای با این عبارت پیدا نشد.</div></div></div><select id="subject" hidden><option value="">همۀ حوزه‌ها</option></select></div><label class="exact-toggle" title="فقط عنوان‌هایی را نشان می‌دهد که کلیدواژۀ جست‌وجو در آن‌ها یک واژۀ کامل باشد، نه بخشی از واژه‌ای دیگر"><input id="exact-only" type="checkbox"><span>تطبیق دقیق واژه</span></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
   </section>
   <section class="results" id="results" aria-live="polite"><div class="empty">در حال آماده‌سازی فهرست واژگان…</div></section>
   <nav class="pager" aria-label="صفحه‌های نتیجه"><button id="prev" type="button" disabled>قبلی</button><span class="page-number" id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
@@ -39,6 +39,85 @@ $("reading-settings-dialog").addEventListener("click",event=>{if(event.target===
 const fa=n=>Number(n||0).toLocaleString("fa-IR"),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 function refreshSiteBookmarkCount(){try{const saved=JSON.parse(localStorage.getItem("emla-bookmarks-v1")||"[]");$("bookmark-count").textContent=fa(Array.isArray(saved)?saved.length:0)}catch{$("bookmark-count").textContent="۰"}}refreshSiteBookmarkCount();window.addEventListener("storage",event=>{if(event.key==="emla-bookmarks-v1")refreshSiteBookmarkCount()});
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
+const subjectPicker=$("subject-picker"),subjectToggle=$("subject-toggle"),subjectCurrent=$("subject-current"),subjectMenu=$("subject-menu"),subjectSearch=$("subject-search"),subjectListbox=$("subject-listbox"),subjectEmpty=$("subject-empty");
+let filteredSubjectOptions=[],activeSubjectIndex=-1;
+function updateSubjectButton(){
+ const selected=subject.options[subject.selectedIndex];
+ subjectCurrent.textContent=selected?selected.textContent:"همۀ حوزه‌ها";
+}
+function setActiveSubject(index){
+ activeSubjectIndex=index;
+ const options=subjectListbox.querySelectorAll('[role="option"]');
+ options.forEach((option,i)=>option.dataset.active=String(i===index));
+ if(index>=0&&filteredSubjectOptions[index]){
+  const active=document.getElementById("subject-option-"+index);
+  if(active){subjectSearch.setAttribute("aria-activedescendant",active.id);active.scrollIntoView({block:"nearest"});}
+ }else subjectSearch.removeAttribute("aria-activedescendant");
+}
+function renderSubjectOptions(){
+ const query=normalize(subjectSearch.value);
+ const allOptions=Array.from(subject.options).map(option=>({value:option.value,label:option.textContent}));
+ const allOption=allOptions.find(option=>option.value==="")||{value:"",label:"همۀ حوزه‌ها"};
+ const matches=allOptions.filter(option=>option.value!==""&&(!query||normalize(option.label).includes(query)));
+ filteredSubjectOptions=[allOption,...matches];
+ subjectListbox.replaceChildren();
+ filteredSubjectOptions.forEach((item,index)=>{
+  const option=document.createElement("div");
+  option.className="subject-option";
+  option.id="subject-option-"+index;
+  option.setAttribute("role","option");
+  option.setAttribute("aria-selected",String(item.value===subject.value));
+  option.dataset.subjectValue=item.value;
+  option.textContent=item.label.replace(/^\\[|\\]$/g,"");
+  subjectListbox.appendChild(option);
+ });
+ subjectEmpty.hidden=!query||matches.length>0;
+}
+function openSubjectMenu(){
+ subjectMenu.hidden=false;
+ subjectToggle.setAttribute("aria-expanded","true");
+ subjectSearch.setAttribute("aria-expanded","true");
+ subjectSearch.value="";
+ renderSubjectOptions();
+ const selectedIndex=filteredSubjectOptions.findIndex(option=>option.value===subject.value);
+ setActiveSubject(selectedIndex);
+ subjectSearch.focus();
+}
+function closeSubjectMenu(returnFocus=false){
+ subjectMenu.hidden=true;
+ subjectToggle.setAttribute("aria-expanded","false");
+ subjectSearch.setAttribute("aria-expanded","false");
+ subjectSearch.removeAttribute("aria-activedescendant");
+ subjectSearch.value="";
+ if(returnFocus)subjectToggle.focus();
+}
+function chooseSubject(value){
+ if(!Array.from(subject.options).some(option=>option.value===value))return;
+ subject.value=value;
+ subject.dispatchEvent(new Event("change",{bubbles:true}));
+ closeSubjectMenu(true);
+}
+subjectToggle.addEventListener("click",()=>subjectMenu.hidden?openSubjectMenu():closeSubjectMenu(true));
+subjectSearch.addEventListener("input",()=>{activeSubjectIndex=-1;renderSubjectOptions();});
+subjectSearch.addEventListener("keydown",event=>{
+ if(event.key==="ArrowDown"){event.preventDefault();setActiveSubject(Math.min(activeSubjectIndex+1,filteredSubjectOptions.length-1));}
+ else if(event.key==="ArrowUp"){event.preventDefault();setActiveSubject(Math.max(activeSubjectIndex-1,0));}
+ else if(event.key==="Enter"){event.preventDefault();const index=activeSubjectIndex<0?0:activeSubjectIndex;if(filteredSubjectOptions[index])chooseSubject(filteredSubjectOptions[index].value);}
+ else if(event.key==="Escape"){event.preventDefault();closeSubjectMenu(true);}
+ else if(event.key==="Tab")closeSubjectMenu(false);
+});
+subjectListbox.addEventListener("click",event=>{
+ const option=event.target.closest('[role="option"]');
+ if(option)chooseSubject(option.dataset.subjectValue);
+});
+subjectListbox.addEventListener("mousemove",event=>{
+ const option=event.target.closest('[role="option"]');
+ if(option)setActiveSubject(Number(option.id.replace("subject-option-","")));
+});
+document.addEventListener("pointerdown",event=>{
+ if(!subjectMenu.hidden&&!subjectPicker.contains(event.target))closeSubjectMenu(false);
+});
+
 let indexedBases=new Set();
 const stripIndex=s=>{const raw=String(s??"").trim(),m=raw.match(/^(.*?)(\s*[0-9۰-۹٠-٩]+)$/u);if(!m)return raw;const base=m[1].trim();return /\s[0-9۰-۹٠-٩]+$/u.test(raw)||indexedBases.has(normalize(base))?base:raw;};
 const displayEnglish=s=>String(s??"").split(/[,،;؛]/).map(x=>stripIndex(x)).filter(Boolean).join(", ");
@@ -181,11 +260,12 @@ worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.i
  subjectLabels=m.subjectLabels||{};
  ready=true;
  for(const n of m.volumes){const o=document.createElement("option");o.value=String(n);o.textContent="دفتر "+fa(n);volume.appendChild(o);}
- for(const s of m.subjects){const o=document.createElement("option");o.value=s.value;o.textContent=s.label.replace(/^\[|\]$/g,"");subject.appendChild(o);}
+ for(const s of [...m.subjects].sort((a,b)=>a.label.localeCompare(b.label,"fa"))){const o=document.createElement("option");o.value=s.value;o.textContent=s.label.replace(/^\[|\]$/g,"");subject.appendChild(o);}
+ updateSubjectButton();renderSubjectOptions();
  results.innerHTML="";
  }else if(m.type==="results"&&m.id===requestId)render(m);else if(m.type==="error"){results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";}};
-q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{page=0;search();});exactOnly.addEventListener("change",()=>{page=0;search();});
-$("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";exactOnly.checked=false;page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
+q.addEventListener("input",()=>{page=0;search();});volume.addEventListener("change",()=>{page=0;search();});subject.addEventListener("change",()=>{updateSubjectButton();page=0;search();});exactOnly.addEventListener("change",()=>{page=0;search();});
+$("clear").addEventListener("click",()=>{q.value="";page=0;q.focus();search();});$("reset").addEventListener("click",()=>{q.value="";volume.value="0";subject.value="";updateSubjectButton();exactOnly.checked=false;page=0;search();});prev.addEventListener("click",()=>{if(page>0){page--;search();}});next.addEventListener("click",()=>{if((page+1)*30<total){page++;search();}});
 applyReadingSettings();
 worker.postMessage({type:"init"});
 })();
