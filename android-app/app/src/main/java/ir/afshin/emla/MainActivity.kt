@@ -339,14 +339,21 @@ class MainActivity : Activity() {
                 bottom = 4
             )
 
-            if (entry.english.isNotBlank()) {
-                addField(card, "برابر انگلیسی:", entry.english, ltr = true)
+            val englishTerms = splitEnglishTerms(entry.english)
+            if (englishTerms.isNotEmpty()) {
+                addField(card, "برابر انگلیسی:", englishTerms.first(), ltr = true)
+                val otherEnglish = englishTerms.drop(1)
+                if (otherEnglish.isNotEmpty()) {
+                    addField(card, "صورت‌های دیگر انگلیسی:", otherEnglish.joinToString(", "), ltr = true)
+                }
             }
             if (entry.domain.isNotBlank()) addField(card, "حوزه:", entry.domain)
             if (entry.kind == 0 && entry.definition.isNotBlank()) {
-                val definition = formatDefinition(entry.definition)
-                    .replace(Regex("\\s*متـ?\\s*\\.\\s*"), "\\nمترادف: ")
-                addField(card, "تعریف:", definition)
+                val (definition, synonyms) = splitDefinitionAndSynonyms(entry.definition)
+                formatDefinitionRows(definition).forEachIndexed { index, line ->
+                    addField(card, if (index == 0) "تعریف:" else "", line)
+                }
+                if (synonyms.isNotBlank()) addField(card, "مترادف:", synonyms)
             }
             if (entry.volumes.isNotBlank()) addField(card, "منبع:", formatVolumes(entry.volumes))
             if (entry.notes.isNotBlank()) addField(card, "یادداشت:", entry.notes)
@@ -424,6 +431,46 @@ class MainActivity : Activity() {
             else -> ch
         }
     }.joinToString("")
+
+    private fun splitEnglishTerms(raw: String): List<String> {
+        val text = raw.trim()
+        if (text.isBlank()) return emptyList()
+        if (Regex(""",\\s*(?:and|or)\\s+""", RegexOption.IGNORE_CASE).containsMatchIn(text)) {
+            return listOf(text)
+        }
+        return text.split(Regex("[,،;؛]")).map { it.trim() }.filter { it.isNotBlank() }
+    }
+
+    private fun splitDefinitionAndSynonyms(raw: String): Pair<String, String> {
+        val marker = Regex("""متـ?\\s*\\.\\s*""")
+        val matches = marker.findAll(raw).toList()
+        if (matches.isEmpty()) return raw.trim() to ""
+        val definition = raw.substring(0, matches.first().range.first).trim()
+        val synonyms = matches.mapIndexedNotNull { index, match ->
+            val end = matches.getOrNull(index + 1)?.range?.first ?: raw.length
+            raw.substring(match.range.last + 1, end).trim().takeIf { it.isNotBlank() }
+        }.joinToString("، ")
+        return definition to synonyms
+    }
+
+    private fun formatDefinitionRows(raw: String): List<String> {
+        val text = raw.trim()
+        if (text.isBlank()) return emptyList()
+        val marker = Regex("""(^|\\s)(\\[[^]\\n]+]\\s*)?([0-9٠-٩۰-۹]+)([.)])(?=\\s)""")
+        val matches = marker.findAll(text).toList()
+        if (matches.size < 2) return listOf(formatDefinition(text))
+
+        return matches.mapIndexed { index, match ->
+            val nextStart = matches.getOrNull(index + 1)?.range?.first ?: text.length
+            val body = text.substring(match.range.last + 1, nextStart).trim()
+            val domain = match.groupValues[2].trim()
+            val prefix = if (index == 0) text.substring(0, match.range.first).trim() else ""
+            listOf(prefix, domain, persianDigits(match.groupValues[3]) + match.groupValues[4], body)
+                .filter { it.isNotBlank() }
+                .joinToString(" ")
+                .let(::formatDefinition)
+        }
+    }
 
     private fun formatDefinition(raw: String): String {
         var text = raw.replace(Regex("""(?<=[\p{L}\p{M}])ـ+(?=[\p{L}\p{M}])"""), "")
