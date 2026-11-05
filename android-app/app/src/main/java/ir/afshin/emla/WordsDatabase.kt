@@ -164,8 +164,10 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         val alternateEnglish = englishTerms.drop(1)
         val q = normalize(query)
 
+        val primaryTerms = titleTerms + listOf(primaryEnglish).filter { it.isNotBlank() }
         if (titleTerms.any { normalize(it) == q } || normalize(primaryEnglish) == q) return 0
-        if (alternateEnglish.any { normalize(it) == q }) return 1
+        if (primaryTerms.any { startsWithExactQuery(it, query) }) return 1
+        if (alternateEnglish.any { normalize(it) == q }) return 2
 
         val titleRank = titleTerms.minOfOrNull { termMatchRank(it, query) } ?: Int.MAX_VALUE
         val primaryRank = if (primaryEnglish.isBlank()) Int.MAX_VALUE else termMatchRank(primaryEnglish, query)
@@ -179,6 +181,14 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         if (refs.any { normalize(it) == q }) return 18
         if (refs.any { normalize(it).startsWith(q) }) return 19
         return 30
+    }
+
+    private fun startsWithExactQuery(raw: String, query: String): Boolean {
+        val term = normalizeWithSeparators(raw)
+        val queryText = normalizeWithSeparators(query)
+        if (queryText.isBlank() || !term.startsWith(queryText)) return false
+        val next = term.getOrNull(queryText.length) ?: return true
+        return next.isWhitespace() || next == '\u200c' || next in listOf('-', '‐', '‑', '–', '—', '/')
     }
 
     private fun termMatchRank(raw: String, query: String): Int {
