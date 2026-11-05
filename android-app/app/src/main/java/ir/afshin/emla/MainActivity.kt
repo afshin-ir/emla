@@ -159,7 +159,7 @@ class MainActivity : Activity() {
         root.addView(header, matchWrap())
 
         val subtitle = TextView(this).apply {
-            text = "جست‌وجوی برون‌خط (آفلاین) در واژگان و منابع خط فارسی"
+            text = "جست‌وجوی برون‌خط (آفلاین) در واژگان مصوب فرهنگستان، فرهنگ املایی خط فارسی و دستور خط فارسی"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
@@ -371,9 +371,11 @@ class MainActivity : Activity() {
             setPadding(dp(22), dp(4), dp(22), dp(4))
         }
 
-        fun addSource(text: String) {
+        fun addSource(text: String, italic: Boolean = false) {
             val row = TextView(this).apply {
-                this.text = text
+                this.text = if (italic) SpannableString(text).apply {
+                    setSpan(android.text.style.StyleSpan(Typeface.ITALIC), 0, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                } else text
                 textSize = 15f
                 setTextColor(ink)
                 gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
@@ -384,8 +386,8 @@ class MainActivity : Activity() {
         }
 
         addSource("واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰)")
-        addSource("کتاب «فرهنگ املایی خط فارسی»")
-        addSource("کتاب «دستور خط فارسی»")
+        addSource("فرهنگ املایی خط فارسی", italic = true)
+        addSource("دستور خط فارسی", italic = true)
 
 showVazirmatnDialog(
         AlertDialog.Builder(this)
@@ -427,7 +429,14 @@ showVazirmatnDialog(
         }
 
         val description = TextView(this).apply {
-            text = "جست‌وجوی برون‌خط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
+            text = SpannableString("جست‌وجوی برون‌خط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰)، فرهنگ املایی خط فارسی و دستور خط فارسی").apply {
+                val spellingTitle = "فرهنگ املایی خط فارسی"
+                val guideTitle = "دستور خط فارسی"
+                val spellingStart = indexOf(spellingTitle)
+                val guideStart = indexOf(guideTitle)
+                setSpan(android.text.style.StyleSpan(Typeface.ITALIC), spellingStart, spellingStart + spellingTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(android.text.style.StyleSpan(Typeface.ITALIC), guideStart, guideStart + guideTitle.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
