@@ -179,15 +179,16 @@ function exactTerm(e,q){return e._wordTerms.includes(q)||e._englishTerms.include
 function selected(e,v,s){return(!v||(e[7]||[]).includes(v))&&(!s||subjectTerms(e[2]).some(term=>normalize(term)===s))}
 function termMatchRank(raw,q){
  const value=stripIndex(raw);let rank=Infinity;
+ for(const match of value.matchAll(/\u200c/gu))if(normalize(value.slice(0,match.index))===q)rank=Math.min(rank,1);
  for(const match of value.matchAll(/[\p{L}\p{M}\p{N}_]+(?:\u200c[\p{L}\p{M}\p{N}_]+)*/gu)){
   const token=normalize(match[0]);if(!token)continue;
   if(token===q){
    const before=value.slice(0,match.index),after=value.slice(match.index+match[0].length),hyphen=/[-‐‑–—]$/u.test(before)||/^[-‐‑–—]/u.test(after);
    const startsTerm=!before.trim()||/^[\p{P}\p{S}]+$/u.test(before.trim());
-   if(hyphen)rank=Math.min(rank,startsTerm?2:4);
-   else rank=Math.min(rank,startsTerm?1:3);
-  }else if(token.startsWith(q))rank=Math.min(rank,5);
-  else if(token.includes(q))rank=Math.min(rank,6);
+   if(hyphen)rank=Math.min(rank,startsTerm?3:5);
+   else rank=Math.min(rank,startsTerm?2:4);
+  }else if(token.startsWith(q))rank=Math.min(rank,6);
+  else if(token.includes(q))rank=Math.min(rank,7);
  }
  return rank;
 }
@@ -209,13 +210,13 @@ function matchEntry(e,q,tokens,exactOnly=false){
  }
  if(exactPrimary)return {score:0,type:"direct",exact:true};
  if(exactAlternate)return {score:1,type:"direct",exact:true};
- if(primaryRank<Infinity)return {score:primaryRank+1,type:"direct",exact:primaryRank<=4};
- if(e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]).some(term=>term.includes(q)))return {score:8,type:"direct",exact:false};
- if(alternateRank<Infinity)return {score:alternateRank+8,type:"direct",exact:alternateRank<=4};
- if(alternateEnglish.some(term=>term.includes(q)))return {score:15,type:"direct",exact:false};
- if(e._compact.includes(q))return {score:16,type:"direct",exact:false};
- if(e._refBaseTerms.includes(q))return {score:17,type:"direct",exact:true};
- if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:18,type:"direct",exact:false};
+ if(primaryRank<Infinity)return {score:primaryRank+1,type:"direct",exact:primaryRank<=5};
+ if(e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]).some(term=>term.includes(q)))return {score:9,type:"direct",exact:false};
+ if(alternateRank<Infinity)return {score:alternateRank+8,type:"direct",exact:alternateRank<=5};
+ if(alternateEnglish.some(term=>term.includes(q)))return {score:16,type:"direct",exact:false};
+ if(e._compact.includes(q))return {score:17,type:"direct",exact:false};
+ if(e._refBaseTerms.includes(q))return {score:18,type:"direct",exact:true};
+ if(e._refBaseTerms.some(term=>term.startsWith(q)))return {score:19,type:"direct",exact:false};
  return null;
 }
 function search(m){
