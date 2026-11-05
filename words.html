@@ -313,7 +313,7 @@ function cardCopyHtml(button){
  const parts=[],heading=head.querySelector("h2,h3"),title=copyPlainText(heading);
  if(title)parts.push('<h2 style="margin:0 0 12px;color:#12624f;font-size:1.35em">'+escapeClipboardHtml(title)+'</h2>');
  const persian=head.querySelector(".persian-under");
- if(persian)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(copyPlainText(persian).replace(/:\\s*/g,": "))+'</strong></p>');
+ if(persian)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(copyPlainText(persian).replace(/:\s*/g,": "))+'</strong></p>');
  head.querySelectorAll(".secondary-english").forEach(row=>{
   const label=copyPlainText(row.querySelector(".secondary-english-label")).replace(/:$/,"");
   const value=copyPlainText(row.querySelector(".english-code"));
@@ -325,7 +325,7 @@ function cardCopyHtml(button){
   let text="";
   if(value.classList.contains("definition-text"))text=copyPlainText(value.querySelector(".definition-full")||value.querySelector(".definition-preview")||value);
   else text=copyPlainText(value);
-  if(text)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(label)+'</strong> '+escapeClipboardHtml(text).replace(/\\n/g,"<br>")+'</p>');
+  if(text)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(label)+'</strong> '+escapeClipboardHtml(text).replace(/\n/g,"<br>")+'</p>');
  });
  return '<div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.8;color:#26332f">'+parts.join("")+'</div>';
 }
