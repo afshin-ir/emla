@@ -5,6 +5,17 @@ const INDEX_DB_NAME="emla-words-index";
 const INDEX_DB_VERSION=1;
 const INDEX_STORE="prepared-index";
 const normalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").toLowerCase().replace(/[^\p{L}\p{N}_]/gu,"");
+const boundaryNormalize=s=>String(s??"").normalize("NFKC").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[ۀة]/g,"ه").replace(/[\u064b-\u065f\u0670ـ]/g,"").replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").toLowerCase().replace(/[^\p{L}\p{M}\p{N}\u200c\-‐‑–—_]+/gu," ").replace(/[\s\u200c]+/gu," ").trim();
+function startsWithExactTerm(raw,q){
+ const query=boundaryNormalize(q);if(!query)return false;
+ const value=boundaryNormalize(stripIndex(raw));
+ if(!value.startsWith(query))return false;
+ const next=value.slice(query.length,query.length+1);
+ return !next||/[\s\-‐‑–—/]/u.test(next);
+}
+function startsWithPrimaryQuery(e,q){
+ return splitTerms(e[0]).some(term=>startsWithExactTerm(term,q));
+}
 const splitTerms=s=>String(s??"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);
 const splitEnglishTerms=s=>{const raw=String(s??"").trim();return /,\s*(?:and|or)\s+/i.test(raw)?[raw]:splitTerms(raw);};
 const wordTokens=s=>String(s??"").match(/[\p{L}\p{M}\p{N}_]+(?:\u200c[\p{L}\p{M}\p{N}_]+)*/gu)||[];
@@ -202,15 +213,16 @@ function matchEntry(e,q,tokens,exactOnly=false){
  if(exactOnly){
   const titleTerms=primaryRawTerms.map(term=>wordTokens(stripIndex(term)).map(normalize)),titleWords=titleTerms.flat();
   if(exactPrimary)return {score:0,type:"direct",exact:true};
-  if(titleTerms.some(words=>words[0]===q))return {score:1,type:"direct",exact:false};
+  if(primaryRawTerms.some(term=>startsWithExactTerm(term,q)))return {score:1,type:"direct",exact:false};
   if(titleWords.includes(q))return {score:2,type:"direct",exact:false};
   if(exactAlternate)return {score:3,type:"direct",exact:true};
   if(e._refBaseTerms.includes(q))return {score:4,type:"direct",exact:false};
   return null;
  }
  if(exactPrimary)return {score:0,type:"direct",exact:true};
- if(exactAlternate)return {score:1,type:"direct",exact:true};
- if(primaryRank<Infinity)return {score:primaryRank+1,type:"direct",exact:primaryRank<=5};
+ if(startsWithPrimaryQuery(e,q))return {score:1,type:"direct",exact:false};
+ if(exactAlternate)return {score:2,type:"direct",exact:true};
+ if(primaryRank<Infinity)return {score:primaryRank+2,type:"direct",exact:primaryRank<=5};
  if(e._wordTerms.concat(primaryEnglish?[primaryEnglish]:[]).some(term=>term.includes(q)))return {score:9,type:"direct",exact:false};
  if(alternateRank<Infinity)return {score:alternateRank+8,type:"direct",exact:alternateRank<=5};
  if(alternateEnglish.some(term=>term.includes(q)))return {score:16,type:"direct",exact:false};
