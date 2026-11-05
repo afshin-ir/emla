@@ -66,7 +66,7 @@ class MainActivity : Activity() {
         }
 
         val heading = TextView(this).apply {
-            text = "واژگان مصوب فرهنگستان"
+            text = "اَفرا"
             textSize = 23f
             setTextColor(ink)
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
@@ -75,7 +75,7 @@ class MainActivity : Activity() {
         root.addView(heading, matchWrap())
 
         val subtitle = TextView(this).apply {
-            text = "جست‌وجوی آفلاین واژه‌ها، برابرها و صورت‌های املایی"
+            text = "جست‌وجوی آفلاین واژگان مصوب فرهنگستان و فرهنگ املایی"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
