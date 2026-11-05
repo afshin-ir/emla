@@ -73,12 +73,27 @@ function renderSubjectOptions(){
  });
  subjectEmpty.hidden=!query||matches.length>0;
 }
+function positionSubjectMenu(){
+ if(subjectMenu.hidden)return;
+ const rect=subjectToggle.getBoundingClientRect();
+ const gap=6,edge=12;
+ const below=window.innerHeight-rect.bottom-edge-gap;
+ const above=rect.top-edge-gap;
+ const openUp=below<190&&above>below;
+ const available=Math.max(96,openUp?above:below);
+ const cap=window.matchMedia("(max-width: 650px)").matches?360:390;
+ const menuHeight=Math.min(cap,available);
+ subjectMenu.classList.toggle("opens-up",openUp);
+ subjectMenu.style.setProperty("--subject-menu-max-height",menuHeight+"px");
+ subjectMenu.style.setProperty("--subject-list-max-height",Math.max(40,menuHeight-72)+"px");
+}
 function openSubjectMenu(){
  subjectMenu.hidden=false;
  subjectToggle.setAttribute("aria-expanded","true");
  subjectSearch.setAttribute("aria-expanded","true");
  subjectSearch.value="";
  renderSubjectOptions();
+ positionSubjectMenu();
  const selectedIndex=filteredSubjectOptions.findIndex(option=>option.value===subject.value);
  setActiveSubject(selectedIndex);
  subjectSearch.focus();
@@ -97,6 +112,8 @@ function chooseSubject(value){
  subject.dispatchEvent(new Event("change",{bubbles:true}));
  closeSubjectMenu(true);
 }
+window.addEventListener("resize",positionSubjectMenu);
+window.addEventListener("scroll",positionSubjectMenu,true);
 subjectToggle.addEventListener("click",()=>subjectMenu.hidden?openSubjectMenu():closeSubjectMenu(true));
 subjectSearch.addEventListener("input",()=>{renderSubjectOptions();setActiveSubject(-1);});
 subjectSearch.addEventListener("keydown",event=>{
