@@ -289,15 +289,15 @@ def main():
         spelling = json.load(stream).get("entries", [])
     db.executemany(
         """INSERT INTO entries
-           (kind,title,english,domain,definition,volumes,notes,title_norm,english_norm,search_norm)
-           VALUES (1,?,?,?,'','','',?,'',?)""",
+           (kind,title,english,domain,definition,volumes,notes,ref_terms,title_norm,english_norm,search_norm)
+           VALUES (1,?,?,?,'','','','',?,'',?)""",
         ((str(term), "", "", normalize(term), normalize(term)) for term in spelling if str(term).strip()),
     )
     db.execute("CREATE INDEX entries_title_norm ON entries(title_norm)")
     db.execute("CREATE INDEX entries_english_norm ON entries(english_norm)")
     db.execute("CREATE INDEX entries_kind ON entries(kind)")
     db.execute("INSERT INTO app_meta(key,value) VALUES('data_version',?)", (DATA_VERSION,))
-    db.execute("PRAGMA user_version=1")
+    db.execute("PRAGMA user_version=2")
     db.commit()
     count = db.execute("SELECT COUNT(*) FROM entries").fetchone()[0]
     db.close()
