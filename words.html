@@ -17,7 +17,7 @@
  <main class="paper">
   <section class="intro cover-intro"><div class="intro-copy"><div><h1>واژگان مصوب فرهنگستان</h1><p>جست‌وجو در واژه‌ها، برابرهای انگلیسی، حوزه‌ها، تعریف‌ها و یادداشت‌های دفترهای ۱ تا ۲۰.</p></div></div><a class="cover-link" href="./assets/approved-words-cover.jpg" aria-label="نمایش تصویر جلد در اندازۀ اصلی"><img class="cover-image" src="./assets/approved-words-cover.jpg" alt="جلد فرهنگ واژه‌های مصوب فرهنگستان، دفتر بیستم" loading="eager" decoding="async"></a></section>
   <section class="search-wrap" aria-label="جست‌وجو"><label class="search"><span class="search-icon" aria-hidden="true">⌕</span><input id="query" type="search" autocomplete="off" placeholder="واژه یا موضوع را جست‌وجو کنید…" aria-label="جست‌وجو در واژگان مصوب"><button class="clear-button" id="clear" type="button">پاک‌کردن</button></label>
-   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><div class="filter subject-filter"><span class="subject-filter-label" id="subject-filter-label">حوزه</span><div class="subject-picker" id="subject-picker"><button class="subject-toggle" id="subject-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-menu" aria-labelledby="subject-filter-label subject-current"><span class="subject-current" id="subject-current">همۀ حوزه‌ها</span><span class="subject-chevron" aria-hidden="true">⌄</span></button><div class="subject-menu" id="subject-menu" hidden><input class="subject-search" id="subject-search" type="search" role="combobox" aria-label="جست‌وجو در حوزه‌ها" aria-autocomplete="list" aria-expanded="false" aria-controls="subject-listbox" placeholder="جست‌وجو در حوزه‌ها…"><div class="subject-listbox" id="subject-listbox" role="listbox" aria-label="حوزه‌ها"></div><div class="subject-empty" id="subject-empty" hidden>حوزه‌ای با این عبارت پیدا نشد.</div></div></div><select id="subject" hidden><option value="">همۀ حوزه‌ها</option></select></div><label class="exact-toggle" title="فقط عنوان‌هایی را نشان می‌دهد که کلیدواژۀ جست‌وجو در آن‌ها یک واژۀ کامل باشد، نه بخشی از واژه‌ای دیگر"><input id="exact-only" type="checkbox"><span>تطبیق دقیق واژه</span></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
+   <div class="filters"><label class="filter">دفتر<select id="volume"><option value="0">همۀ دفترها</option></select></label><div class="filter subject-filter"><span class="subject-filter-label" id="subject-filter-label">حوزه</span><div class="subject-picker" id="subject-picker"><button class="subject-toggle" id="subject-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="subject-menu" aria-labelledby="subject-filter-label subject-current"><span class="subject-current" id="subject-current">همۀ حوزه‌ها</span><span class="subject-chevron" aria-hidden="true">⌄</span></button><div class="subject-menu" id="subject-menu" hidden><input class="subject-search" id="subject-search" type="search" role="combobox" aria-label="جست‌وجو در حوزه‌ها" aria-autocomplete="list" aria-expanded="false" aria-controls="subject-listbox" placeholder="جست‌وجو در حوزه‌ها…"><div class="subject-listbox" id="subject-listbox" role="listbox" aria-label="حوزه‌ها"></div><div class="subject-empty" id="subject-empty" role="status" aria-live="polite" hidden>حوزه‌ای با این عبارت پیدا نشد.</div></div></div><select id="subject" hidden><option value="">همۀ حوزه‌ها</option></select></div><label class="exact-toggle" title="فقط عنوان‌هایی را نشان می‌دهد که کلیدواژۀ جست‌وجو در آن‌ها یک واژۀ کامل باشد، نه بخشی از واژه‌ای دیگر"><input id="exact-only" type="checkbox"><span>تطبیق دقیق واژه</span></label><button class="reset-filters" id="reset" type="button">پاک‌کردن فیلترها</button></div>
   </section>
   <section class="results" id="results" aria-live="polite"><div class="empty">در حال آماده‌سازی فهرست واژگان…</div></section>
   <nav class="pager" aria-label="صفحه‌های نتیجه"><button id="prev" type="button" disabled>قبلی</button><span class="page-number" id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
@@ -68,7 +68,7 @@ function renderSubjectOptions(){
   option.setAttribute("role","option");
   option.setAttribute("aria-selected",String(item.value===subject.value));
   option.dataset.subjectValue=item.value;
-  option.textContent=item.label.replace(/^\\[|\\]$/g,"");
+  option.textContent=item.label;
   subjectListbox.appendChild(option);
  });
  subjectEmpty.hidden=!query||matches.length>0;
@@ -98,7 +98,7 @@ function chooseSubject(value){
  closeSubjectMenu(true);
 }
 subjectToggle.addEventListener("click",()=>subjectMenu.hidden?openSubjectMenu():closeSubjectMenu(true));
-subjectSearch.addEventListener("input",()=>{activeSubjectIndex=-1;renderSubjectOptions();});
+subjectSearch.addEventListener("input",()=>{renderSubjectOptions();setActiveSubject(-1);});
 subjectSearch.addEventListener("keydown",event=>{
  if(event.key==="ArrowDown"){event.preventDefault();setActiveSubject(Math.min(activeSubjectIndex+1,filteredSubjectOptions.length-1));}
  else if(event.key==="ArrowUp"){event.preventDefault();setActiveSubject(Math.max(activeSubjectIndex-1,0));}
