@@ -58,7 +58,7 @@ function renderSubjectOptions(){
  const query=normalize(subjectSearch.value);
  const allOptions=Array.from(subject.options).map(option=>({value:option.value,label:option.textContent}));
  const allOption=allOptions.find(option=>option.value==="")||{value:"",label:"همۀ حوزه‌ها"};
- const matches=allOptions.filter(option=>option.value!==""&&(!query||normalize(option.label).includes(query)));
+ const matches=allOptions.filter(option=>option.value!==""&&(!query||normalize(option.label).includes(query)||normalize(option.value).includes(query)));
  filteredSubjectOptions=[allOption,...matches];
  subjectListbox.replaceChildren();
  filteredSubjectOptions.forEach((item,index)=>{
