@@ -78,7 +78,21 @@ function render(){const total=filtered.length,pages=Math.max(1,Math.ceil(total/s
 count.textContent=fa(total)+' نتیجه'+(q.value.trim()?' برای «'+q.value.trim()+'»':' در فرهنگ');
 results.innerHTML=rows.length?rows.map(x=>'<article class="item"><strong>'+highlight(x,q.value)+'</strong></article>').join(''):'<div class="empty">برای این جست‌وجو مدخلی پیدا نشد.</div>';
 $('page').textContent=fa(page+1)+' از '+fa(pages);$('prev').disabled=page===0;$('next').disabled=page>=pages-1}
-function search(){const query=norm(q.value);page=0;if(!query)filtered=entries;else{const tokens=query.split(' ').filter(Boolean);filtered=entries.filter(x=>{const n=norm(x);return tokens.every(t=>n.includes(t))})}render()}
+function search(){
+ const query=norm(q.value);page=0;
+ if(!query)filtered=entries.slice();
+ else{
+  const tokens=query.split(' ').filter(Boolean);
+  filtered=entries.map((entry,index)=>({entry,index,n: norm(entry)}))
+   .filter(item=>tokens.every(token=>item.n.includes(token)))
+   .sort((a,b)=>{
+    const rank=value=>value===query?0:value.startsWith(query+' ')?1:value.startsWith(query)?2:3;
+    return rank(a.n)-rank(b.n)||a.n.localeCompare(b.n,'fa')||a.index-b.index;
+   })
+   .map(item=>item.entry);
+ }
+ render()
+}
 q.addEventListener('input',search);$('clear').addEventListener('click',()=>{q.value='';search();q.focus()});
 $('prev').addEventListener('click',()=>{if(page>0){page--;render();window.scrollTo({top:0,behavior:'smooth'})}});
 $('next').addEventListener('click',()=>{if((page+1)*size<filtered.length){page++;render();window.scrollTo({top:0,behavior:'smooth'})}});
