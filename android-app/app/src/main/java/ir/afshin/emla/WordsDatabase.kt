@@ -113,31 +113,20 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         if (queryNorm.isEmpty()) return emptyList()
 
         val filterClause = if (kindFilter == null) "" else " AND kind = ?"
-        val limitClause = " LIMIT 1200"
         val sql = """
             SELECT id, kind, title, english, domain, definition, volumes, notes, ref_terms
             FROM entries
             WHERE search_norm LIKE ?$filterClause
-            ORDER BY
-                CASE
-                    WHEN title_norm = ? OR english_norm = ? THEN 0
-                    WHEN title_norm LIKE ? OR english_norm LIKE ? THEN 1
-                    ELSE 2
-                END,
-                title COLLATE NOCASE$limitClause
         """.trimIndent()
         val args = ArrayList<String>().apply {
             add("%$queryNorm%")
             kindFilter?.let { add(it.toString()) }
-            add(queryNorm)
-            add(queryNorm)
-            add("$queryNorm%")
-            add("$queryNorm%")
         }
 
         val candidates = ArrayList<Pair<Int, WordEntry>>()
         readableDatabase.rawQuery(sql, args.toTypedArray()).use { cursor ->
             while (cursor.moveToNext()) {
+                if (Thread.currentThread().isInterrupted) return emptyList()
                 val item = WordEntry(
                     id = cursor.getLong(0),
                     kind = cursor.getInt(1),
