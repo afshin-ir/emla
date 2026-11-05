@@ -170,7 +170,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
 
     private fun importApprovedWords(db: SQLiteDatabase, progress: (String) -> Unit) {
         var count = 0
-        appContext.assets.open("words-new-data.json.gz").use { compressed ->
+        appContext.assets.open("words-new-data.json").use { compressed ->
             GZIPInputStream(compressed).use { gzip ->
                 InputStreamReader(gzip, Charsets.UTF_8).use { input ->
                     JsonReader(input).use { reader ->
