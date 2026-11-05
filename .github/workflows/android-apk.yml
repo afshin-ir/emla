@@ -32,6 +32,8 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.9"
+      - name: Build preloaded offline database
+        run: python3 android-app/scripts/build_database.py
       - name: Build debug APK
         run: gradle --no-daemon -p android-app assembleDebug
       - name: Upload APK
