@@ -138,14 +138,24 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                     notes = cursor.getString(7).orEmpty(),
                     refTerms = cursor.getString(8).orEmpty()
                 )
-                if (!exactOnly || hasExactTerm(item.title, queryNorm) || hasExactTerm(item.english, queryNorm) || hasExactTerm(item.refTerms, queryNorm)) {
+                if (!exactOnly || hasExactTerm(item.title, queryNorm) || hasExactTerm(item.english, queryNorm) ||
+                    hasExactTerm(item.refTerms, queryNorm) || (item.kind == 2 && hasExactTerm(item.definition, queryNorm))) {
                     val rank = entryRank(item, query)
                     candidates.add(rank to item)
                 }
             }
         }
         return candidates
-            .sortedWith(compareBy<Pair<Int, WordEntry>> { it.first }.thenBy { it.second.title.lowercase(Locale.ROOT) })
+            .sortedWith(Comparator { left, right ->
+                val rankOrder = left.first.compareTo(right.first)
+                if (rankOrder != 0) {
+                    rankOrder
+                } else if (left.second.kind == 2 && right.second.kind == 2) {
+                    left.second.id.compareTo(right.second.id)
+                } else {
+                    left.second.title.lowercase(Locale.ROOT).compareTo(right.second.title.lowercase(Locale.ROOT))
+                }
+            })
             .take(120)
             .map { it.second }
     }
@@ -157,6 +167,15 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
     }
 
     private fun entryRank(entry: WordEntry, query: String): Int {
+        if (entry.kind == 2) {
+            val queryNorm = normalize(query)
+            val titleTerms = splitTerms(entry.title)
+            if (titleTerms.any { normalize(it) == queryNorm }) return 0
+            if (titleTerms.any { startsWithExactQuery(it, query) }) return 1
+            val textRank = termMatchRank(entry.definition, query)
+            return if (textRank < Int.MAX_VALUE) textRank + 10 else 30
+        }
+
         val titleTerms = splitTerms(entry.title)
         val englishTerms = splitTerms(entry.english)
         val refs = splitTerms(entry.refTerms)
@@ -258,7 +277,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
     companion object {
         private const val DATABASE_NAME = "emla-words.db"
         private const val DATABASE_SCHEMA_VERSION = 2
-        private const val DATA_VERSION = "3"
+        private const val DATA_VERSION = "4"
         private const val BUNDLED_DATABASE_ASSET = "emla-words.db"
     }
 }
