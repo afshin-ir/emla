@@ -27,14 +27,5 @@ android {
 
 dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("com.google.code.gson:gson:2.11.0")
 }
 
-val prepareOfflineDictionaryAssets by tasks.registering(Copy::class) {
-    from(rootProject.projectDir.parentFile.resolve("words-new-data.json.gz"))
-    from(rootProject.projectDir.parentFile.resolve("dictionary.json"))
-    into(layout.projectDirectory.dir("src/main/assets"))
-}
-tasks.named("preBuild").configure {
-    dependsOn(prepareOfflineDictionaryAssets)
-}
