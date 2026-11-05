@@ -196,7 +196,8 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                                     domain = domain,
                                     definition = definition,
                                     volumes = volumes,
-                                    notes = listOf(source, extraOne, extraTwo, notes).filter { it.isNotBlank() }.joinToString(" · ")
+                                    notes = notes,
+                                    searchExtras = listOf(source, extraOne, extraTwo).filter { it.isNotBlank() }.joinToString(" ")
                                 )
                             }
                             count++
@@ -244,9 +245,10 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         domain: String,
         definition: String,
         volumes: String,
-        notes: String
+        notes: String,
+        searchExtras: String
     ) {
-        val allText = listOf(title, english, domain, definition, volumes, notes).joinToString(" ")
+        val allText = listOf(title, english, domain, definition, volumes, notes, searchExtras).joinToString(" ")
         val values = ContentValues().apply {
             put("kind", kind)
             put("title", title)
