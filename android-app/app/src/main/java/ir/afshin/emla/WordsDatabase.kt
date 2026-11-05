@@ -113,7 +113,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         if (queryNorm.isEmpty()) return emptyList()
 
         val filterClause = if (kindFilter == null) "" else " AND kind = ?"
-        val limitClause = if (exactOnly) "" else " LIMIT 1200"
+        val limitClause = ""
         val sql = """
             SELECT id, kind, title, english, domain, definition, volumes, notes, ref_terms
             FROM entries
