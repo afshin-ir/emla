@@ -344,7 +344,8 @@ class MainActivity : Activity() {
             }
             if (entry.domain.isNotBlank()) addField(card, "حوزه:", entry.domain)
             if (entry.kind == 0 && entry.definition.isNotBlank()) {
-                val definition = entry.definition.replace(Regex("\\s*متـ?\\s*\\.\\s*"), "\nمترادف: ")
+                val definition = formatDefinition(entry.definition)
+                    .replace(Regex("\\s*متـ?\\s*\\.\\s*"), "\\nمترادف: ")
                 addField(card, "تعریف:", definition)
             }
             if (entry.volumes.isNotBlank()) addField(card, "منبع:", formatVolumes(entry.volumes))
@@ -373,7 +374,7 @@ class MainActivity : Activity() {
                 gravity = if (ltr) Gravity.LEFT else Gravity.RIGHT
                 textDirection = if (ltr) View.TEXT_DIRECTION_LTR else View.TEXT_DIRECTION_FIRST_STRONG
                 setTextIsSelectable(true)
-                setPadding(dp(7), 0, 0, 0)
+                setPadding(0, 0, dp(7), 0)
             }
             row.addView(valueView, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             parent.addView(row, matchWrap())
@@ -417,8 +418,34 @@ class MainActivity : Activity() {
     private fun persianDigits(value: Int): String = persianDigits(value.toString())
 
     private fun persianDigits(value: String): String = value.map { ch ->
-        if (ch in '0'..'9') ('۰'.code + (ch.code - '0'.code)).toChar() else ch
+        when {
+            ch in '0'..'9' -> ('۰'.code + (ch.code - '0'.code)).toChar()
+            ch in '٠'..'٩' -> ('۰'.code + (ch.code - '٠'.code)).toChar()
+            else -> ch
+        }
     }.joinToString("")
+
+    private fun formatDefinition(raw: String): String {
+        var text = raw.replace(Regex("(?<=[\\\\p{L}\\\\p{M}])ـ+(?=[\\\\p{L}\\\\p{M}])"), "")
+        val marker = Regex("(^|\\\\s)([0-9٠-٩۰-۹]+)([.)])(?=\\\\s)")
+        text = marker.replace(text) { match ->
+            match.groupValues[1] + persianDigits(match.groupValues[2]) + match.groupValues[3]
+        }
+        val persianText = Regex("[\\\\u0600-\\\\u06ff\\\\u0750-\\\\u077f\\\\u08a0-\\\\u08ff]")
+        val quotePatterns = listOf(
+            Regex("“([^”\\\\n]*)”") to Pair("“", "”"),
+            Regex("\\\"([^\\\"\\\\n]*)\\\"") to Pair("«", "»"),
+            Regex("‘([^’\\\\n]*)’") to Pair("«", "»"),
+            Regex("'([^'\\\\n]*)'") to Pair("«", "»")
+        )
+        for ((pattern, quotes) in quotePatterns) {
+            text = pattern.replace(text) { match ->
+                val inside = match.groupValues[1]
+                if (persianText.containsMatchIn(inside)) quotes.first + inside + quotes.second else match.value
+            }
+        }
+        return text
+    }
 
     private fun formatVolumes(raw: String): String {
         val volumes = raw.split(Regex("[،,]"))
