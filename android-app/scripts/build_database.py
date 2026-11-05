@@ -205,14 +205,14 @@ def link_reference_rows(rows, records, indexed_bases):
             right = raw_english[arrow.end():].strip()
             target = choose(english_index, right, source_volumes)
             if target and left:
-                target["ref_terms"].append(left)
+                target["ref_terms"].append(strip_index(left, indexed_bases))
             continue
         persian_arrow = re.match(r"^←\s*(.+)$", source.strip())
         if persian_arrow and (title.strip() or extra_two.strip()):
             target = choose(persian_index, strip_index(persian_arrow.group(1), indexed_bases), source_volumes)
             if target:
                 for alias in split_terms(title or extra_two):
-                    target["ref_terms"].append(alias)
+                    target["ref_terms"].append(strip_index(alias, indexed_bases))
 
 
 def insert(db, kind, title, english, domain, definition, volumes, notes, extras="", ref_terms=""):
