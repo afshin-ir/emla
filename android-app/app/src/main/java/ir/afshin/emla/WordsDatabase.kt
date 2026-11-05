@@ -228,7 +228,8 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                     domain = "",
                     definition = "صورت ثبت‌شده در فرهنگ املایی خط فارسی",
                     volumes = "",
-                    notes = ""
+                    notes = "",
+                    searchExtras = ""
                 )
             }
             count++
