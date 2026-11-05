@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA_FILE = ROOT / "words-new-data.json.gz"
 SPELLING_FILE = ROOT / "dictionary.json"
 OUTPUT = ROOT / "android-app/app/src/main/assets/emla-words.db"
-DATA_VERSION = "2"
+DATA_VERSION = "3"
 
 SUBJECT_LABELS = {
     "اپتیک": "فیزیک- اپتیک",
@@ -120,6 +120,99 @@ def display_volumes(value):
     if isinstance(value, list):
         return "، ".join(str(v) for v in value if v is not None)
     return str(value or "")
+
+
+def split_terms(value):
+    return [part.strip() for part in SEPARATORS.split(str(value or "")) if part.strip()]
+
+
+def split_english_terms(value):
+    raw = str(value or "").strip()
+    return [raw] if re.search(r",\s*(?:and|or)\s+", raw, re.I) else split_terms(raw)
+
+
+def collect_indexed_bases(rows):
+    suffixes, plain = {}, set()
+    for row in rows:
+        for field in (cell(row, 0), cell(row, 3)):
+            for term in split_terms(field):
+                match = re.match(r"^(.*?)([0-9۰-۹٠-٩]+)$", term.strip())
+                if match and match.group(1).strip():
+                    suffixes.setdefault(normalize(match.group(1)), set()).add(match.group(2))
+                else:
+                    key = normalize(term)
+                    if key:
+                        plain.add(key)
+    return {base for base, numbers in suffixes.items() if len(numbers) > 1 or base in plain}
+
+
+def strip_index(value, indexed_bases):
+    raw = str(value or "").strip()
+    match = re.match(r"^(.*?)(\s*[0-9۰-۹٠-٩]+)$", raw)
+    if not match:
+        return raw
+    base = match.group(1).strip()
+    return base if re.search(r"\s[0-9۰-۹٠-٩]+$", raw) or normalize(base) in indexed_bases else raw
+
+
+def visible_persian_terms(value, indexed_bases):
+    terms = split_terms(value)
+    def is_index(term):
+        match = re.match(r"^(.*?)(\s*[0-9۰-۹٠-٩]+)$", term.strip())
+        return bool(match and match.group(1).strip() and normalize(match.group(1)) in indexed_bases
+                    and not re.search(r"\s[0-9۰-۹٠-٩]+$", term))
+    has_plain = any(not is_index(term) for term in terms)
+    chosen = [term for term in terms if not is_index(term)] if has_plain else terms
+    result, seen = [], set()
+    for term in chosen:
+        clean = strip_index(term, indexed_bases)
+        key = normalize(clean)
+        if key and key not in seen:
+            seen.add(key)
+            result.append(clean)
+    return result
+
+
+def link_reference_rows(rows, records, indexed_bases):
+    english_index, persian_index = {}, {}
+    for record in records:
+        for term in record["english_terms"]:
+            english_index.setdefault(normalize(strip_index(term, indexed_bases)), []).append(record)
+        for term in record["persian_terms"]:
+            persian_index.setdefault(normalize(strip_index(term, indexed_bases)), []).append(record)
+
+    def choose(index, key, source_volumes):
+        available = list(dict.fromkeys(id(target) for target in index.get(normalize(key), [])))
+        targets = {id(target): target for target in records}
+        available = [targets[item] for item in available]
+        if not available:
+            return None
+        same_book = [target for target in available
+                     if not source_volumes or not target["volume_list"]
+                     or any(v in target["volume_list"] for v in source_volumes)]
+        pool = same_book or available
+        return pool[0] if len(pool) == 1 else None
+
+    for row in rows:
+        title, source, _, english, _, extra_one, extra_two = (cell(row, i) for i in range(7))
+        if title.strip() and english.strip():
+            continue
+        source_volumes = row[7] if len(row) > 7 and isinstance(row[7], list) else []
+        raw_english = extra_one.strip()
+        arrow = re.search(r"\s*(?:→|->)\s*", raw_english)
+        if arrow:
+            left = raw_english[:arrow.start()].lstrip("*").strip()
+            right = raw_english[arrow.end():].strip()
+            target = choose(english_index, right, source_volumes)
+            if target and left:
+                target["ref_terms"].append(left)
+            continue
+        persian_arrow = re.match(r"^←\s*(.+)$", source.strip())
+        if persian_arrow and (title.strip() or extra_two.strip()):
+            target = choose(persian_index, strip_index(persian_arrow.group(1), indexed_bases), source_volumes)
+            if target:
+                for alias in split_terms(title or extra_two):
+                    target["ref_terms"].append(alias)
 
 
 def insert(db, kind, title, english, domain, definition, volumes, notes, extras=""):
