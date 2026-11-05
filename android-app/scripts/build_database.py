@@ -216,7 +216,7 @@ def link_reference_rows(rows, records, indexed_bases):
 
 
 def insert(db, kind, title, english, domain, definition, volumes, notes, extras="", ref_terms=""):
-    searchable = " ".join((title, english, domain, definition, volumes, notes, extras, ref_terms))
+    searchable = " ".join((title, english, extras, ref_terms))
     db.execute(
         """INSERT INTO entries
            (kind,title,english,domain,definition,volumes,notes,ref_terms,title_norm,english_norm,search_norm)
