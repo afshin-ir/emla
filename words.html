@@ -10,6 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./words-new-style.css?v=code-style-12">
+<style>
+.item-head>div:first-child{min-width:0;flex:1}.item-actions{display:flex;align-items:flex-start;gap:8px;flex:0 0 auto}.result-rank{position:static;display:inline-block;min-width:1.35em;padding:0;border:0;border-radius:0;background:transparent;color:var(--green-dark);font-size:.68rem;line-height:1.5;text-align:center;direction:ltr;unicode-bidi:isolate;font-weight:600}.copy-card-button{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:32px;padding:4px 9px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--muted);font:inherit;font-size:.75rem;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}.copy-card-button:hover,.copy-card-button:focus-visible{border-color:var(--green);background:var(--mint);color:var(--green-dark);outline:none}.copy-card-button:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 22%,transparent)}.copy-card-button svg{width:15px;height:15px;flex:0 0 auto}.copy-card-button.is-copied{border-color:var(--green);color:var(--green-dark)}body[data-theme="dark"] .copy-card-button{background:var(--paper);color:var(--muted)}body[data-theme="dark"] .copy-card-button:hover,body[data-theme="dark"] .copy-card-button.is-copied{background:var(--mint);color:var(--green-dark)}
+@media(max-width:650px){.item-actions{gap:5px}.copy-card-button{min-width:36px;min-height:36px;padding:5px 8px}.result-rank{align-self:flex-start}}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -255,7 +259,8 @@ function card(e,query,isEnglish,matchType,grouped=false,resultNumber=0){
  }
  const domain=domainTerms(e[2]).map(term=>subjectLabels[term]||term).join("، ");
  const body=detailsMarkup(e,query,matchType),rank=resultNumber?"<span class=\"result-rank\" title=\"نتیجۀ "+fa(resultNumber)+"\" aria-label=\"نتیجۀ شمارۀ "+fa(resultNumber)+"\">"+fa(resultNumber)+"</span>":"";
- return "<article class=\"item\">"+rank+badge+"<div class=\"item-head\"><div>"+head+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
+ const copyButton="<button class=\"copy-card-button\" type=\"button\" aria-label=\"کپی اطلاعات کارت\" title=\"کپی اطلاعات کارت\" aria-live=\"polite\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"12\" height=\"13\" rx=\"2\"></rect><path d=\"M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2\"></path></svg><span>کپی</span></button>";
+  return "<article class=\"item\">"+badge+"<div class=\"item-head\"><div>"+head+"</div><div class=\"item-actions\">"+rank+copyButton+"</div></div><div class=\"details\">"+detail("حوزه:",highlighted(domain,query))+body+"</div></article>";
 }
 function groupExact(items,query,isEnglish,offset=0){
  return items.map((r,index)=>card(r.entry,query,isEnglish,r.matchType,false,offset+index+1)).join("");
@@ -276,6 +281,52 @@ function render(message){
  }
  const pages=Math.max(1,Math.ceil(total/30));pageText.textContent=total?fa(page+1)+" از "+fa(pages):"";prev.disabled=page<=0;next.disabled=page>=pages-1;
 }
+function copyPlainText(node){return node?String(node.innerText||node.textContent||"").replace(/\u00a0/g," ").replace(/\n{3,}/g,"\n\n").trim():"";}
+function cardCopyText(button){
+ const article=button.closest(".item"),head=article?.querySelector(".item-head");
+ if(!article||!head)return "";
+ const heading=head.querySelector("h2,h3"),title=copyPlainText(heading);
+ const blocks=title?["## "+title]:[];
+ const persian=head.querySelector(".persian-under");
+ if(persian)blocks.push(copyPlainText(persian));
+ head.querySelectorAll(".secondary-english").forEach(row=>{
+  const label=copyPlainText(row.querySelector(".secondary-english-label")).replace(/:$/,"");
+  const value=copyPlainText(row.querySelector(".english-code"));
+  if(label&&value)blocks.push(label+": `"+value+"`");
+ });
+ article.querySelectorAll(".details>.detail").forEach(row=>{
+  const label=copyPlainText(row.querySelector(".detail-label"));
+  const value=row.querySelector(".detail-text");
+  if(!label||!value)return;
+  let text="";
+  if(value.classList.contains("definition-text")){
+   text=copyPlainText(value.querySelector(".definition-full")||value.querySelector(".definition-preview")||value);
+  }else text=copyPlainText(value);
+  if(text)blocks.push(label+"\n"+text);
+ });
+ return blocks.join("\n\n");
+}
+function fallbackCopyText(text){
+ const area=document.createElement("textarea");area.value=text;area.setAttribute("readonly","");
+ area.style.position="fixed";area.style.insetInlineStart="-9999px";area.style.top="0";area.style.opacity="0";
+ document.body.appendChild(area);area.select();area.setSelectionRange(0,area.value.length);
+ let copied=false;try{copied=document.execCommand("copy");}finally{area.remove();}
+ return copied;
+}
+results.addEventListener("click",async event=>{
+ const button=event.target.closest(".copy-card-button");if(!button)return;
+ const text=cardCopyText(button);if(!text)return;
+ const original=button.innerHTML,originalLabel=button.getAttribute("aria-label");
+ try{
+  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
+  else if(!fallbackCopyText(text))throw new Error("clipboard unavailable");
+  button.classList.add("is-copied");button.innerHTML="<span aria-hidden=\"true\">✓</span><span>کپی شد</span>";button.setAttribute("aria-label","اطلاعات کارت کپی شد");button.title="اطلاعات کارت کپی شد";
+ }catch{
+  if(fallbackCopyText(text)){button.classList.add("is-copied");button.innerHTML="<span aria-hidden=\"true\">✓</span><span>کپی شد</span>";button.setAttribute("aria-label","اطلاعات کارت کپی شد");button.title="اطلاعات کارت کپی شد";}
+  else{button.innerHTML="<span>کپی نشد</span>";button.setAttribute("aria-label","کپی اطلاعات کارت ناموفق بود");button.title="اجازۀ دسترسی به کلیپ‌بورد داده نشد";}
+ }
+ window.setTimeout(()=>{button.innerHTML=original;button.classList.remove("is-copied");button.setAttribute("aria-label",originalLabel);button.title=originalLabel;},1800);
+});
 function search(){if(!ready)return;const id=++requestId;clearTimeout(timer);timer=setTimeout(()=>worker.postMessage({type:"search",id,query:q.value,volume:volume.value,subject:subject.value,exactOnly:exactOnly.checked,page}),170);}
 worker.onmessage=event=>{const m=event.data||{};if(m.type==="progress")results.innerHTML="<div class=\"empty\">"+esc(m.message)+"</div>";if(m.type==="ready"){
  indexedBases=new Set(m.indexedBases||[]);
