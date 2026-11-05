@@ -33,6 +33,7 @@ import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.Normalizer
@@ -79,6 +80,28 @@ class MainActivity : Activity() {
     private val line = Color.rgb(225, 233, 228)
     private val paper = Color.WHITE
     private val pageBackground = Color.rgb(244, 247, 244)
+    private val vazirmatnFamily: Typeface by lazy { ResourcesCompat.getFont(this, R.font.vazirmatn) ?: Typeface.DEFAULT }
+
+    private fun appTypeface(style: Int = Typeface.NORMAL): Typeface = Typeface.create(vazirmatnFamily, style)
+
+    private fun applyVazirmatn(view: View) {
+        if (view is TextView) {
+            val style = if (view.typeface?.isBold == true) Typeface.BOLD else Typeface.NORMAL
+            view.typeface = appTypeface(style)
+        }
+        if (view is ViewGroup) {
+            for (index in 0 until view.childCount) applyVazirmatn(view.getChildAt(index))
+        }
+    }
+
+    private fun showVazirmatnDialog(builder: AlertDialog.Builder): AlertDialog {
+        val dialog = builder.create()
+        dialog.setOnShowListener {
+            dialog.window?.decorView?.let { decor -> applyVazirmatn(decor) }
+        }
+        dialog.show()
+        return dialog
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +139,7 @@ class MainActivity : Activity() {
             text = "اَفرا"
             textSize = 23f
             setTextColor(ink)
-            typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            typeface = appTypeface(Typeface.BOLD)
             gravity = Gravity.RIGHT
         }
         header.addView(heading, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
@@ -293,6 +316,7 @@ class MainActivity : Activity() {
         }
         root.addView(loadMoreButton, matchWrap())
 
+        applyVazirmatn(root)
         setContentView(root)
 
         searchInput.addTextChangedListener(object : TextWatcher {
@@ -364,11 +388,13 @@ class MainActivity : Activity() {
         addSource("کتاب «فرهنگ املایی خط فارسی»")
         addSource("کتاب «دستور خط فارسی»")
 
+showVazirmatnDialog(
         AlertDialog.Builder(this)
             .setTitle("منابع و داده‌ها")
             .setView(sources)
             .setPositiveButton("بستن", null)
-            .show()
+            
+        )
     }
 
     private fun showAboutDialog() {
@@ -417,11 +443,13 @@ class MainActivity : Activity() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/Falatuni")))
         }
 
+showVazirmatnDialog(
         AlertDialog.Builder(this)
             .setTitle("دربارهٔ اَفرا")
             .setView(details)
             .setPositiveButton("بستن", null)
-            .show()
+            
+        )
     }
 
     private fun loadLocalState() {
@@ -505,14 +533,17 @@ class MainActivity : Activity() {
 
     private fun showRecentSearches() {
         if (recentSearches.isEmpty()) {
+showVazirmatnDialog(
             AlertDialog.Builder(this)
                 .setTitle("جست‌وجوهای اخیر")
                 .setMessage("هنوز جست‌وجویی در تاریخچه ثبت نشده است.")
                 .setPositiveButton("بستن", null)
-                .show()
+                
+        )
             return
         }
         val searches = recentSearches.toTypedArray()
+showVazirmatnDialog(
         AlertDialog.Builder(this)
             .setTitle("جست‌وجوهای اخیر")
             .setItems(searches) { _, which ->
@@ -525,7 +556,8 @@ class MainActivity : Activity() {
                 appPreferences.edit().putString("recent_searches", "[]").apply()
             }
             .setNegativeButton("بستن", null)
-            .show()
+            
+        )
     }
 
     private fun showFavorites() {
@@ -575,11 +607,13 @@ class MainActivity : Activity() {
         })
         content.addView(current, matchWrap())
         content.addView(seekBar, matchWrap())
+showVazirmatnDialog(
         AlertDialog.Builder(this)
             .setTitle("اندازۀ نوشته‌های نتیجه")
             .setView(content)
             .setPositiveButton("بستن", null)
-            .show()
+            
+        )
     }
 
     private fun showEntryActions(anchor: View, entry: WordEntry) {
@@ -786,7 +820,7 @@ class MainActivity : Activity() {
             9
         )
         button.setTextColor(if (selected) greenDark else muted)
-        button.typeface = Typeface.create("sans-serif", if (selected) Typeface.BOLD else Typeface.NORMAL)
+        button.typeface = appTypeface(if (selected) Typeface.BOLD else Typeface.NORMAL)
     }
 
     private inner class EntryAdapter : RecyclerView.Adapter<EntryHolder>() {
@@ -826,6 +860,7 @@ class MainActivity : Activity() {
 
         override fun onBindViewHolder(holder: EntryHolder, position: Int) {
             holder.bind(items[position], position + 1)
+            applyVazirmatn(holder.itemView)
         }
     }
 
@@ -957,7 +992,7 @@ class MainActivity : Activity() {
                     text = value
                     textSize = 13f * textScale
                     setTextColor(Color.rgb(51, 83, 111))
-                    typeface = Typeface.create("monospace", Typeface.NORMAL)
+                    typeface = appTypeface(Typeface.NORMAL)
                     gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
                     textDirection = View.TEXT_DIRECTION_LTR
                     setTextIsSelectable(true)
@@ -1026,7 +1061,7 @@ class MainActivity : Activity() {
             setTextColor(color)
             gravity = Gravity.RIGHT
             textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-            typeface = Typeface.create("sans-serif", if (bold) Typeface.BOLD else Typeface.NORMAL)
+            typeface = appTypeface(if (bold) Typeface.BOLD else Typeface.NORMAL)
             setPadding(0, dp(top), 0, dp(bottom))
         }
         parent.addView(text, matchWrap())
