@@ -44,7 +44,7 @@ class MainActivity : Activity() {
     private val muted = Color.rgb(105, 123, 116)
     private val line = Color.rgb(225, 233, 228)
     private val paper = Color.WHITE
-    private val background = Color.rgb(244, 247, 244)
+    private val pageBackground = Color.rgb(244, 247, 244)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,7 @@ class MainActivity : Activity() {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.TOP
             layoutDirection = View.LAYOUT_DIRECTION_RTL
-            setBackgroundColor(background)
+            setBackgroundColor(pageBackground)
             setPadding(dp(18), dp(18), dp(18), dp(10))
         }
 
@@ -90,7 +90,7 @@ class MainActivity : Activity() {
         searchInput = EditText(this).apply {
             hint = "واژه یا موضوع را جست‌وجو کنید…"
             textSize = 16f
-            singleLine = true
+            setSingleLine(true)
             imeOptions = EditorInfo.IME_ACTION_SEARCH
             inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
             textDirection = View.TEXT_DIRECTION_FIRST_STRONG
