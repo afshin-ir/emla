@@ -12,9 +12,10 @@ DATA_FILE = ROOT / "words-new-data.json.gz"
 SPELLING_FILE = ROOT / "dictionary.json"
 BOOK_FILE = ROOT / "book.json"
 OUTPUT = ROOT / "android-app/app/src/main/assets/emla-words.db"
-DATA_VERSION = "4"
+DATA_VERSION = "5"
 
 SUBJECT_LABELS = {
+    "باستان": "باستان‌شناسی",
     "اپتیک": "فیزیک- اپتیک",
     "الیاف": "مهندسی بسپار- الیاف",
     "باغبانی": "کشاورزی- علوم باغبانی",
