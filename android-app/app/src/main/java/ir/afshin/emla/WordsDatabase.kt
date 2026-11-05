@@ -1,15 +1,11 @@
 package ir.afshin.emla
 
-import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonParser
-import com.google.gson.stream.JsonReader
-import java.io.InputStreamReader
+import java.io.File
+import java.io.FileOutputStream
 import java.text.Normalizer
 import java.util.Locale
 
@@ -26,19 +22,23 @@ data class WordEntry(
 
 class WordsDatabase(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
-    "emla-words.db",
+    DATABASE_NAME,
     null,
-    1
+    DATABASE_SCHEMA_VERSION
 ) {
     private val appContext = context.applicationContext
-    private val dataVersion = "1"
-
-    override fun onConfigure(db: SQLiteDatabase) {
-        super.onConfigure(db)
-        db.setForeignKeyConstraintsEnabled(true)
-    }
 
     override fun onCreate(db: SQLiteDatabase) {
+        createSchema(db)
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS entries")
+        db.execSQL("DROP TABLE IF EXISTS app_meta")
+        createSchema(db)
+    }
+
+    private fun createSchema(db: SQLiteDatabase) {
         db.execSQL(
             """CREATE TABLE entries (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,31 +60,43 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         db.execSQL("CREATE TABLE app_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS entries")
-        db.execSQL("DROP TABLE IF EXISTS app_meta")
-        onCreate(db)
+    /**
+     * The full SQLite database is generated during the APK build. First launch only copies
+     * that ready-to-use database into app storage instead of parsing and indexing JSON.
+     */
+    fun importIfNeeded(progress: (String) -> Unit) {
+        progress("در حال نصب پایگاه‌دادهٔ آفلاین…")
+        val target = appContext.getDatabasePath(DATABASE_NAME)
+        if (!hasCurrentData(target)) {
+            close()
+            target.parentFile?.mkdirs()
+            File(target.path + "-wal").delete()
+            File(target.path + "-shm").delete()
+            target.delete()
+
+            val temporary = File(target.parentFile, "$DATABASE_NAME.tmp")
+            temporary.delete()
+            appContext.assets.open(BUNDLED_DATABASE_ASSET).use { input ->
+                FileOutputStream(temporary).use { output -> input.copyTo(output) }
+            }
+            if (!temporary.renameTo(target)) {
+                temporary.copyTo(target, overwrite = true)
+                temporary.delete()
+            }
+        }
+        writableDatabase.close()
     }
 
-    fun importIfNeeded(progress: (String) -> Unit) {
-        val db = writableDatabase
-        if (readMeta(db, "data_version") == dataVersion) return
-
-        db.beginTransaction()
-        try {
-            db.delete("entries", null, null)
-            progress("در حال آماده‌سازی واژگان مصوب…")
-            importApprovedWords(db, progress)
-            progress("در حال افزودن فرهنگ املایی…")
-            importSpellingDictionary(db, progress)
-            val values = ContentValues().apply {
-                put("key", "data_version")
-                put("value", dataVersion)
+    private fun hasCurrentData(file: File): Boolean {
+        if (!file.isFile || file.length() == 0L) return false
+        return try {
+            SQLiteDatabase.openDatabase(file.path, null, SQLiteDatabase.OPEN_READONLY).use { db ->
+                db.rawQuery("SELECT value FROM app_meta WHERE key = 'data_version'", null).use { cursor ->
+                    cursor.moveToFirst() && cursor.getString(0) == DATA_VERSION
+                }
             }
-            db.insertWithOnConflict("app_meta", null, values, SQLiteDatabase.CONFLICT_REPLACE)
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
+        } catch (_: Exception) {
+            false
         }
     }
 
@@ -94,39 +106,35 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    fun search(query: String, kindFilter: Int?): List<WordEntry> {
+    fun search(query: String, kindFilter: Int?, exactOnly: Boolean): List<WordEntry> {
         val queryNorm = normalize(query)
         if (queryNorm.isEmpty()) return emptyList()
 
-        val db = readableDatabase
-        val kindValue = kindFilter ?: -1
+        val filterClause = if (kindFilter == null) "" else " AND kind = ?"
+        val limitClause = if (exactOnly) "" else " LIMIT 1200"
         val sql = """
-            SELECT id, kind, title, english, domain, definition, volumes, notes,
-                   title_norm, english_norm
+            SELECT id, kind, title, english, domain, definition, volumes, notes
             FROM entries
-            WHERE search_norm LIKE ? AND (? = -1 OR kind = ?)
+            WHERE search_norm LIKE ?$filterClause
             ORDER BY
                 CASE
                     WHEN title_norm = ? OR english_norm = ? THEN 0
                     WHEN title_norm LIKE ? OR english_norm LIKE ? THEN 1
                     ELSE 2
                 END,
-                title COLLATE NOCASE
-            LIMIT 600
+                title COLLATE NOCASE$limitClause
         """.trimIndent()
+        val args = ArrayList<String>().apply {
+            add("%$queryNorm%")
+            kindFilter?.let { add(it.toString()) }
+            add(queryNorm)
+            add(queryNorm)
+            add("$queryNorm%")
+            add("$queryNorm%")
+        }
+
         val candidates = ArrayList<Pair<Int, WordEntry>>()
-        db.rawQuery(
-            sql,
-            arrayOf(
-                "%" + queryNorm + "%",
-                kindValue.toString(),
-                kindValue.toString(),
-                queryNorm,
-                queryNorm,
-                queryNorm + "%",
-                queryNorm + "%"
-            )
-        ).use { cursor ->
+        readableDatabase.rawQuery(sql, args.toTypedArray()).use { cursor ->
             while (cursor.moveToNext()) {
                 val item = WordEntry(
                     id = cursor.getLong(0),
@@ -138,14 +146,22 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                     volumes = cursor.getString(6).orEmpty(),
                     notes = cursor.getString(7).orEmpty()
                 )
-                val rank = minOf(titleRank(item.title, query), titleRank(item.english, query))
-                candidates.add(rank to item)
+                if (!exactOnly || hasExactTerm(item.title, queryNorm) || hasExactTerm(item.english, queryNorm)) {
+                    val rank = minOf(titleRank(item.title, query), titleRank(item.english, query))
+                    candidates.add(rank to item)
+                }
             }
         }
         return candidates
             .sortedWith(compareBy<Pair<Int, WordEntry>> { it.first }.thenBy { it.second.title.lowercase(Locale.ROOT) })
             .take(120)
             .map { it.second }
+    }
+
+    private fun hasExactTerm(value: String, queryNorm: String): Boolean {
+        if (normalize(value) == queryNorm) return true
+        val termPattern = Regex("[\\p{L}\\p{M}\\p{N}_]+(?:\\u200c[\\p{L}\\p{M}\\p{N}_]+)*")
+        return termPattern.findAll(value).any { normalize(it.value) == queryNorm }
     }
 
     private fun titleRank(raw: String, query: String): Int {
@@ -157,7 +173,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
             val rest = separated.substring(q.length)
             if (rest.isEmpty()) return 0
             return when {
-                rest.startsWith("\u200c") -> 1
+                rest.startsWith("\\u200c") -> 1
                 rest.startsWith(" ") -> 2
                 rest.startsWith("-") || rest.startsWith("–") -> 3
                 !rest.first().isLetterOrDigit() -> 3
@@ -165,126 +181,6 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
             }
         }
         return if (normalize(raw).contains(q)) 5 else 9
-    }
-
-    private fun importApprovedWords(db: SQLiteDatabase, progress: (String) -> Unit) {
-        var count = 0
-        appContext.assets.open("words-new-data.json").use { stream ->
-            InputStreamReader(stream, Charsets.UTF_8).use { input ->
-                JsonReader(input).use { reader ->
-                    reader.beginArray()
-                    while (reader.hasNext()) {
-                        val element = JsonParser.parseReader(reader)
-                        if (element.isJsonArray) {
-                            val row = element.asJsonArray
-                            val title = cell(row, 0)
-                            val source = cell(row, 1)
-                            val domain = cell(row, 2)
-                            val english = cell(row, 3)
-                            val definition = cell(row, 4)
-                            val extraOne = cell(row, 5)
-                            val extraTwo = cell(row, 6)
-                            val volumes = cell(row, 7)
-                            val notes = cell(row, 8)
-                            insertEntry(
-                                db = db,
-                                kind = 0,
-                                title = title,
-                                english = english,
-                                domain = domain,
-                                definition = definition,
-                                volumes = volumes,
-                                notes = notes,
-                                searchExtras = listOf(source, extraOne, extraTwo).filter { it.isNotBlank() }.joinToString(" ")
-                            )
-                        }
-                        count++
-                        if (count % 1000 == 0) progress("آماده‌سازی واژگان مصوب: " + count.toString())
-                    }
-                    reader.endArray()
-                }
-            }
-        }
-        progress("واژگان مصوب آماده شد: " + count.toString())
-    }
-
-    private fun importSpellingDictionary(db: SQLiteDatabase, progress: (String) -> Unit) {
-        val root = appContext.assets.open("dictionary.json").bufferedReader(Charsets.UTF_8).use {
-            JsonParser.parseReader(it)
-        }
-        val entries = root.asJsonObject.getAsJsonArray("entries") ?: JsonArray()
-        var count = 0
-        for (entry in entries) {
-            val title = primitiveText(entry)
-            if (title.isNotBlank()) {
-                insertEntry(
-                    db = db,
-                    kind = 1,
-                    title = title,
-                    english = "",
-                    domain = "",
-                    definition = "صورت ثبت‌شده در فرهنگ املایی خط فارسی",
-                    volumes = "",
-                    notes = "",
-                    searchExtras = ""
-                )
-            }
-            count++
-            if (count % 5000 == 0) progress("آماده‌سازی فرهنگ املایی: " + count.toString())
-        }
-        progress("فرهنگ املایی آماده شد: " + count.toString())
-    }
-
-    private fun insertEntry(
-        db: SQLiteDatabase,
-        kind: Int,
-        title: String,
-        english: String,
-        domain: String,
-        definition: String,
-        volumes: String,
-        notes: String,
-        searchExtras: String
-    ) {
-        val allText = listOf(title, english, domain, definition, volumes, notes, searchExtras).joinToString(" ")
-        val values = ContentValues().apply {
-            put("kind", kind)
-            put("title", title)
-            put("english", english)
-            put("domain", domain)
-            put("definition", definition)
-            put("volumes", volumes)
-            put("notes", notes)
-            put("title_norm", normalize(title))
-            put("english_norm", normalize(english))
-            put("search_norm", normalize(allText))
-        }
-        db.insertOrThrow("entries", null, values)
-    }
-
-    private fun readMeta(db: SQLiteDatabase, key: String): String? {
-        db.rawQuery("SELECT value FROM app_meta WHERE key = ?", arrayOf(key)).use { cursor ->
-            return if (cursor.moveToFirst()) cursor.getString(0) else null
-        }
-    }
-
-    private fun cell(row: JsonArray, index: Int): String {
-        if (index >= row.size()) return ""
-        val value = row.get(index)
-        if (value == null || value.isJsonNull) return ""
-        if (value.isJsonArray) {
-            return value.asJsonArray.map { primitiveText(it) }.filter { it.isNotBlank() }.joinToString("، ")
-        }
-        return primitiveText(value)
-    }
-
-    private fun primitiveText(value: JsonElement?): String {
-        if (value == null || value.isJsonNull) return ""
-        if (value.isJsonPrimitive) return value.asString
-        if (value.isJsonArray) {
-            return value.asJsonArray.map { primitiveText(it) }.filter { it.isNotBlank() }.joinToString("، ")
-        }
-        return value.toString()
     }
 
     private fun normalize(value: String): String =
@@ -308,4 +204,11 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
             .replace(Regex("[\\u064b-\\u065f\\u0670ـ]"), "")
             .lowercase(Locale.ROOT)
             .trim()
+
+    companion object {
+        private const val DATABASE_NAME = "emla-words.db"
+        private const val DATABASE_SCHEMA_VERSION = 1
+        private const val DATA_VERSION = "2"
+        private const val BUNDLED_DATABASE_ASSET = "emla-words.db"
+    }
 }
