@@ -50,7 +50,6 @@ class MainActivity : Activity() {
     private lateinit var searchInput: EditText
     private lateinit var status: TextView
     private lateinit var progress: ProgressBar
-    private lateinit var emptyHint: LinearLayout
     private lateinit var loadMoreButton: Button
     private lateinit var results: RecyclerView
     private lateinit var adapter: EntryAdapter
@@ -258,44 +257,6 @@ class MainActivity : Activity() {
             bottomMargin = dp(5)
         })
 
-        emptyHint = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER_VERTICAL
-            layoutDirection = View.LAYOUT_DIRECTION_RTL
-            setPadding(0, dp(2), 0, dp(8))
-            visibility = View.GONE
-        }
-        val examplesLabel = TextView(this).apply {
-            text = "نمونه:"
-            textSize = 12f
-            setTextColor(muted)
-            setPadding(0, 0, dp(6), 0)
-        }
-        emptyHint.addView(examplesLabel, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-        listOf("متن", "انسان", "text").forEach { term ->
-            val chip = TextView(this).apply {
-                text = term
-                textSize = 12f
-                setTextColor(greenDark)
-                gravity = Gravity.CENTER
-                background = rounded(Color.rgb(232, 244, 238), Color.TRANSPARENT, 0, 9)
-                setPadding(dp(9), dp(6), dp(9), dp(6))
-                isClickable = true
-                isFocusable = true
-                contentDescription = "جست‌وجوی نمونهٔ $term"
-                setOnClickListener {
-                    recordRecentSearch(term)
-                    showingFavorites = false
-                    searchInput.setText(term)
-                    searchInput.setSelection(searchInput.text.length)
-                    searchInput.requestFocus()
-                }
-            }
-            emptyHint.addView(chip, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
-                marginStart = dp(5)
-            })
-        }
-        root.addView(emptyHint, matchWrap())
 
         adapter = EntryAdapter()
         results = RecyclerView(this).apply {
@@ -574,7 +535,6 @@ showVazirmatnDialog(
         searchSerial += 1
         progress.visibility = View.GONE
         showingFavorites = true
-        emptyHint.visibility = View.GONE
         loadMoreButton.visibility = View.GONE
         adapter.submit(favoriteEntries.values.toList())
         results.scrollToPosition(0)
@@ -769,8 +729,7 @@ showVazirmatnDialog(
                 mainHandler.post {
                     ready = false
                     progress.visibility = View.GONE
-                    emptyHint.visibility = View.GONE
-                    status.text = "آماده‌سازی پایگاه‌داده انجام نشد."
+                                status.text = "آماده‌سازی پایگاه‌داده انجام نشد."
                     adapter.submit(emptyList())
                     showMessage("داده‌های همراه اپ خوانده نشد. اپ را دوباره نصب کنید.")
                 }
@@ -811,12 +770,10 @@ showVazirmatnDialog(
         hasMoreResults = false
         if (query.isEmpty()) {
             progress.visibility = View.GONE
-            emptyHint.visibility = View.VISIBLE
             adapter.submit(emptyList())
-            status.text = "برای جست‌وجو، واژه‌ای بنویسید یا یکی از نمونه‌ها را انتخاب کنید."
+            status.text = "برای جست‌وجو، واژه‌ای بنویسید."
             return
         }
-        emptyHint.visibility = View.GONE
         if (query.count { it.isLetterOrDigit() } < 2) {
             progress.visibility = View.GONE
             adapter.submit(emptyList())
@@ -851,13 +808,11 @@ showVazirmatnDialog(
 
     private fun showInitialMessage() {
         adapter.submit(emptyList())
-        emptyHint.visibility = View.VISIBLE
-        status.text = "برای جست‌وجو، واژه‌ای بنویسید یا یکی از نمونه‌ها را انتخاب کنید."
+        status.text = "برای جست‌وجو، واژه‌ای بنویسید."
     }
 
     private fun showMessage(message: String) {
         adapter.submit(emptyList())
-        emptyHint.visibility = View.GONE
         progress.visibility = View.GONE
         status.text = message
     }
