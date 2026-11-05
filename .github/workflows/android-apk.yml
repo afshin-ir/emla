@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [main, feat/afra-hamburger-menu]
+    branches: [main]
     paths:
       - "android-app/**"
       - "words-new-data.json.gz"
