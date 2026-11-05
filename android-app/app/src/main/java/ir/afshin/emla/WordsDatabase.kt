@@ -21,6 +21,11 @@ data class WordEntry(
     val refTerms: String
 )
 
+data class SearchPage(
+    val entries: List<WordEntry>,
+    val total: Int
+)
+
 class WordsDatabase(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
@@ -108,9 +113,15 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    fun search(query: String, kindFilter: Int?, exactOnly: Boolean): List<WordEntry> {
+    fun search(
+        query: String,
+        kindFilter: Int?,
+        exactOnly: Boolean,
+        offset: Int = 0,
+        limit: Int = 40
+    ): SearchPage {
         val queryNorm = normalize(query)
-        if (queryNorm.isEmpty()) return emptyList()
+        if (queryNorm.isEmpty()) return SearchPage(emptyList(), 0)
 
         val filterClause = if (kindFilter == null) "" else " AND kind = ?"
         val sql = """
@@ -126,7 +137,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         val candidates = ArrayList<Pair<Int, WordEntry>>()
         readableDatabase.rawQuery(sql, args.toTypedArray()).use { cursor ->
             while (cursor.moveToNext()) {
-                if (Thread.currentThread().isInterrupted) return emptyList()
+                if (Thread.currentThread().isInterrupted) return SearchPage(emptyList(), 0)
                 val item = WordEntry(
                     id = cursor.getLong(0),
                     kind = cursor.getInt(1),
@@ -145,19 +156,19 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                 }
             }
         }
-        return candidates
-            .sortedWith(Comparator { left, right ->
-                val rankOrder = left.first.compareTo(right.first)
-                if (rankOrder != 0) {
-                    rankOrder
-                } else if (left.second.kind == 2 && right.second.kind == 2) {
-                    left.second.id.compareTo(right.second.id)
-                } else {
-                    left.second.title.lowercase(Locale.ROOT).compareTo(right.second.title.lowercase(Locale.ROOT))
-                }
-            })
-            .take(120)
-            .map { it.second }
+        val sorted = candidates.sortedWith(Comparator { left, right ->
+            val rankOrder = left.first.compareTo(right.first)
+            if (rankOrder != 0) {
+                rankOrder
+            } else if (left.second.kind == 2 && right.second.kind == 2) {
+                left.second.id.compareTo(right.second.id)
+            } else {
+                left.second.title.lowercase(Locale.ROOT).compareTo(right.second.title.lowercase(Locale.ROOT))
+            }
+        })
+        val safeOffset = offset.coerceAtLeast(0)
+        val page = sorted.drop(safeOffset).take(limit.coerceAtLeast(1)).map { it.second }
+        return SearchPage(page, sorted.size)
     }
 
     private fun hasExactTerm(value: String, queryNorm: String): Boolean {
