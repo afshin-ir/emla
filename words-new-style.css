@@ -32,4 +32,4 @@ body[data-theme="dark"]{color-scheme:dark;--bg:#151d1a;--paper:#1d2723;--ink:#e3
 .subject-option[data-active="true"],.subject-option:hover{background:var(--mint)}
 .subject-empty{padding:8px;color:var(--muted);font-size:.8rem}
 .subject-empty[hidden]{display:none}
-@media(max-width:650px){.subject-toggle{width:min(240px,52vw);min-width:145px}.subject-menu{max-height:min(360px,65vh)}}
+@media(max-width:650px){.subject-toggle{width:min(240px,52vw);min-width:145px}.subject-menu{max-height:min(var(--subject-menu-max-height,360px),65vh)}}
