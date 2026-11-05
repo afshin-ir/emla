@@ -173,7 +173,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
             val rest = separated.substring(q.length)
             if (rest.isEmpty()) return 0
             return when {
-                rest.startsWith("\\u200c") -> 1
+                rest.startsWith("\u200c") -> 1
                 rest.startsWith(" ") -> 2
                 rest.startsWith("-") || rest.startsWith("–") -> 3
                 !rest.first().isLetterOrDigit() -> 3
