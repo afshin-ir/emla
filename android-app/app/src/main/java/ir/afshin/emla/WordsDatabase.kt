@@ -277,7 +277,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
     companion object {
         private const val DATABASE_NAME = "emla-words.db"
         private const val DATABASE_SCHEMA_VERSION = 2
-        private const val DATA_VERSION = "4"
+        private const val DATA_VERSION = "5"
         private const val BUNDLED_DATABASE_ASSET = "emla-words.db"
     }
 }
