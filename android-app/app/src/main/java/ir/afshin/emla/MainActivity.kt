@@ -526,16 +526,37 @@ class MainActivity : Activity() {
                 gravity = Gravity.RIGHT
             }
             row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-            val valueView = TextView(this@MainActivity).apply {
-                text = value
-                textSize = 14f
-                setTextColor(ink)
-                gravity = if (ltr) Gravity.LEFT else Gravity.RIGHT
-                textDirection = if (ltr) View.TEXT_DIRECTION_LTR else View.TEXT_DIRECTION_FIRST_STRONG
-                setTextIsSelectable(true)
-                setPadding(0, 0, dp(7), 0)
+            if (ltr) {
+                val valueView = TextView(this@MainActivity).apply {
+                    text = value
+                    textSize = 13f
+                    setTextColor(Color.rgb(51, 83, 111))
+                    typeface = Typeface.create("monospace", Typeface.NORMAL)
+                    gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
+                    textDirection = View.TEXT_DIRECTION_LTR
+                    setTextIsSelectable(true)
+                    background = rounded(Color.rgb(237, 242, 247), Color.TRANSPARENT, 0, 6)
+                    setPadding(dp(7), dp(3), dp(7), dp(3))
+                }
+                val valueArea = LinearLayout(this@MainActivity).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    layoutDirection = View.LAYOUT_DIRECTION_LTR
+                    gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
+                }
+                valueArea.addView(valueView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+                row.addView(valueArea, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+            } else {
+                val valueView = TextView(this@MainActivity).apply {
+                    text = value
+                    textSize = 14f
+                    setTextColor(ink)
+                    gravity = Gravity.RIGHT
+                    textDirection = View.TEXT_DIRECTION_FIRST_STRONG
+                    setTextIsSelectable(true)
+                    setPadding(0, 0, dp(7), 0)
+                }
+                row.addView(valueView, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             }
-            row.addView(valueView, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             parent.addView(row, matchWrap())
         }
     }
