@@ -288,7 +288,7 @@ function cardCopyText(button){
  const heading=head.querySelector("h2,h3"),title=copyPlainText(heading);
  const blocks=title?["## "+title]:[];
  const persian=head.querySelector(".persian-under");
- if(persian)blocks.push(copyPlainText(persian));
+ if(persian)blocks.push(copyPlainText(persian).replace(/:\s*/g,": "));
  head.querySelectorAll(".secondary-english").forEach(row=>{
   const label=copyPlainText(row.querySelector(".secondary-english-label")).replace(/:$/,"");
   const value=copyPlainText(row.querySelector(".english-code"));
@@ -302,7 +302,7 @@ function cardCopyText(button){
   if(value.classList.contains("definition-text")){
    text=copyPlainText(value.querySelector(".definition-full")||value.querySelector(".definition-preview")||value);
   }else text=copyPlainText(value);
-  if(text)blocks.push(label+"\n"+text);
+  if(text)blocks.push(value.classList.contains("definition-text")?label+"\n\n"+text:label+" "+text);
  });
  return blocks.join("\n\n");
 }
