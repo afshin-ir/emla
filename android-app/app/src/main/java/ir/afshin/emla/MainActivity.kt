@@ -39,11 +39,11 @@ class MainActivity : Activity() {
     private lateinit var results: RecyclerView
     private lateinit var adapter: EntryAdapter
     private lateinit var clearButton: TextView
-    private lateinit var allFilter: Button
     private lateinit var approvedFilter: Button
     private lateinit var spellingFilter: Button
+    private lateinit var dasturFilter: Button
     private lateinit var exactMatchFilter: CheckBox
-    private var selectedKind: Int? = null
+    private var selectedKind: Int? = 0
     private var ready = false
     private var searchSerial = 0
     private var pendingSearch: Runnable? = null
@@ -165,10 +165,10 @@ class MainActivity : Activity() {
             layoutDirection = View.LAYOUT_DIRECTION_RTL
             setPadding(0, dp(12), 0, dp(8))
         }
-        allFilter = filterButton("همه")
         approvedFilter = filterButton("واژگان مصوب")
         spellingFilter = filterButton("فرهنگ املایی")
-        listOf(allFilter, approvedFilter, spellingFilter).forEachIndexed { index, button ->
+        dasturFilter = filterButton("دستور خط")
+        listOf(approvedFilter, spellingFilter, dasturFilter).forEachIndexed { index, button ->
             filters.addView(
                 button,
                 LinearLayout.LayoutParams(0, dp(40), 1f).apply {
@@ -227,9 +227,9 @@ class MainActivity : Activity() {
             }
         }
 
-        allFilter.setOnClickListener { setFilter(null) }
         approvedFilter.setOnClickListener { setFilter(0) }
         spellingFilter.setOnClickListener { setFilter(1) }
+        dasturFilter.setOnClickListener { setFilter(2) }
         exactMatchFilter.setOnCheckedChangeListener { _, _ -> scheduleSearch() }
     }
 
@@ -351,9 +351,9 @@ class MainActivity : Activity() {
     }
 
     private fun updateFilterStyles() {
-        styleFilter(allFilter, selectedKind == null)
         styleFilter(approvedFilter, selectedKind == 0)
         styleFilter(spellingFilter, selectedKind == 1)
+        styleFilter(dasturFilter, selectedKind == 2)
     }
 
     private fun scheduleSearch() {
@@ -466,7 +466,11 @@ class MainActivity : Activity() {
             }
             card.addView(number, matchWrap())
 
-            val type = if (entry.kind == 0) "واژگان مصوب فرهنگستان" else "فرهنگ املایی خط فارسی"
+            val type = when (entry.kind) {
+                0 -> "واژگان مصوب فرهنگستان"
+                1 -> "فرهنگ املایی خط فارسی"
+                else -> "کتاب دستور خط فارسی"
+            }
             addText(card, type, 11f, muted, bold = false, top = 0, bottom = 4)
 
             addText(
@@ -487,16 +491,24 @@ class MainActivity : Activity() {
                     addField(card, "صورت‌های دیگر انگلیسی:", otherEnglish.joinToString(", "), ltr = true)
                 }
             }
-            if (entry.domain.isNotBlank()) addField(card, "حوزه:", entry.domain)
-            if (entry.kind == 0 && entry.definition.isNotBlank()) {
-                val (definition, synonyms) = splitDefinitionAndSynonyms(entry.definition)
-                formatDefinitionRows(definition).forEachIndexed { index, line ->
-                    addField(card, if (index == 0) "تعریف:" else "", line)
+            if (entry.kind == 2) {
+                if (entry.domain.isNotBlank()) addField(card, "بخش:", entry.domain)
+                if (entry.definition.isNotBlank()) addField(card, "متن:", entry.definition)
+                if (entry.volumes.isNotBlank()) {
+                    addField(card, "صفحه:", persianDigits(entry.volumes.replace(",", "،")))
                 }
-                if (synonyms.isNotBlank()) addField(card, "مترادف:", synonyms)
+            } else {
+                if (entry.domain.isNotBlank()) addField(card, "حوزه:", entry.domain)
+                if (entry.kind == 0 && entry.definition.isNotBlank()) {
+                    val (definition, synonyms) = splitDefinitionAndSynonyms(entry.definition)
+                    formatDefinitionRows(definition).forEachIndexed { index, line ->
+                        addField(card, if (index == 0) "تعریف:" else "", line)
+                    }
+                    if (synonyms.isNotBlank()) addField(card, "مترادف:", synonyms)
+                }
+                if (entry.volumes.isNotBlank()) addField(card, "منبع:", formatVolumes(entry.volumes))
+                if (entry.notes.isNotBlank()) addField(card, "یادداشت:", entry.notes)
             }
-            if (entry.volumes.isNotBlank()) addField(card, "منبع:", formatVolumes(entry.volumes))
-            if (entry.notes.isNotBlank()) addField(card, "یادداشت:", entry.notes)
         }
 
         private fun addField(parent: LinearLayout, label: String, value: String, ltr: Boolean = false) {
