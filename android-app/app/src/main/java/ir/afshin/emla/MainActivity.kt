@@ -159,7 +159,7 @@ class MainActivity : Activity() {
         root.addView(header, matchWrap())
 
         val subtitle = TextView(this).apply {
-            text = "جست‌وجوی آفلاین در واژگان و منابع خط فارسی"
+            text = "جست‌وجوی برون‌خط (آفلاین) در واژگان و منابع خط فارسی"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
@@ -427,7 +427,7 @@ showVazirmatnDialog(
         }
 
         val description = TextView(this).apply {
-            text = "جست‌وجوی برخط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
+            text = "جست‌وجوی برون‌خط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
