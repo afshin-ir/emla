@@ -537,6 +537,7 @@ class MainActivity : Activity() {
         emptyHint.visibility = View.GONE
         loadMoreButton.visibility = View.GONE
         adapter.submit(favoriteEntries.values.toList())
+        results.scrollToPosition(0)
         status.text = if (favoriteEntries.isEmpty()) {
             "هنوز مدخلی نشان نشده است."
         } else {
@@ -729,6 +730,7 @@ class MainActivity : Activity() {
             return
         }
         adapter.submit(emptyList())
+        results.scrollToPosition(0)
         status.text = "در حال جست‌وجو…"
         progress.visibility = View.VISIBLE
         val filter = selectedKind
@@ -739,6 +741,7 @@ class MainActivity : Activity() {
                 if (serial != searchSerial) return@post
                 progress.visibility = View.GONE
                 adapter.submit(page.entries)
+                results.scrollToPosition(0)
                 currentOffset = page.entries.size
                 currentTotal = page.total
                 hasMoreResults = currentOffset < currentTotal
