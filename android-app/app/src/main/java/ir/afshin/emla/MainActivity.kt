@@ -334,6 +334,7 @@ class MainActivity : Activity() {
                 3 -> showRecentSearches()
                 4 -> showFavorites()
                 5 -> showTextSizeDialog()
+            }
             true
         }
         popup.show()
@@ -427,19 +428,21 @@ class MainActivity : Activity() {
         runCatching {
             val storedFavorites = JSONArray(appPreferences.getString("favorites", "[]"))
             for (index in 0 until storedFavorites.length()) {
-                val item = storedFavorites.optJSONObject(index) ?: continue
-                val entry = WordEntry(
-                    id = item.optLong("id"),
-                    kind = item.optInt("kind"),
-                    title = item.optString("title"),
-                    english = item.optString("english"),
-                    domain = item.optString("domain"),
-                    definition = item.optString("definition"),
-                    volumes = item.optString("volumes"),
-                    notes = item.optString("notes"),
-                    refTerms = item.optString("refTerms")
-                )
-                favoriteEntries[entryKey(entry)] = entry
+                val item = storedFavorites.optJSONObject(index)
+                if (item != null) {
+                    val entry = WordEntry(
+                        id = item.optLong("id"),
+                        kind = item.optInt("kind"),
+                        title = item.optString("title"),
+                        english = item.optString("english"),
+                        domain = item.optString("domain"),
+                        definition = item.optString("definition"),
+                        volumes = item.optString("volumes"),
+                        notes = item.optString("notes"),
+                        refTerms = item.optString("refTerms")
+                    )
+                    favoriteEntries[entryKey(entry)] = entry
+                }
             }
         }
         runCatching {
@@ -640,6 +643,7 @@ class MainActivity : Activity() {
     private fun updateLoadMoreButton() {
         val remaining = (currentTotal - currentOffset).coerceAtLeast(0)
         loadMoreButton.visibility = if (!showingFavorites && hasMoreResults) View.VISIBLE else View.GONE
+        loadMoreButton.isEnabled = true
         loadMoreButton.text = "نمایش " + persianDigits(minOf(SEARCH_PAGE_SIZE, remaining)) + " نتیجۀ بعدی"
     }
 
@@ -701,6 +705,7 @@ class MainActivity : Activity() {
         val serial = ++searchSerial
         searchWork?.cancel(true)
         loadMoreButton.visibility = View.GONE
+        loadMoreButton.isEnabled = true
         currentOffset = 0
         currentTotal = 0
         hasMoreResults = false
