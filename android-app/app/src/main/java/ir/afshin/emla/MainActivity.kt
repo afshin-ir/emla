@@ -616,41 +616,93 @@ showVazirmatnDialog(
         )
     }
 
-    private fun showEntryActions(anchor: View, entry: WordEntry) {
-        val popup = PopupMenu(this, anchor)
-        val mainText = if (entry.kind == 2) entry.definition.ifBlank { entry.title } else entry.title
-        popup.menu.add(0, 1, 0, if (entry.kind == 2) "کپی متن" else "کپی واژۀ فارسی")
-        if (entry.english.isNotBlank()) popup.menu.add(0, 2, 1, "کپی برابر انگلیسی")
-        popup.menu.add(0, 3, 2, "اشتراک‌گذاری")
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                1 -> copyToClipboard(mainText, if (entry.kind == 2) "متن دستور خط" else "واژه")
-                2 -> copyToClipboard(entry.english, "برابر انگلیسی")
-                3 -> {
-                    val sharedText = buildString {
-                        append(entry.title)
-                        if (entry.kind == 2 && entry.definition.isNotBlank()) append("\n").append(entry.definition)
-                        else if (entry.english.isNotBlank()) append("\n").append(entry.english)
-                        if (entry.volumes.isNotBlank()) {
-                            append("\nصفحه: ").append(persianDigits(entry.volumes.replace(",", "،")))
-                        }
-                    }
-                    val intent = Intent(Intent.ACTION_SEND).apply {
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_TEXT, sharedText)
-                    }
-                    startActivity(Intent.createChooser(intent, "اشتراک‌گذاری مدخل"))
+    private data class CopyField(val label: String, val value: String, val code: Boolean = false, val multiline: Boolean = false)
+
+    private fun copyCardToClipboard(entry: WordEntry, button: Button) {
+        val title = entry.title.ifBlank { entry.english }.trim()
+        val type = when (entry.kind) {
+            0 -> "واژگان مصوب فرهنگستان"
+            1 -> "فرهنگ املایی خط فارسی"
+            else -> "کتاب دستور خط فارسی"
+        }
+        val fields = mutableListOf<CopyField>()
+        val englishTerms = splitEnglishTerms(entry.english)
+        englishTerms.firstOrNull()?.let { fields += CopyField("برابر انگلیسی:", it, code = true) }
+        englishTerms.drop(1).takeIf { it.isNotEmpty() }?.let {
+            fields += CopyField("صورت‌های دیگر انگلیسی:", it.joinToString(", "), code = true)
+        }
+
+        if (entry.kind == 2) {
+            if (entry.domain.isNotBlank()) fields += CopyField("بخش:", entry.domain)
+            if (entry.definition.isNotBlank()) fields += CopyField("متن:", entry.definition.trim(), multiline = true)
+            if (entry.volumes.isNotBlank()) {
+                fields += CopyField("صفحه:", persianDigits(entry.volumes.replace(",", "،")))
+            }
+        } else {
+            if (entry.domain.isNotBlank()) fields += CopyField("حوزه:", entry.domain)
+            if (entry.kind == 0 && entry.definition.isNotBlank()) {
+                val (definition, synonyms) = splitDefinitionAndSynonyms(entry.definition)
+                val definitionRows = formatDefinitionRows(definition)
+                if (definitionRows.isNotEmpty()) {
+                    fields += CopyField("تعریف:", definitionRows.joinToString("\n"), multiline = true)
+                }
+                if (synonyms.isNotBlank()) fields += CopyField("مترادف:", synonyms)
+            }
+            if (entry.volumes.isNotBlank()) fields += CopyField("منبع:", formatVolumes(entry.volumes))
+            if (entry.notes.isNotBlank()) fields += CopyField("یادداشت:", entry.notes.trim(), multiline = true)
+        }
+
+        val plainText = buildString {
+            append("## ").append(title)
+            append("\n\n").append(type)
+            fields.forEach { field ->
+                append("\n\n")
+                if (field.multiline) {
+                    append(field.label).append("\n\n").append(field.value)
+                } else {
+                    append(field.label).append(" ")
+                    if (field.code) append("`").append(field.value).append("`") else append(field.value)
                 }
             }
-            true
         }
-        popup.show()
-    }
 
-    private fun copyToClipboard(text: String, label: String) {
+        fun html(value: String): String = android.text.TextUtils.htmlEncode(value)
+        val htmlText = buildString {
+            append("<div dir=\"rtl\" style=\"font-family:Vazirmatn,sans-serif;line-height:1.8;color:#1e2d2b\">")
+            append("<h2 style=\"margin:0 0 10px;color:#105b48;font-size:1.3em\">")
+                .append(html(title)).append("</h2>")
+            append("<p style=\"margin:0 0 10px;color:#697b74;font-size:.9em\">")
+                .append(html(type)).append("</p>")
+            fields.forEach { field ->
+                if (field.multiline) {
+                    append("<p style=\"margin:0 0 4px\"><strong>").append(html(field.label))
+                        .append("</strong></p><p style=\"margin:0 0 10px\">")
+                        .append(html(field.value).replace("\n", "<br>")).append("</p>")
+                } else {
+                    append("<p style=\"margin:0 0 10px\"><strong>").append(html(field.label))
+                        .append("</strong> ")
+                    if (field.code) {
+                        append("<code dir=\"ltr\" style=\"font-family:Vazirmatn,sans-serif;background:#edf1f4;color:#31485c;padding:2px 5px;border-radius:4px\">")
+                            .append(html(field.value)).append("</code>")
+                    } else {
+                        append(html(field.value))
+                    }
+                    append("</p>")
+                }
+            }
+            append("</div>")
+        }
+
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText(label, text))
-        Toast.makeText(this, "«" + label + "» کپی شد.", Toast.LENGTH_SHORT).show()
+        clipboard.setPrimaryClip(ClipData.newHtmlText(title, plainText, htmlText))
+        val originalText = button.text
+        button.text = "کپی شد"
+        button.contentDescription = "اطلاعات کارت کپی شد"
+        button.announceForAccessibility("اطلاعات کارت کپی شد")
+        button.postDelayed({
+            button.text = originalText
+            button.contentDescription = "کپی اطلاعات کارت"
+        }, 1600)
     }
 
     private fun loadMoreResults() {
@@ -886,19 +938,28 @@ showVazirmatnDialog(
             }
             cardActions.addView(favoriteButton, LinearLayout.LayoutParams(dp(38), dp(38)))
 
-            val actionsButton = TextView(this@MainActivity).apply {
-                text = "⋮"
-                textSize = 20f
+            val copyButton = Button(this@MainActivity).apply {
+                text = "کپی"
+                textSize = 11f
+                isAllCaps = false
                 setTextColor(muted)
                 gravity = Gravity.CENTER
-                minWidth = dp(38)
-                minHeight = dp(38)
-                contentDescription = "کپی یا اشتراک‌گذاری مدخل"
-                isClickable = true
-                isFocusable = true
-                setOnClickListener { showEntryActions(this, entry) }
+                minHeight = dp(36)
+                minimumHeight = dp(36)
+                minWidth = 0
+                setPadding(dp(8), 0, dp(8), 0)
+                background = rounded(Color.TRANSPARENT, line, 1, 9)
+                stateListAnimator = null
+                contentDescription = "کپی اطلاعات کارت"
+                val icon = getDrawable(R.drawable.ic_copy)?.mutate()?.apply {
+                    setTint(muted)
+                    setBounds(0, 0, dp(16), dp(16))
+                }
+                setCompoundDrawablesRelative(icon, null, null, null)
+                compoundDrawablePadding = dp(4)
+                setOnClickListener { copyCardToClipboard(entry, this) }
             }
-            cardActions.addView(actionsButton, LinearLayout.LayoutParams(dp(38), dp(38)))
+            cardActions.addView(copyButton, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp(36)))
             cardActions.addView(View(this@MainActivity), LinearLayout.LayoutParams(0, 1, 1f))
 
             val number = TextView(this@MainActivity).apply {
@@ -983,7 +1044,7 @@ showVazirmatnDialog(
                 text = label
                 textSize = 12f * textScale
                 setTextColor(muted)
-                typeface = Typeface.create("sans-serif", Typeface.BOLD)
+                typeface = appTypeface(Typeface.BOLD)
                 gravity = Gravity.RIGHT
             }
             row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
