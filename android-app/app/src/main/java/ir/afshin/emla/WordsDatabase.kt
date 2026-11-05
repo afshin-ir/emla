@@ -196,6 +196,11 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         val q = normalize(query)
         val term = raw.trim()
         if (normalize(term) == q) return 0
+        var zwnjAt = term.indexOf('\u200c')
+        while (zwnjAt >= 0) {
+            if (normalize(term.substring(0, zwnjAt)) == q) return 1
+            zwnjAt = term.indexOf('\u200c', zwnjAt + 1)
+        }
         val boundary = Regex("[\\p{L}\\p{M}\\p{N}_]+(?:\\u200c[\\p{L}\\p{M}\\p{N}_]+)*")
         var best = Int.MAX_VALUE
         for (match in boundary.findAll(term)) {
