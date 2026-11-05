@@ -1,10 +1,13 @@
 package ir.afshin.emla
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,6 +20,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,6 +71,21 @@ class MainActivity : Activity() {
             setPadding(dp(18), dp(18), dp(18), dp(10))
         }
 
+        val header = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+        }
+        val logo = ImageView(this).apply {
+            setImageResource(R.drawable.ic_launcher)
+            contentDescription = "لوگوی اَفرا"
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+        header.addView(
+            logo,
+            LinearLayout.LayoutParams(dp(36), dp(36)).apply { marginEnd = dp(8) }
+        )
+
         val heading = TextView(this).apply {
             text = "اَفرا"
             textSize = 23f
@@ -74,14 +93,30 @@ class MainActivity : Activity() {
             typeface = Typeface.create("sans-serif", Typeface.BOLD)
             gravity = Gravity.RIGHT
         }
-        root.addView(heading, matchWrap())
+        header.addView(heading, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
+        header.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f))
+        val aboutButton = TextView(this).apply {
+            text = "دربارهٔ برنامه"
+            textSize = 12f
+            gravity = Gravity.CENTER
+            setTextColor(greenDark)
+            background = rounded(paper, line, 1, 10)
+            setPadding(dp(10), 0, dp(10), 0)
+            minHeight = dp(38)
+            contentDescription = "اطلاعات نسخه و سازندهٔ اَفرا"
+            setOnClickListener { showAboutDialog() }
+        }
+        header.addView(aboutButton, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp(40)))
+        root.addView(header, matchWrap())
 
         val subtitle = TextView(this).apply {
-            text = "جست‌وجوی آفلاین واژگان مصوب فرهنگستان و فرهنگ املایی"
+            text = "جست‌وجوی برخط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
-            setPadding(0, dp(2), 0, dp(15))
+            textDirection = View.TEXT_DIRECTION_RTL
+            setPadding(0, dp(4), 0, dp(15))
         }
         root.addView(subtitle, matchWrap())
 
@@ -195,6 +230,49 @@ class MainActivity : Activity() {
         approvedFilter.setOnClickListener { setFilter(0) }
         spellingFilter.setOnClickListener { setFilter(1) }
         exactMatchFilter.setOnCheckedChangeListener { _, _ -> scheduleSearch() }
+    }
+
+    private fun showAboutDialog() {
+        val version = try {
+            packageManager.getPackageInfo(packageName, 0).versionName ?: "نامشخص"
+        } catch (_: Exception) {
+            "نامشخص"
+        }
+
+        val details = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            setPadding(dp(22), dp(4), dp(22), dp(4))
+        }
+
+        fun addDetail(text: String, clickable: Boolean = false, action: (() -> Unit)? = null) {
+            val row = TextView(this).apply {
+                this.text = text
+                textSize = 15f
+                setTextColor(if (clickable) green else ink)
+                gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+                textDirection = View.TEXT_DIRECTION_RTL
+                setPadding(0, dp(8), 0, dp(8))
+                if (clickable) {
+                    isClickable = true
+                    isFocusable = true
+                    setOnClickListener { action?.invoke() }
+                }
+            }
+            details.addView(row, matchWrap())
+        }
+
+        addDetail("نسخهٔ " + persianDigits(version))
+        addDetail("سازنده: افشین فلاطونی")
+        addDetail("کانال تلگرام سازنده: @Falatuni", clickable = true) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/Falatuni")))
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("دربارهٔ اَفرا")
+            .setView(details)
+            .setPositiveButton("بستن", null)
+            .show()
     }
 
     private fun importDatabase() {
