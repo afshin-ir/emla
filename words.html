@@ -306,6 +306,29 @@ function cardCopyText(button){
  });
  return blocks.join("\n\n");
 }
+function escapeClipboardHtml(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+function cardCopyHtml(button){
+ const article=button.closest(".item"),head=article?.querySelector(".item-head");
+ if(!article||!head)return "";
+ const parts=[],heading=head.querySelector("h2,h3"),title=copyPlainText(heading);
+ if(title)parts.push('<h2 style="margin:0 0 12px;color:#12624f;font-size:1.35em">'+escapeClipboardHtml(title)+'</h2>');
+ const persian=head.querySelector(".persian-under");
+ if(persian)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(copyPlainText(persian).replace(/:\\s*/g,": "))+'</strong></p>');
+ head.querySelectorAll(".secondary-english").forEach(row=>{
+  const label=copyPlainText(row.querySelector(".secondary-english-label")).replace(/:$/,"");
+  const value=copyPlainText(row.querySelector(".english-code"));
+  if(label&&value)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(label)+':</strong> <code style="direction:ltr;background:#edf1f4;color:#31485c;padding:2px 5px;border-radius:4px">'+escapeClipboardHtml(value)+'</code></p>');
+ });
+ article.querySelectorAll(".details>.detail").forEach(row=>{
+  const label=copyPlainText(row.querySelector(".detail-label")),value=row.querySelector(".detail-text");
+  if(!label||!value)return;
+  let text="";
+  if(value.classList.contains("definition-text"))text=copyPlainText(value.querySelector(".definition-full")||value.querySelector(".definition-preview")||value);
+  else text=copyPlainText(value);
+  if(text)parts.push('<p style="margin:0 0 10px"><strong>'+escapeClipboardHtml(label)+'</strong> '+escapeClipboardHtml(text).replace(/\\n/g,"<br>")+'</p>');
+ });
+ return '<div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.8;color:#26332f">'+parts.join("")+'</div>';
+}
 function fallbackCopyText(text){
  const area=document.createElement("textarea");area.value=text;area.setAttribute("readonly","");
  area.style.position="fixed";area.style.insetInlineStart="-9999px";area.style.top="0";area.style.opacity="0";
@@ -318,7 +341,10 @@ results.addEventListener("click",async event=>{
  const text=cardCopyText(button);if(!text)return;
  const original=button.innerHTML,originalLabel=button.getAttribute("aria-label");
  try{
-  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
+  if(navigator.clipboard?.write&&window.ClipboardItem){
+   const html=cardCopyHtml(button),item=new ClipboardItem({"text/plain":new Blob([text],{type:"text/plain"}),"text/html":new Blob([html],{type:"text/html"})});
+   await navigator.clipboard.write([item]);
+  }else if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);
   else if(!fallbackCopyText(text))throw new Error("clipboard unavailable");
   button.classList.add("is-copied");button.innerHTML="<span aria-hidden=\"true\">✓</span><span>کپی شد</span>";button.setAttribute("aria-label","اطلاعات کارت کپی شد");button.title="اطلاعات کارت کپی شد";
  }catch{
