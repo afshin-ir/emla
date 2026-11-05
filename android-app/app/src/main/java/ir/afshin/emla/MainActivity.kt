@@ -12,7 +12,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextWatcher
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +27,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.text.Normalizer
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
@@ -36,6 +42,8 @@ class MainActivity : Activity() {
     private lateinit var database: WordsDatabase
     private lateinit var searchInput: EditText
     private lateinit var status: TextView
+    private lateinit var progress: ProgressBar
+    private lateinit var emptyHint: LinearLayout
     private lateinit var results: RecyclerView
     private lateinit var adapter: EntryAdapter
     private lateinit var clearButton: TextView
@@ -112,12 +120,12 @@ class MainActivity : Activity() {
         root.addView(header, matchWrap())
 
         val subtitle = TextView(this).apply {
-            text = "جست‌وجوی برخط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
+            text = "جست‌وجوی آفلاین در واژگان و منابع خط فارسی"
             textSize = 13f
             setTextColor(muted)
             gravity = Gravity.RIGHT
             textDirection = View.TEXT_DIRECTION_RTL
-            setPadding(0, dp(4), 0, dp(15))
+            setPadding(0, dp(3), 0, dp(9))
         }
         root.addView(subtitle, matchWrap())
 
@@ -163,7 +171,8 @@ class MainActivity : Activity() {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
             layoutDirection = View.LAYOUT_DIRECTION_RTL
-            setPadding(0, dp(12), 0, dp(8))
+            background = rounded(paper, line, 1, 12)
+            setPadding(dp(3), dp(3), dp(3), dp(3))
         }
         approvedFilter = filterButton("واژگان مصوب")
         spellingFilter = filterButton("فرهنگ املایی")
@@ -171,8 +180,8 @@ class MainActivity : Activity() {
         listOf(approvedFilter, spellingFilter, dasturFilter).forEachIndexed { index, button ->
             filters.addView(
                 button,
-                LinearLayout.LayoutParams(0, dp(40), 1f).apply {
-                    if (index > 0) marginStart = dp(6)
+                LinearLayout.LayoutParams(0, dp(44), 1f).apply {
+                    if (index > 0) marginStart = dp(3)
                 }
             )
         }
@@ -181,10 +190,12 @@ class MainActivity : Activity() {
 
         exactMatchFilter = CheckBox(this).apply {
             text = "تطبیق دقیق واژه"
-            textSize = 13f
+            textSize = 12f
             layoutDirection = View.LAYOUT_DIRECTION_RTL
             gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
             buttonTintList = ColorStateList.valueOf(green)
+            setTextColor(muted)
+            minHeight = dp(40)
             setPadding(0, dp(2), 0, dp(2))
         }
         root.addView(exactMatchFilter, matchWrap())
@@ -197,6 +208,53 @@ class MainActivity : Activity() {
             setPadding(dp(2), dp(2), dp(2), dp(8))
         }
         root.addView(status, matchWrap())
+
+        progress = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+            isIndeterminate = true
+            progressTintList = ColorStateList.valueOf(green)
+            indeterminateTintList = ColorStateList.valueOf(green)
+            visibility = View.GONE
+        }
+        root.addView(progress, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(3)).apply {
+            bottomMargin = dp(5)
+        })
+
+        emptyHint = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            setPadding(0, dp(2), 0, dp(8))
+            visibility = View.GONE
+        }
+        val examplesLabel = TextView(this).apply {
+            text = "نمونه:"
+            textSize = 12f
+            setTextColor(muted)
+            setPadding(0, 0, dp(6), 0)
+        }
+        emptyHint.addView(examplesLabel, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        listOf("متن", "انسان", "text").forEach { term ->
+            val chip = TextView(this).apply {
+                text = term
+                textSize = 12f
+                setTextColor(greenDark)
+                gravity = Gravity.CENTER
+                background = rounded(Color.rgb(232, 244, 238), Color.TRANSPARENT, 0, 9)
+                setPadding(dp(9), dp(6), dp(9), dp(6))
+                isClickable = true
+                isFocusable = true
+                contentDescription = "جست‌وجوی نمونهٔ $term"
+                setOnClickListener {
+                    searchInput.setText(term)
+                    searchInput.setSelection(searchInput.text.length)
+                    searchInput.requestFocus()
+                }
+            }
+            emptyHint.addView(chip, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                marginStart = dp(5)
+            })
+        }
+        root.addView(emptyHint, matchWrap())
 
         adapter = EntryAdapter()
         results = RecyclerView(this).apply {
@@ -307,6 +365,16 @@ class MainActivity : Activity() {
             details.addView(row, matchWrap())
         }
 
+        val description = TextView(this).apply {
+            text = "جست‌وجوی برخط (آفلاین) در واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰) و کتاب «فرهنگ املایی خط فارسی» و کتاب «دستور خط فارسی»"
+            textSize = 13f
+            setTextColor(muted)
+            gravity = Gravity.RIGHT
+            textDirection = View.TEXT_DIRECTION_RTL
+            setPadding(0, 0, 0, dp(12))
+        }
+        details.addView(description, matchWrap())
+
         addDetail("نسخهٔ " + persianDigits(version))
         addDetail("سازنده: افشین فلاطونی")
         addDetail("کانال تلگرام سازنده: @Falatuni", clickable = true) {
@@ -321,6 +389,7 @@ class MainActivity : Activity() {
     }
 
     private fun importDatabase() {
+        progress.visibility = View.VISIBLE
         databaseExecutor.execute {
             try {
                 database.importIfNeeded { message ->
@@ -329,6 +398,7 @@ class MainActivity : Activity() {
                 val count = database.totalCount()
                 mainHandler.post {
                     ready = true
+                    progress.visibility = View.GONE
                     status.text = "آمادهٔ جست‌وجو · " + persianDigits(count) + " مدخل"
                     showInitialMessage()
                     scheduleSearch()
@@ -336,6 +406,8 @@ class MainActivity : Activity() {
             } catch (error: Exception) {
                 mainHandler.post {
                     ready = false
+                    progress.visibility = View.GONE
+                    emptyHint.visibility = View.GONE
                     status.text = "آماده‌سازی پایگاه‌داده انجام نشد."
                     adapter.submit(emptyList())
                     showMessage("داده‌های همراه اپ خوانده نشد. اپ را دوباره نصب کنید.")
@@ -369,24 +441,30 @@ class MainActivity : Activity() {
         val serial = ++searchSerial
         searchWork?.cancel(true)
         if (query.isEmpty()) {
+            progress.visibility = View.GONE
+            emptyHint.visibility = View.VISIBLE
             adapter.submit(emptyList())
-            status.text = "برای جست‌وجو، واژه‌ای بنویسید."
+            status.text = "برای جست‌وجو، واژه‌ای بنویسید یا یکی از نمونه‌ها را انتخاب کنید."
             return
         }
+        emptyHint.visibility = View.GONE
         if (query.count { it.isLetterOrDigit() } < 2) {
+            progress.visibility = View.GONE
             adapter.submit(emptyList())
             status.text = "برای جست‌وجو دست‌کم دو نویسه بنویسید."
             return
         }
         status.text = "در حال جست‌وجو…"
+        progress.visibility = View.VISIBLE
         val filter = selectedKind
         searchWork = databaseExecutor.submit {
             val matches = database.search(query, filter, exactMatchFilter.isChecked)
             mainHandler.post {
                 if (serial != searchSerial) return@post
+                progress.visibility = View.GONE
                 adapter.submit(matches)
                 status.text = if (matches.isEmpty()) {
-                    "برای «" + query + "» نتیجه‌ای پیدا نشد."
+                    "برای «" + query + "» نتیجه‌ای پیدا نشد. املای واژه یا بخش دیگری از آن را جست‌وجو کنید."
                 } else {
                     persianDigits(matches.size) + " نتیجه برای «" + query + "»"
                 }
@@ -396,11 +474,14 @@ class MainActivity : Activity() {
 
     private fun showInitialMessage() {
         adapter.submit(emptyList())
-        status.text = "برای جست‌وجو، واژه‌ای بنویسید."
+        emptyHint.visibility = View.VISIBLE
+        status.text = "برای جست‌وجو، واژه‌ای بنویسید یا یکی از نمونه‌ها را انتخاب کنید."
     }
 
     private fun showMessage(message: String) {
         adapter.submit(emptyList())
+        emptyHint.visibility = View.GONE
+        progress.visibility = View.GONE
         status.text = message
     }
 
@@ -410,16 +491,16 @@ class MainActivity : Activity() {
         isAllCaps = false
         setPadding(dp(5), 0, dp(5), 0)
         minHeight = 0
-        minimumHeight = dp(40)
+        minimumHeight = dp(44)
         stateListAnimator = null
     }
 
     private fun styleFilter(button: Button, selected: Boolean) {
         button.background = rounded(
-            if (selected) Color.rgb(232, 244, 238) else paper,
-            if (selected) Color.rgb(143, 194, 163) else line,
-            1,
-            10
+            if (selected) Color.rgb(232, 244, 238) else Color.TRANSPARENT,
+            Color.TRANSPARENT,
+            0,
+            9
         )
         button.setTextColor(if (selected) greenDark else muted)
         button.typeface = Typeface.create("sans-serif", if (selected) Typeface.BOLD else Typeface.NORMAL)
@@ -480,7 +561,8 @@ class MainActivity : Activity() {
                 greenDark,
                 bold = true,
                 top = 0,
-                bottom = 4
+                bottom = 4,
+                queryToHighlight = if (entry.kind == 2) searchInput.text?.toString() else null
             )
 
             val englishTerms = splitEnglishTerms(entry.english)
@@ -493,7 +575,14 @@ class MainActivity : Activity() {
             }
             if (entry.kind == 2) {
                 if (entry.domain.isNotBlank()) addField(card, "بخش:", entry.domain)
-                if (entry.definition.isNotBlank()) addField(card, "متن:", entry.definition)
+                if (entry.definition.isNotBlank()) {
+                    addField(
+                        card,
+                        "متن:",
+                        entry.definition,
+                        queryToHighlight = searchInput.text?.toString()
+                    )
+                }
                 if (entry.volumes.isNotBlank()) {
                     addField(card, "صفحه:", persianDigits(entry.volumes.replace(",", "،")))
                 }
@@ -511,7 +600,13 @@ class MainActivity : Activity() {
             }
         }
 
-        private fun addField(parent: LinearLayout, label: String, value: String, ltr: Boolean = false) {
+        private fun addField(
+            parent: LinearLayout,
+            label: String,
+            value: String,
+            ltr: Boolean = false,
+            queryToHighlight: String? = null
+        ) {
             val row = LinearLayout(this@MainActivity).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.TOP
@@ -547,7 +642,7 @@ class MainActivity : Activity() {
                 row.addView(valueArea, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
             } else {
                 val valueView = TextView(this@MainActivity).apply {
-                    text = value
+                    text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
                     textSize = 14f
                     setTextColor(ink)
                     gravity = Gravity.RIGHT
@@ -568,10 +663,11 @@ class MainActivity : Activity() {
         color: Int,
         bold: Boolean,
         top: Int,
-        bottom: Int
+        bottom: Int,
+        queryToHighlight: String? = null
     ) {
         val text = TextView(this).apply {
-            this.text = value
+            this.text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
             textSize = size
             setTextColor(color)
             gravity = Gravity.RIGHT
@@ -580,6 +676,60 @@ class MainActivity : Activity() {
             setPadding(0, dp(top), 0, dp(bottom))
         }
         parent.addView(text, matchWrap())
+    }
+
+    private fun highlightQueryText(value: String, query: String): CharSequence {
+        fun normalizeWithMap(input: String): Pair<String, List<Int>> {
+            val normalized = StringBuilder()
+            val originalIndexes = ArrayList<Int>()
+            input.forEachIndexed { index, original ->
+                val compatible = Normalizer.normalize(original.toString(), Normalizer.Form.NFKC)
+                compatible.forEach { character ->
+                    val mapped = when (character) {
+                        'ي', 'ى' -> 'ی'
+                        'ك' -> 'ک'
+                        'ۀ', 'ة' -> 'ه'
+                        else -> character
+                    }
+                    if (mapped in '\u064b'..'\u065f' || mapped == '\u0670' || mapped == 'ـ') return@forEach
+                    if (mapped.isLetterOrDigit()) {
+                        normalized.append(mapped.lowercaseChar())
+                        originalIndexes.add(index)
+                    }
+                }
+            }
+            return normalized.toString() to originalIndexes
+        }
+
+        val (normalizedValue, originalIndexes) = normalizeWithMap(value)
+        val normalizedQuery = normalizeWithMap(query).first
+        if (normalizedQuery.isBlank() || originalIndexes.isEmpty()) return value
+
+        val highlighted = SpannableString(value)
+        var searchFrom = 0
+        while (searchFrom < normalizedValue.length) {
+            val matchStart = normalizedValue.indexOf(normalizedQuery, searchFrom)
+            if (matchStart < 0) break
+            val matchEnd = matchStart + normalizedQuery.length
+            val originalStart = originalIndexes.getOrNull(matchStart)
+            val originalEnd = originalIndexes.getOrNull(matchEnd - 1)?.plus(1)
+            if (originalStart != null && originalEnd != null && originalStart < originalEnd) {
+                highlighted.setSpan(
+                    BackgroundColorSpan(Color.rgb(255, 236, 179)),
+                    originalStart,
+                    originalEnd,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                highlighted.setSpan(
+                    ForegroundColorSpan(greenDark),
+                    originalStart,
+                    originalEnd,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            searchFrom = matchEnd
+        }
+        return highlighted
     }
 
     private fun rounded(fill: Int, stroke: Int, strokeWidth: Int, radius: Int): GradientDrawable =
