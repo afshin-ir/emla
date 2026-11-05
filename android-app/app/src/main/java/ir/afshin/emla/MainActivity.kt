@@ -22,6 +22,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -96,18 +97,18 @@ class MainActivity : Activity() {
         header.addView(heading, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
 
         header.addView(View(this), LinearLayout.LayoutParams(0, 1, 1f))
-        val aboutButton = TextView(this).apply {
-            text = "دربارهٔ برنامه"
-            textSize = 12f
+        val menuButton = TextView(this).apply {
+            text = "☰"
+            textSize = 23f
             gravity = Gravity.CENTER
             setTextColor(greenDark)
-            background = rounded(paper, line, 1, 10)
-            setPadding(dp(10), 0, dp(10), 0)
-            minHeight = dp(38)
-            contentDescription = "اطلاعات نسخه و سازندهٔ اَفرا"
-            setOnClickListener { showAboutDialog() }
+            background = rounded(paper, line, 1, 12)
+            contentDescription = "بازکردن فهرست برنامه"
+            isClickable = true
+            isFocusable = true
+            setOnClickListener { showAppMenu(this) }
         }
-        header.addView(aboutButton, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, dp(40)))
+        header.addView(menuButton, LinearLayout.LayoutParams(dp(46), dp(42)))
         root.addView(header, matchWrap())
 
         val subtitle = TextView(this).apply {
@@ -230,6 +231,50 @@ class MainActivity : Activity() {
         approvedFilter.setOnClickListener { setFilter(0) }
         spellingFilter.setOnClickListener { setFilter(1) }
         exactMatchFilter.setOnCheckedChangeListener { _, _ -> scheduleSearch() }
+    }
+
+    private fun showAppMenu(anchor: View) {
+        val popup = PopupMenu(this, anchor)
+        popup.menu.add(0, 1, 0, "دربارهٔ اَفرا")
+        popup.menu.add(0, 2, 1, "منابع و داده‌ها")
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                1 -> showAboutDialog()
+                2 -> showSourcesDialog()
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun showSourcesDialog() {
+        val sources = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutDirection = View.LAYOUT_DIRECTION_RTL
+            setPadding(dp(22), dp(4), dp(22), dp(4))
+        }
+
+        fun addSource(text: String) {
+            val row = TextView(this).apply {
+                this.text = text
+                textSize = 15f
+                setTextColor(ink)
+                gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+                textDirection = View.TEXT_DIRECTION_RTL
+                setPadding(0, dp(8), 0, dp(8))
+            }
+            sources.addView(row, matchWrap())
+        }
+
+        addSource("واژگان مصوب فرهنگستان (دفترهای ۱ تا ۲۰)")
+        addSource("کتاب «فرهنگ املایی خط فارسی»")
+        addSource("کتاب «دستور خط فارسی»")
+
+        AlertDialog.Builder(this)
+            .setTitle("منابع و داده‌ها")
+            .setView(sources)
+            .setPositiveButton("بستن", null)
+            .show()
     }
 
     private fun showAboutDialog() {
