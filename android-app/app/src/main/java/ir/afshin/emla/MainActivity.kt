@@ -22,10 +22,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.concurrent.Executors
+import java.util.concurrent.Future
 
 class MainActivity : Activity() {
     private val mainHandler = Handler(Looper.getMainLooper())
     private val databaseExecutor = Executors.newSingleThreadExecutor()
+    private var searchWork: Future<*>? = null
     private lateinit var database: WordsDatabase
     private lateinit var searchInput: EditText
     private lateinit var status: TextView
@@ -235,21 +237,27 @@ class MainActivity : Activity() {
         pendingSearch?.let(mainHandler::removeCallbacks)
         val task = Runnable { searchNow() }
         pendingSearch = task
-        mainHandler.postDelayed(task, 220)
+        mainHandler.postDelayed(task, 350)
     }
 
     private fun searchNow() {
         if (!ready) return
         val query = searchInput.text?.toString().orEmpty().trim()
         val serial = ++searchSerial
+        searchWork?.cancel(true)
         if (query.isEmpty()) {
             adapter.submit(emptyList())
             status.text = "برای جست‌وجو، واژه‌ای بنویسید."
             return
         }
+        if (query.count { it.isLetterOrDigit() } < 2) {
+            adapter.submit(emptyList())
+            status.text = "برای جست‌وجو دست‌کم دو نویسه بنویسید."
+            return
+        }
         status.text = "در حال جست‌وجو…"
         val filter = selectedKind
-        databaseExecutor.execute {
+        searchWork = databaseExecutor.submit {
             val matches = database.search(query, filter, exactMatchFilter.isChecked)
             mainHandler.post {
                 if (serial != searchSerial) return@post
@@ -516,6 +524,8 @@ class MainActivity : Activity() {
 
     override fun onDestroy() {
         pendingSearch?.let(mainHandler::removeCallbacks)
+        searchWork?.cancel(true)
+        databaseExecutor.shutdownNow()
         super.onDestroy()
     }
 }
