@@ -215,13 +215,13 @@ def link_reference_rows(rows, records, indexed_bases):
                     target["ref_terms"].append(alias)
 
 
-def insert(db, kind, title, english, domain, definition, volumes, notes, extras=""):
-    searchable = " ".join((title, english, domain, definition, volumes, notes, extras))
+def insert(db, kind, title, english, domain, definition, volumes, notes, extras="", ref_terms=""):
+    searchable = " ".join((title, english, domain, definition, volumes, notes, extras, ref_terms))
     db.execute(
         """INSERT INTO entries
-           (kind,title,english,domain,definition,volumes,notes,title_norm,english_norm,search_norm)
-           VALUES (?,?,?,?,?,?,?,?,?,?)""",
-        (kind, title, english, domain, definition, volumes, notes,
+           (kind,title,english,domain,definition,volumes,notes,ref_terms,title_norm,english_norm,search_norm)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?)""",
+        (kind, title, english, domain, definition, volumes, notes, ref_terms,
          normalize(title), normalize(english), normalize(searchable)),
     )
 
@@ -243,6 +243,7 @@ def main():
             definition TEXT NOT NULL,
             volumes TEXT NOT NULL,
             notes TEXT NOT NULL,
+            ref_terms TEXT NOT NULL,
             title_norm TEXT NOT NULL,
             english_norm TEXT NOT NULL,
             search_norm TEXT NOT NULL
@@ -251,25 +252,38 @@ def main():
     """)
     with gzip.open(DATA_FILE, "rt", encoding="utf-8") as stream:
         rows = json.load(stream)
-    batch = []
+    indexed_bases = collect_indexed_bases(rows)
+    records = []
     for row in rows:
         title, source, domains, english, definition, extra_one, extra_two, volumes, notes = (
             cell(row, i) for i in range(9)
         )
-        full_domain = "، ".join(domain_terms(domains))
-        batch.append((0, title, english, full_domain, definition,
-                      display_volumes(row[7] if len(row) > 7 else ""), notes,
-                      " ".join(x for x in (source, extra_one, extra_two) if x)))
-    db.executemany(
-        """INSERT INTO entries
-           (kind,title,english,domain,definition,volumes,notes,title_norm,english_norm,search_norm)
-           VALUES (?,?,?,?,?,?,?,?,?,?)""",
-        ((kind, title, english, domain, definition, volumes, notes,
-          normalize(title), normalize(english),
-          normalize(" ".join((title, english, domain, definition, volumes, notes, extras))))
-         for kind, title, english, domain, definition, volumes, notes, extras in batch),
-    )
-    del batch
+        if not title.strip() or not english.strip():
+            continue
+        display_title = "، ".join(visible_persian_terms(title, indexed_bases))
+        english_terms = list(dict.fromkeys(
+            strip_index(term, indexed_bases) for term in split_english_terms(english)
+        ))
+        records.append({
+            "title": display_title or title,
+            "english": ", ".join(term for term in english_terms if term),
+            "domain": "، ".join(domain_terms(domains)),
+            "definition": definition,
+            "volumes": display_volumes(row[7] if len(row) > 7 else ""),
+            "notes": notes,
+            "extras": " ".join(x for x in (source, extra_one, extra_two, title, english) if x),
+            "persian_terms": split_terms(title),
+            "english_terms": split_english_terms(english),
+            "volume_list": row[7] if len(row) > 7 and isinstance(row[7], list) else [],
+            "ref_terms": [],
+        })
+    link_reference_rows(rows, records, indexed_bases)
+    for record in records:
+        ref_terms = list(dict.fromkeys(term for term in record["ref_terms"] if term.strip()))
+        insert(db, 0, record["title"], record["english"], record["domain"],
+               record["definition"], record["volumes"], record["notes"],
+               record["extras"], "، ".join(ref_terms))
+    del records
 
     with SPELLING_FILE.open(encoding="utf-8") as stream:
         spelling = json.load(stream).get("entries", [])
