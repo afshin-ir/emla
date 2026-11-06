@@ -15,6 +15,22 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("AFRA_KEYSTORE_FILE") ?: "release-key.jks")
+            storePassword = System.getenv("AFRA_KEYSTORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("AFRA_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("AFRA_KEY_PASSWORD") ?: ""
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
