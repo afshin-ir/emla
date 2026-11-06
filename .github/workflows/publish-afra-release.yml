@@ -1,4 +1,4 @@
-name: Publish Afra stable release
+name: Publish Afra Cafe Bazaar signed APK
 
 on:
   push:
@@ -6,49 +6,54 @@ on:
       - feat/afra-hamburger-menu
 
 permissions:
-  actions: read
   contents: write
 
 jobs:
   publish:
-    if: github.event.head_commit.message == 'Publish Afra 1.0.0 stable release'
+    if: github.event.head_commit.message == 'Publish Bazaar-signed Afra 1.0.0 APK'
     runs-on: ubuntu-latest
     steps:
-      - name: Download the verified APK artifact
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Build preloaded offline database
+        run: python3 android-app/scripts/build_database.py
+
+      - name: Decode release signing key
+        env:
+          AFRA_KEYSTORE_BASE64: ${{ secrets.AFRA_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$AFRA_KEYSTORE_BASE64" || { echo "Missing AFRA_KEYSTORE_BASE64 secret" >&2; exit 1; }
+          printf '%s' "$AFRA_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/afra-release.jks"
+          chmod 600 "$RUNNER_TEMP/afra-release.jks"
+          echo "AFRA_KEYSTORE_FILE=$RUNNER_TEMP/afra-release.jks" >> "$GITHUB_ENV"
+
+      - name: Build signed release APK
+        env:
+          AFRA_KEYSTORE_PASSWORD: ${{ secrets.AFRA_KEYSTORE_PASSWORD }}
+          AFRA_KEY_ALIAS: ${{ secrets.AFRA_KEY_ALIAS }}
+          AFRA_KEY_PASSWORD: ${{ secrets.AFRA_KEY_PASSWORD }}
+        run: gradle --no-daemon -p android-app assembleRelease
+
+      - name: Replace APK in GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run download 42101299542 --repo afshin-ir/emla --name emla-dictionary-android-apk --dir release-assets
-          mv release-assets/app-debug.apk release-assets/Afra-1.0.0.apk
-
-      - name: Publish GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cat > release-notes.md <<'EOF'
-          # اَفرا ۱٫۰٫۰ — نخستین نسخهٔ پایدار
-
-          اَفرا یک اپلیکیشن اندرویدی برای جست‌وجوی برون‌خط در سه منبع فارسی است:
-
-          - واژگان مصوب فرهنگستان زبان و ادب فارسی، دفترهای ۱ تا ۲۰
-          - فرهنگ املایی خط فارسی
-          - دستور خط فارسی
-
-          ## قابلیت‌ها
-
-          - جست‌وجو با واژه‌های فارسی و انگلیسی، بدون نیاز به اینترنت
-          - انتخاب منبع جست‌وجو و امکان تطبیق دقیق واژه
-          - نمایش مرتب برابرهای انگلیسی، مترادف‌ها، صورت‌های دیگر انگلیسی، حوزه‌ها، تعریف‌ها و شمارهٔ دفتر
-          - شماره‌گذاری فارسی تعریف‌های چندگانه و سامان‌دهی مدخل‌های ارجاعی
-          - کپی اطلاعات هر کارت با قالب‌بندی خوانا
-          - نگهداری جست‌وجوهای اخیر و واژه‌های نشان‌شده
-          - تنظیم اندازۀ نوشته و نمایش با فونت وزیرمتن
-
-          داده‌های واژگان در خود برنامه قرار دارند و جست‌وجو پس از نصب برون‌خط انجام می‌شود.
-          EOF
-          gh release create v1.0.0 release-assets/Afra-1.0.0.apk \
-            --repo afshin-ir/emla \
-            --target e7054d4cd21e63d92102d8e4640d0cf5a612e4d2 \
-            --title "اَفرا ۱٫۰٫۰" \
-            --notes-file release-notes.md \
-            --latest
+          cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.0.0.apk"
+          gh release upload v1.0.0 "$RUNNER_TEMP/Afra-1.0.0.apk" --repo afshin-ir/emla --clobber
