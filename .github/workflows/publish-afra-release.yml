@@ -57,37 +57,3 @@ jobs:
         run: |
           cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.0.0.apk"
           gh release upload v1.0.0 "$RUNNER_TEMP/Afra-1.0.0.apk" --repo afshin-ir/emla --clobber
-
-  rtl_release_description:
-    if: github.event.head_commit.message == 'Right-align Afra release notes v1.0.0'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-      - name: Set release notes direction to RTL
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cat > "$RUNNER_TEMP/afra-release-notes.html" <<'RELEASE_NOTES'
-          <div dir="rtl" align="right">
-          <h1>اَفرا ۱٫۰٫۰ — نخستین نسخهٔ پایدار</h1>
-          <p>اَفرا یک اپلیکیشن اندرویدی برای جست‌وجوی برون‌خط در سه منبع فارسی است:</p>
-          <ul>
-            <li>واژگان مصوب فرهنگستان زبان و ادب فارسی، دفترهای ۱ تا ۲۰</li>
-            <li>فرهنگ املایی خط فارسی</li>
-            <li>دستور خط فارسی</li>
-          </ul>
-          <h2>قابلیت‌ها</h2>
-          <ul>
-            <li>جست‌وجو با واژه‌های فارسی و انگلیسی، بدون نیاز به اینترنت</li>
-            <li>انتخاب منبع جست‌وجو و امکان تطبیق دقیق واژه</li>
-            <li>نمایش مرتب برابرهای انگلیسی، مترادف‌ها، صورت‌های دیگر انگلیسی، حوزه‌ها، تعریف‌ها و شمارهٔ دفتر</li>
-            <li>شماره‌گذاری فارسی تعریف‌های چندگانه و سامان‌دهی مدخل‌های ارجاعی</li>
-            <li>کپی اطلاعات هر کارت با قالب‌بندی خوانا</li>
-            <li>نگهداری جست‌وجوهای اخیر و واژه‌های نشان‌شده</li>
-            <li>تنظیم اندازهٔ نوشته و نمایش با فونت وزیرمتن</li>
-          </ul>
-          <p>داده‌های واژگان در خود برنامه قرار دارند و جست‌وجو پس از نصب برون‌خط انجام می‌شود.</p>
-          </div>
-          RELEASE_NOTES
-          gh release edit v1.0.0 --notes-file "$RUNNER_TEMP/afra-release-notes.html" --repo afshin-ir/emla
