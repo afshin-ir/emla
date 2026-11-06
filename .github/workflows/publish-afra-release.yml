@@ -1,0 +1,54 @@
+name: Publish Afra stable release
+
+on:
+  push:
+    branches:
+      - feat/afra-hamburger-menu
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    if: github.event.head_commit.message == 'Publish Afra 1.0.0 stable release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the verified APK artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 42101299542 --repo afshin-ir/emla --name emla-dictionary-android-apk --dir release-assets
+          mv release-assets/app-debug.apk release-assets/Afra-1.0.0.apk
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat > release-notes.md <<'EOF'
+          # اَفرا ۱٫۰٫۰ — نخستین نسخهٔ پایدار
+
+          اَفرا یک اپلیکیشن اندرویدی برای جست‌وجوی برون‌خط در سه منبع فارسی است:
+
+          - واژگان مصوب فرهنگستان زبان و ادب فارسی، دفترهای ۱ تا ۲۰
+          - فرهنگ املایی خط فارسی
+          - دستور خط فارسی
+
+          ## قابلیت‌ها
+
+          - جست‌وجو با واژه‌های فارسی و انگلیسی، بدون نیاز به اینترنت
+          - انتخاب منبع جست‌وجو و امکان تطبیق دقیق واژه
+          - نمایش مرتب برابرهای انگلیسی، مترادف‌ها، صورت‌های دیگر انگلیسی، حوزه‌ها، تعریف‌ها و شمارهٔ دفتر
+          - شماره‌گذاری فارسی تعریف‌های چندگانه و سامان‌دهی مدخل‌های ارجاعی
+          - کپی اطلاعات هر کارت با قالب‌بندی خوانا
+          - نگهداری جست‌وجوهای اخیر و واژه‌های نشان‌شده
+          - تنظیم اندازۀ نوشته و نمایش با فونت وزیرمتن
+
+          داده‌های واژگان در خود برنامه قرار دارند و جست‌وجو پس از نصب برون‌خط انجام می‌شود.
+          EOF
+          gh release create v1.0.0 release-assets/Afra-1.0.0.apk \
+            --repo afshin-ir/emla \
+            --target e7054d4cd21e63d92102d8e4640d0cf5a612e4d2 \
+            --title "اَفرا ۱٫۰٫۰" \
+            --notes-file release-notes.md \
+            --latest
