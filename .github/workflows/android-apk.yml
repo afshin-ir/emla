@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'Publish Afra 1.1.0 stable release' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out source

@@ -1,4 +1,4 @@
-name: Publish Afra Cafe Bazaar signed APK
+name: Publish Afra stable release
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.event.head_commit.message == 'Publish Bazaar-signed Afra 1.0.0 APK'
+    if: github.event.head_commit.message == 'Publish Afra 1.1.0 stable release'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -51,9 +51,13 @@ jobs:
           AFRA_KEY_PASSWORD: ${{ secrets.AFRA_KEY_PASSWORD }}
         run: gradle --no-daemon -p android-app assembleRelease
 
-      - name: Replace APK in GitHub release
+      - name: Create release and upload the signed APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.0.0.apk"
-          gh release upload v1.0.0 "$RUNNER_TEMP/Afra-1.0.0.apk" --repo afshin-ir/emla --clobber
+          cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.1.0.apk"
+          gh release create v1.1.0 "$RUNNER_TEMP/Afra-1.1.0.apk" \
+            --repo afshin-ir/emla \
+            --title "اَفرا ۱٫۱٫۰" \
+            --notes-file android-app/RELEASE_NOTES_1.1.0.md \
+            --target "$GITHUB_SHA"
