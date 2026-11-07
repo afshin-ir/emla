@@ -1175,7 +1175,7 @@ showVazirmatnDialog(
         val (normalizedValue, originalIndexes) = normalizeWithMap(value)
         val terms = query.trim().split(Regex("\\s+"))
             .map { normalizeWithMap(it).first }
-            .filter(String::isNotBlank)
+            .filter { it.isNotBlank() }
         if (terms.isEmpty() || originalIndexes.isEmpty()) return value
 
         val spans = mutableListOf<Pair<Int, Int>>()
