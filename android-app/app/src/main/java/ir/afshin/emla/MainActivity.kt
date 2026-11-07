@@ -584,18 +584,33 @@ showVazirmatnDialog(
         )
     }
 
-    private data class CopyField(val label: String, val value: String, val code: Boolean = false, val multiline: Boolean = false)
+    private data class CopyField(
+        val label: String,
+        val value: String,
+        val code: Boolean = false,
+        val multiline: Boolean = false,
+        val highlighted: Boolean = false
+    )
 
     private fun copyCardToClipboard(entry: WordEntry, button: Button) {
-        val title = entry.title.ifBlank { entry.english }.trim()
+        val englishTerms = splitEnglishTerms(entry.english)
+        val queryIsEnglish = searchInput.text?.toString()?.any {
+            it in 'A'..'Z' || it in 'a'..'z'
+        } == true
+        val titleIsEnglish = entry.kind != 2 && queryIsEnglish &&
+            englishTerms.firstOrNull().orEmpty().isNotBlank() && entry.title.isNotBlank()
+        val title = (if (titleIsEnglish) englishTerms.first() else entry.title.ifBlank { entry.english }).trim()
         val type = when (entry.kind) {
             0 -> "واژگان مصوب فرهنگستان"
             1 -> "فرهنگ املایی خط فارسی"
             else -> "کتاب دستور خط فارسی"
         }
         val fields = mutableListOf<CopyField>()
-        val englishTerms = splitEnglishTerms(entry.english)
-        englishTerms.firstOrNull()?.let { fields += CopyField("برابر انگلیسی:", it, code = true) }
+        if (titleIsEnglish) {
+            fields += CopyField("برابر فارسی:", entry.title.trim(), highlighted = true)
+        } else {
+            englishTerms.firstOrNull()?.let { fields += CopyField("برابر انگلیسی:", it, code = true) }
+        }
         englishTerms.drop(1).takeIf { it.isNotEmpty() }?.let {
             fields += CopyField("صورت‌های دیگر انگلیسی:", it.joinToString(", "), code = true)
         }
@@ -629,7 +644,11 @@ showVazirmatnDialog(
                     append(field.label).append("\n\n").append(field.value)
                 } else {
                     append(field.label).append(" ")
-                    if (field.code) append("`").append(field.value).append("`") else append(field.value)
+                    when {
+                        field.code -> append("`").append(field.value).append("`")
+                        field.highlighted -> append("**").append(field.value).append("**")
+                        else -> append(field.value)
+                    }
                 }
             }
         }
@@ -637,7 +656,12 @@ showVazirmatnDialog(
         fun html(value: String): String = android.text.TextUtils.htmlEncode(value)
         val htmlText = buildString {
             append("<div dir=\"rtl\" style=\"font-family:Vazirmatn,sans-serif;line-height:1.8;color:#1e2d2b\">")
-            append("<h2 style=\"margin:0 0 10px;color:#105b48;font-size:1.3em\">")
+            val titleDirection = if (titleIsEnglish) "ltr" else "rtl"
+            val titleAlignment = if (titleIsEnglish) "left" else "right"
+            val titleFont = if (titleIsEnglish) "sans-serif" else "Vazirmatn,sans-serif"
+            append("<h2 dir=\"").append(titleDirection)
+                .append("\" style=\"margin:0 0 10px;color:#105b48;font-size:1.3em;text-align:")
+                .append(titleAlignment).append(";font-family:").append(titleFont).append("\">")
                 .append(html(title)).append("</h2>")
             append("<p style=\"margin:0 0 10px;color:#697b74;font-size:.9em\">")
                 .append(html(type)).append("</p>")
@@ -652,6 +676,9 @@ showVazirmatnDialog(
                     if (field.code) {
                         append("<code dir=\"ltr\" style=\"font-family:Vazirmatn,sans-serif;background:#edf1f4;color:#31485c;padding:2px 5px;border-radius:4px\">")
                             .append(html(field.value)).append("</code>")
+                    } else if (field.highlighted) {
+                        append("<span style=\"color:#105b48;font-weight:700\">")
+                            .append(html(field.value)).append("</span>")
                     } else {
                         append(html(field.value))
                     }
