@@ -962,12 +962,14 @@ showVazirmatnDialog(
             cardActions.addView(number, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             card.addView(cardActions, matchWrap())
 
-            val type = when (entry.kind) {
-                0 -> "واژگان مصوب فرهنگستان"
-                1 -> "فرهنگ املایی خط فارسی"
-                else -> "کتاب دستور خط فارسی"
+            if (showingFavorites) {
+                val type = when (entry.kind) {
+                    0 -> "واژگان مصوب فرهنگستان"
+                    1 -> "فرهنگ املایی خط فارسی"
+                    else -> "کتاب دستور خط فارسی"
+                }
+                addText(card, type, 11f, muted, bold = false, top = 0, bottom = 4)
             }
-            addText(card, type, 11f, muted, bold = false, top = 0, bottom = 4)
 
             val englishTerms = splitEnglishTerms(entry.english)
             val queryIsEnglish = searchInput.text?.toString()?.any {
