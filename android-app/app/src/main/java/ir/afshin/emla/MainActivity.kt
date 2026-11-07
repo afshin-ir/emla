@@ -970,8 +970,19 @@ showVazirmatnDialog(
                 }
             }
             val otherEnglish = englishTerms.drop(1)
+            val queryForOtherEnglish = searchInput.text?.toString()?.trim()?.takeIf { query ->
+                showEnglishTitle &&
+                    !englishTitle.contains(query, ignoreCase = true) &&
+                    otherEnglish.any { it.contains(query, ignoreCase = true) }
+            }
             if (otherEnglish.isNotEmpty()) {
-                addField(card, "صورت‌های دیگر انگلیسی:", otherEnglish.joinToString(", "), ltr = true)
+                addField(
+                    card,
+                    "صورت‌های دیگر انگلیسی:",
+                    otherEnglish.joinToString(", "),
+                    ltr = true,
+                    queryToHighlight = queryForOtherEnglish
+                )
             }
             if (entry.kind == 2) {
                 if (entry.domain.isNotBlank()) addField(card, "بخش:", entry.domain)
@@ -1026,7 +1037,7 @@ showVazirmatnDialog(
             if (ltr) {
                 row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
                 val valueView = TextView(this@MainActivity).apply {
-                    text = value
+                    text = queryToHighlight?.let { highlightEnglishMatch(value, it) } ?: value
                     textSize = 14f * textScale
                     setTextColor(Color.rgb(55, 79, 99))
                     typeface = Typeface.create("sans-serif", Typeface.NORMAL)
@@ -1156,6 +1167,27 @@ showVazirmatnDialog(
                 )
             }
             searchFrom = matchEnd
+        }
+        return highlighted
+    }
+
+    private fun highlightEnglishMatch(value: String, query: String): CharSequence {
+        val needle = query.trim()
+        if (needle.isBlank()) return value
+
+        val highlighted = SpannableString(value)
+        var start = 0
+        while (start < value.length) {
+            val matchStart = value.indexOf(needle, start, ignoreCase = true)
+            if (matchStart < 0) break
+            val matchEnd = matchStart + needle.length
+            highlighted.setSpan(
+                ForegroundColorSpan(greenDark),
+                matchStart,
+                matchEnd,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            start = matchEnd
         }
         return highlighted
     }
