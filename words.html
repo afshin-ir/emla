@@ -224,6 +224,19 @@ function detailsMarkup(e,query,type){
  if(e[8])html+="<details class=\"note-more\"><summary>دیدن یادداشت دفتر</summary><div style=\"white-space:pre-line\">"+highlighted(e[8],query)+"</div></details>";
  return html;
 }
+function coloredMatch(value,query){
+ const text=String(value??""),terms=[...new Set(stripIndex(query).split(/\s+/).map(normalize).filter(Boolean))];
+ if(!terms.length)return esc(text);
+ let folded="",positions=[],offset=0;
+ for(const ch of text){const f=normalize(ch);for(const unit of Array.from(f)){folded+=unit;positions.push([offset,offset+ch.length]);}offset+=ch.length;}
+ const spans=[];
+ for(const term of terms){let start=0,index;while((index=folded.indexOf(term,start))!==-1){const a=positions[index]?.[0],b=positions[index+term.length-1]?.[1];if(a!==undefined&&b!==undefined)spans.push([a,b]);start=index+term.length;}}
+ spans.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const merged=[];
+ for(const span of spans){const previous=merged[merged.length-1];if(previous&&span[0]<=previous[1])previous[1]=Math.max(previous[1],span[1]);else merged.push(span.slice());}
+ let html="",last=0;
+ for(const [a,b] of merged){html+=esc(text.slice(last,a))+"<span class=\"match-text\">"+esc(text.slice(a,b))+"</span>";last=b;}
+ return html+esc(text.slice(last));
+}
 function englishTerms(s){return String(s||"").split(/[,،;؛]/).map(x=>x.trim()).filter(Boolean);}
 function domainTerms(value){
  let raw=String(value??"").replace(/[\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/gu,"").trim();
@@ -242,15 +255,15 @@ function card(e,query,isEnglish,matchType,grouped=false,resultNumber=0){
  const badge=matchType==="reference"?"<span class=\"match-badge reference\">پیداشده از راه سرنام یا ارجاع</span>":matchType==="details"?"<span class=\"match-badge details\">تطبیق در اطلاعات مدخل</span>":"";
  let head="";
  if(grouped){
-  head=word?"<h3 lang=\"fa\" dir=\"rtl\">"+highlighted(word,query)+"</h3>":"<div class=\"persian-under\">برابر فارسی در این سطر ثبت نشده است</div>";
+  head=word?"<h3 lang=\"fa\" dir=\"rtl\">"+coloredMatch(word,query)+"</h3>":"<div class=\"persian-under\">برابر فارسی در این سطر ثبت نشده است</div>";
   const alternatives=english.filter(t=>normalize(stripIndex(t))!==normalize(stripIndex(query)));
   if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">مدخل‌های انگلیسیِ دیگر برای این برابر:</span><span class=\"english-code\">"+highlighted(alternatives.map(stripIndex).join(", "),query)+"</span></div>";
  }else if(mainEnglish){
-  head="<h2 class=\"english-primary\" lang=\"en\" dir=\"ltr\"><code>"+highlighted(mainEnglish,query)+"</code></h2>"+(word?"<div class=\"persian-under\"><span class=\"term-label\">برابر فارسی:</span>"+highlighted(word,query)+"</div>":"<span class=\"term-label\">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>");
+  head="<h2 class=\"english-primary\" lang=\"en\" dir=\"ltr\"><code>"+coloredMatch(mainEnglish,query)+"</code></h2>"+(word?"<div class=\"persian-under\"><span class=\"term-label\">برابر فارسی:</span>"+highlighted(word,query)+"</div>":"<span class=\"term-label\">مدخل انگلیسی؛ برابر فارسی در این سطر ثبت نشده است</span>");
   const alternatives=english.slice(1).map(stripIndex).filter(Boolean);
   if(alternatives.length)head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">صورت‌های دیگر انگلیسی:</span><span class=\"english-code\">"+highlighted(alternatives.join(", "),query)+"</span></div>";
  }else{
-  const title=word||displayEnglish(english[0]||e[3])||"مدخل بدون عنوان";head="<h2>"+highlighted(title,query)+"</h2>";
+  const title=word||displayEnglish(english[0]||e[3])||"مدخل بدون عنوان";head="<h2>"+coloredMatch(title,query)+"</h2>";
   if(english.length){
    head+="<div class=\"secondary-english\"><span class=\"secondary-english-label\">برابر انگلیسی:</span><span class=\"english-code\">"+highlighted(displayEnglish(english[0]),query)+"</span></div>";
    const alternatives=english.slice(1).map(stripIndex).filter(Boolean);
