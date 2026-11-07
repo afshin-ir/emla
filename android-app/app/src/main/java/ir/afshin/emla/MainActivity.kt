@@ -998,7 +998,7 @@ showVazirmatnDialog(
             expandable: Boolean = false
         ) {
             val row = LinearLayout(this@MainActivity).apply {
-                orientation = LinearLayout.HORIZONTAL
+                orientation = if (ltr) LinearLayout.VERTICAL else LinearLayout.HORIZONTAL
                 gravity = Gravity.TOP
                 layoutDirection = View.LAYOUT_DIRECTION_RTL
                 setPadding(0, dp(4), 0, 0)
@@ -1010,27 +1010,22 @@ showVazirmatnDialog(
                 typeface = appTypeface(Typeface.BOLD)
                 gravity = Gravity.RIGHT
             }
-            row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             if (ltr) {
+                row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
                 val valueView = TextView(this@MainActivity).apply {
                     text = value
-                    textSize = 13f * textScale
-                    setTextColor(Color.rgb(51, 83, 111))
-                    typeface = appTypeface(Typeface.NORMAL)
-                    gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
+                    textSize = 14f * textScale
+                    setTextColor(Color.rgb(55, 79, 99))
+                    typeface = Typeface.create("sans-serif", Typeface.NORMAL)
+                    gravity = Gravity.LEFT or Gravity.TOP
                     textDirection = View.TEXT_DIRECTION_LTR
+                    textAlignment = View.TEXT_ALIGNMENT_VIEW_START
                     setTextIsSelectable(true)
-                    background = rounded(Color.rgb(237, 242, 247), Color.TRANSPARENT, 0, 6)
-                    setPadding(dp(7), dp(3), dp(7), dp(3))
+                    setPadding(0, dp(2), 0, 0)
                 }
-                val valueArea = LinearLayout(this@MainActivity).apply {
-                    orientation = LinearLayout.HORIZONTAL
-                    layoutDirection = View.LAYOUT_DIRECTION_LTR
-                    gravity = Gravity.LEFT or Gravity.CENTER_VERTICAL
-                }
-                valueArea.addView(valueView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
-                row.addView(valueArea, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+                row.addView(valueView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             } else {
+                row.addView(labelView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT))
                 val valueView = TextView(this@MainActivity).apply {
                     text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
                     textSize = 14f * textScale
