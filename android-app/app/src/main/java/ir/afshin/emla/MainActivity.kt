@@ -988,6 +988,7 @@ showVazirmatnDialog(
                 top = 0,
                 bottom = 4,
                 queryToHighlight = if (entry.kind == 2) searchInput.text?.toString() else null,
+                queryToColor = if (entry.kind != 2) searchInput.text?.toString() else null,
                 latin = showEnglishTitle
             )
 
@@ -1127,10 +1128,13 @@ showVazirmatnDialog(
         top: Int,
         bottom: Int,
         queryToHighlight: String? = null,
-        latin: Boolean = false
+        latin: Boolean = false,
+        queryToColor: String? = null
     ) {
         val text = TextView(this).apply {
-            this.text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
+            this.text = queryToColor?.let { colorSearchMatches(value, it) }
+                ?: queryToHighlight?.let { highlightQueryText(value, it) }
+                ?: value
             textSize = size * textScale
             setTextColor(color)
             gravity = if (latin) Gravity.LEFT else Gravity.RIGHT
@@ -1144,6 +1148,71 @@ showVazirmatnDialog(
             setPadding(0, dp(top), 0, dp(bottom))
         }
         parent.addView(text, matchWrap())
+    }
+
+    private fun colorSearchMatches(value: String, query: String): CharSequence {
+        fun normalizeWithMap(input: String): Pair<String, List<Int>> {
+            val normalized = StringBuilder()
+            val originalIndexes = ArrayList<Int>()
+            input.forEachIndexed { index, original ->
+                Normalizer.normalize(original.toString(), Normalizer.Form.NFKC).forEach { character ->
+                    val mapped = when (character) {
+                        'ي', 'ى' -> 'ی'
+                        'ك' -> 'ک'
+                        'ۀ', 'ة' -> 'ه'
+                        else -> character
+                    }
+                    if (mapped in '\u064b'..'\u065f' || mapped == '\u0670' || mapped == 'ـ') return@forEach
+                    if (mapped.isLetterOrDigit()) {
+                        normalized.append(mapped.lowercaseChar())
+                        originalIndexes.add(index)
+                    }
+                }
+            }
+            return normalized.toString() to originalIndexes
+        }
+
+        val (normalizedValue, originalIndexes) = normalizeWithMap(value)
+        val terms = query.trim().split(Regex("\\s+"))
+            .map { normalizeWithMap(it).first }
+            .filter(String::isNotBlank)
+        if (terms.isEmpty() || originalIndexes.isEmpty()) return value
+
+        val spans = mutableListOf<Pair<Int, Int>>()
+        for (term in terms) {
+            var searchFrom = 0
+            while (searchFrom < normalizedValue.length) {
+                val matchStart = normalizedValue.indexOf(term, searchFrom)
+                if (matchStart < 0) break
+                val matchEnd = matchStart + term.length
+                val start = originalIndexes.getOrNull(matchStart)
+                val end = originalIndexes.getOrNull(matchEnd - 1)?.plus(1)
+                if (start != null && end != null && start < end) spans += start to end
+                searchFrom = matchEnd
+            }
+        }
+        if (spans.isEmpty()) return value
+
+        spans.sortWith(compareBy<Pair<Int, Int>> { it.first }.thenBy { it.second })
+        val merged = mutableListOf<Pair<Int, Int>>()
+        for ((start, end) in spans) {
+            val previous = merged.lastOrNull()
+            if (previous != null && start <= previous.second) {
+                merged[merged.lastIndex] = previous.first to maxOf(previous.second, end)
+            } else {
+                merged += start to end
+            }
+        }
+        return SpannableString(value).apply {
+            merged.forEach { (start, end) ->
+                setSpan(
+                    ForegroundColorSpan(Color.rgb(137, 93, 0)),
+                    start,
+                    end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
     }
 
     private fun highlightQueryText(value: String, query: String): CharSequence {
