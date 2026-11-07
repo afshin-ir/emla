@@ -942,24 +942,36 @@ showVazirmatnDialog(
             }
             addText(card, type, 11f, muted, bold = false, top = 0, bottom = 4)
 
+            val englishTerms = splitEnglishTerms(entry.english)
+            val queryIsEnglish = searchInput.text?.toString()?.any {
+                it in 'A'..'Z' || it in 'a'..'z'
+            } == true
+            val englishTitle = englishTerms.firstOrNull().orEmpty()
+            val showEnglishTitle = entry.kind != 2 && queryIsEnglish &&
+                englishTitle.isNotBlank() && entry.title.isNotBlank()
+
             addText(
                 card,
-                entry.title.ifBlank { entry.english },
+                if (showEnglishTitle) englishTitle else entry.title.ifBlank { entry.english },
                 19f,
                 greenDark,
                 bold = true,
                 top = 0,
                 bottom = 4,
-                queryToHighlight = if (entry.kind == 2) searchInput.text?.toString() else null
+                queryToHighlight = if (entry.kind == 2) searchInput.text?.toString() else null,
+                latin = showEnglishTitle
             )
 
-            val englishTerms = splitEnglishTerms(entry.english)
-            if (englishTerms.isNotEmpty()) {
-                addField(card, "برابر انگلیسی:", englishTerms.first(), ltr = true)
-                val otherEnglish = englishTerms.drop(1)
-                if (otherEnglish.isNotEmpty()) {
-                    addField(card, "صورت‌های دیگر انگلیسی:", otherEnglish.joinToString(", "), ltr = true)
+            if (showEnglishTitle) {
+                addField(card, "برابر فارسی:", entry.title, highlighted = true)
+            } else {
+                englishTerms.firstOrNull()?.let {
+                    addField(card, "برابر انگلیسی:", it, ltr = true)
                 }
+            }
+            val otherEnglish = englishTerms.drop(1)
+            if (otherEnglish.isNotEmpty()) {
+                addField(card, "صورت‌های دیگر انگلیسی:", otherEnglish.joinToString(", "), ltr = true)
             }
             if (entry.kind == 2) {
                 if (entry.domain.isNotBlank()) addField(card, "بخش:", entry.domain)
@@ -995,7 +1007,8 @@ showVazirmatnDialog(
             value: String,
             ltr: Boolean = false,
             queryToHighlight: String? = null,
-            expandable: Boolean = false
+            expandable: Boolean = false,
+            highlighted: Boolean = false
         ) {
             val row = LinearLayout(this@MainActivity).apply {
                 orientation = if (ltr) LinearLayout.VERTICAL else LinearLayout.HORIZONTAL
@@ -1029,7 +1042,8 @@ showVazirmatnDialog(
                 val valueView = TextView(this@MainActivity).apply {
                     text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
                     textSize = 14f * textScale
-                    setTextColor(ink)
+                    setTextColor(if (highlighted) greenDark else ink)
+                    typeface = appTypeface(if (highlighted) Typeface.BOLD else Typeface.NORMAL)
                     gravity = Gravity.RIGHT
                     textDirection = View.TEXT_DIRECTION_FIRST_STRONG
                     setTextIsSelectable(true)
@@ -1072,15 +1086,21 @@ showVazirmatnDialog(
         bold: Boolean,
         top: Int,
         bottom: Int,
-        queryToHighlight: String? = null
+        queryToHighlight: String? = null,
+        latin: Boolean = false
     ) {
         val text = TextView(this).apply {
             this.text = queryToHighlight?.let { highlightQueryText(value, it) } ?: value
             textSize = size * textScale
             setTextColor(color)
-            gravity = Gravity.RIGHT
-            textDirection = View.TEXT_DIRECTION_FIRST_STRONG
-            typeface = appTypeface(if (bold) Typeface.BOLD else Typeface.NORMAL)
+            gravity = if (latin) Gravity.LEFT else Gravity.RIGHT
+            textDirection = if (latin) View.TEXT_DIRECTION_LTR else View.TEXT_DIRECTION_FIRST_STRONG
+            textAlignment = if (latin) View.TEXT_ALIGNMENT_VIEW_START else View.TEXT_ALIGNMENT_GRAVITY
+            typeface = if (latin) {
+                Typeface.create("sans-serif", if (bold) Typeface.BOLD else Typeface.NORMAL)
+            } else {
+                appTypeface(if (bold) Typeface.BOLD else Typeface.NORMAL)
+            }
             setPadding(0, dp(top), 0, dp(bottom))
         }
         parent.addView(text, matchWrap())
