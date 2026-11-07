@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.event.head_commit.message == 'Publish Afra 1.1.0 stable release'
+    if: github.event.head_commit.message == 'Publish Afra 1.1.1 stable patch'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -55,9 +55,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.1.0.apk"
-          gh release create v1.1.0 "$RUNNER_TEMP/Afra-1.1.0.apk" \
+          cp android-app/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/Afra-1.1.1.apk"
+          gh release create v1.1.1 "$RUNNER_TEMP/Afra-1.1.1.apk" \
             --repo afshin-ir/emla \
-            --title "اَفرا ۱٫۱٫۰" \
-            --notes-file android-app/RELEASE_NOTES_1.1.0.md \
+            --title "اَفرا ۱٫۱٫۱" \
+            --notes-file android-app/RELEASE_NOTES_1.1.1.md \
             --target "$GITHUB_SHA"

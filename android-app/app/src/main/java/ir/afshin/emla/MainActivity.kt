@@ -83,7 +83,7 @@ class MainActivity : Activity() {
     private fun appTypeface(style: Int = Typeface.NORMAL): Typeface = Typeface.create(vazirmatnFamily, style)
 
     private fun applyVazirmatn(view: View) {
-        if (view is TextView) {
+        if (view is TextView && view.tag != "afra-latin-text") {
             val style = if (view.typeface?.isBold == true) Typeface.BOLD else Typeface.NORMAL
             view.typeface = appTypeface(style)
         }
@@ -1073,7 +1073,9 @@ showVazirmatnDialog(
                     typeface = Typeface.create("sans-serif", Typeface.NORMAL)
                     gravity = Gravity.LEFT or Gravity.TOP
                     textDirection = View.TEXT_DIRECTION_LTR
-                    textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+                    layoutDirection = View.LAYOUT_DIRECTION_LTR
+                    textAlignment = View.TEXT_ALIGNMENT_GRAVITY
+                    tag = "afra-latin-text"
                     setTextIsSelectable(true)
                     setPadding(0, dp(2), 0, 0)
                 }
@@ -1139,8 +1141,10 @@ showVazirmatnDialog(
             setTextColor(color)
             gravity = if (latin) Gravity.LEFT else Gravity.RIGHT
             textDirection = if (latin) View.TEXT_DIRECTION_LTR else View.TEXT_DIRECTION_FIRST_STRONG
-            textAlignment = if (latin) View.TEXT_ALIGNMENT_VIEW_START else View.TEXT_ALIGNMENT_GRAVITY
+            layoutDirection = if (latin) View.LAYOUT_DIRECTION_LTR else View.LAYOUT_DIRECTION_INHERIT
+            textAlignment = View.TEXT_ALIGNMENT_GRAVITY
             typeface = if (latin) {
+                tag = "afra-latin-text"
                 Typeface.create("sans-serif", if (bold) Typeface.BOLD else Typeface.NORMAL)
             } else {
                 appTypeface(if (bold) Typeface.BOLD else Typeface.NORMAL)
