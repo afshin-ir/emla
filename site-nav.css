@@ -1,0 +1,93 @@
+/* Shared navigation button system for every page on the site. */
+.site-nav-button{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:40px;
+  padding:7px 10px;
+  border:1px solid #e1e9e4;
+  border-radius:10px;
+  background:#fff;
+  color:#105b48;
+  font-family:inherit;
+  font-size:.8rem;
+  font-weight:600;
+  line-height:1.4;
+  text-align:center;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+  transition:background-color .15s,border-color .15s,color .15s;
+}
+.site-nav-button:hover{
+  border-color:#b9d7c6;
+  background:#e8f4ee;
+  color:#105b48;
+  text-decoration:none;
+}
+.site-nav-button:focus-visible{
+  outline:2px solid #16765d;
+  outline-offset:3px;
+}
+.site-nav-button.nav-articles{
+  border-color:#e7d4ae;
+  background:#f7f0e3;
+  color:#79551f;
+}
+.site-nav-button.nav-articles:hover{border-color:#d9c18e;background:#f0e5d0;color:#79551f}
+.site-nav-button.nav-dictionary{
+  border-color:#b9d8c7;
+  background:#e5f2eb;
+  color:#145b45;
+}
+.site-nav-button.nav-dictionary:hover{border-color:#91c5a9;background:#d4eadd;color:#145b45}
+.site-nav-button.nav-words{
+  border-color:#b3c7df;
+  background:#e4edf8;
+  color:#294866;
+}
+.site-nav-button.nav-words:hover{border-color:#96b2d1;background:#d8e5f4;color:#294866}
+.site-nav-button.nav-afra,
+.site-nav-button.nav-book,
+.site-nav-button.nav-settings,
+.site-nav-button.nav-bookmarks{
+  border-color:#e1e9e4;
+  background:#fff;
+  color:#105b48;
+}
+.site-nav-button.nav-afra:hover,
+.site-nav-button.nav-book:hover,
+.site-nav-button.nav-settings:hover,
+.site-nav-button.nav-bookmarks:hover{
+  border-color:#b9d7c6;
+  background:#e8f4ee;
+}
+.site-nav-button.nav-bookmarks>span{
+  display:inline-grid;
+  place-items:center;
+  min-width:22px;
+  height:22px;
+  padding:0 5px;
+  border-radius:7px;
+  background:#edf4ef;
+  color:#105b48;
+  font-size:.72rem;
+}
+.topbar .mobile-menu-toggle{
+  min-height:40px;
+  padding:7px 10px;
+  border:1px solid #e1e9e4;
+  border-radius:10px;
+  background:#fff;
+  color:#105b48;
+  font-family:inherit;
+  font-size:.8rem;
+  font-weight:600;
+  line-height:1.4;
+  cursor:pointer;
+}
+.topbar .mobile-menu-toggle:hover{border-color:#b9d7c6;background:#e8f4ee}
+.topbar .mobile-menu-toggle:focus-visible{outline:2px solid #16765d;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.site-nav-button{transition:none}}
