@@ -392,6 +392,7 @@ worker.postMessage({type:"init"});
 </script>
 <script>
 (()=>{const button=document.querySelector(".mobile-menu-toggle");if(!button)return;const nav=document.getElementById(button.getAttribute("aria-controls"));if(!nav)return;const close=()=>{nav.classList.remove("is-open");button.setAttribute("aria-expanded","false")};button.addEventListener("click",()=>{const open=button.getAttribute("aria-expanded")!=="true";button.setAttribute("aria-expanded",String(open));nav.classList.toggle("is-open",open)});nav.addEventListener("click",e=>{if(e.target.closest("a,button"))close()});document.addEventListener("pointerdown",e=>{if(!nav.contains(e.target)&&!button.contains(e.target))close()});document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});window.addEventListener("resize",()=>{if(window.innerWidth>650)close()})})();
-</script><p class="site-credit">طراحی سایت و توسعهٔ اپلیکیشن اَفرا توسط: افشین فلاطونی © ۱۴۰۵</p>
+</script>
+<script src="/emla/site-footer.js"></script>
 </body>
 </html>
