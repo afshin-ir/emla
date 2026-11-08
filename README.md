@@ -111,5 +111,16 @@
 
 ---
 
+## دکمه‌های ناوبری در صفحه‌های تازه
+
+برای یکسان‌ماندن رنگ و ظاهر پیوندهای نوار بالا، در هر صفحۀ تازه این فایل را بارگذاری کنید و کلاس‌های مشترک را به پیوندها بدهید:
+
+```html
+<link rel="stylesheet" href="/emla/site-nav.css">
+<a class="site-nav-button nav-words" href="/emla/words.html">واژگان مصوب فرهنگستان</a>
+```
+
+گونه‌های رنگی آماده عبارت‌اند از: `nav-book`، `nav-dictionary`، `nav-words`، `nav-articles`، `nav-afra`، `nav-settings` و `nav-bookmarks`. قالب صفحه‌های مقاله نیز این فایل را به‌کار می‌برد.
+
 </div>
 
