@@ -10,10 +10,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DATA_FILE = ROOT / "words-new-data.json.gz"
 SPELLING_FILE = ROOT / "dictionary.json"
+BOOK_FILE = ROOT / "book.json"
 OUTPUT = ROOT / "android-app/app/src/main/assets/emla-words.db"
-DATA_VERSION = "3"
+DATA_VERSION = "5"
 
 SUBJECT_LABELS = {
+    "باستان": "باستان‌شناسی",
     "اپتیک": "فیزیک- اپتیک",
     "الیاف": "مهندسی بسپار- الیاف",
     "باغبانی": "کشاورزی- علوم باغبانی",
@@ -218,7 +220,10 @@ def link_reference_rows(rows, records, indexed_bases):
 
 
 def insert(db, kind, title, english, domain, definition, volumes, notes, extras="", ref_terms=""):
-    searchable = " ".join((title, english, extras, ref_terms))
+    searchable_parts = [title, english, extras, ref_terms]
+    if kind == 2:
+        searchable_parts.append(definition)
+    searchable = " ".join(part for part in searchable_parts if part)
     db.execute(
         """INSERT INTO entries
            (kind,title,english,domain,definition,volumes,notes,ref_terms,title_norm,english_norm,search_norm)
@@ -226,6 +231,22 @@ def insert(db, kind, title, english, domain, definition, volumes, notes, extras=
         (kind, title, english, domain, definition, volumes, notes, ref_terms,
          normalize(title), normalize(english), normalize(searchable)),
     )
+
+
+def book_block_text(block):
+    if block.get("kind") == "table":
+        lines = []
+        for row in block.get("rows", []):
+            cells, seen = [], set()
+            for value in row:
+                text = " ".join(str(value or "").split())
+                if text and text not in seen:
+                    seen.add(text)
+                    cells.append(text)
+            if cells:
+                lines.append(" ؛ ".join(cells))
+        return "\n".join(lines)
+    return " ".join(str(block.get("text") or "").split())
 
 
 def main():
@@ -295,6 +316,23 @@ def main():
            VALUES (1,?,?,?,'','','','',?,'',?)""",
         ((str(term), "", "", normalize(term), normalize(term)) for term in spelling if str(term).strip()),
     )
+
+    with BOOK_FILE.open(encoding="utf-8") as stream:
+        book = json.load(stream)
+    for block in book.get("blocks", []):
+        text = book_block_text(block)
+        if not text:
+            continue
+        section = str(block.get("section") or book.get("title") or "دستور خط فارسی").strip()
+        is_heading = block.get("kind") == "heading"
+        title = text if is_heading else section
+        definition = "" if is_heading else text
+        pages = "، ".join(str(page) for page in block.get("pages", []) if str(page).strip())
+        insert(
+            db, 2, title, "", section, definition, pages, "",
+            extras=str(block.get("id") or "")
+        )
+
     db.execute("CREATE INDEX entries_title_norm ON entries(title_norm)")
     db.execute("CREATE INDEX entries_english_norm ON entries(english_norm)")
     db.execute("CREATE INDEX entries_kind ON entries(kind)")

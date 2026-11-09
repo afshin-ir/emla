@@ -8,6 +8,8 @@ on:
       - "android-app/**"
       - "words-new-data.json.gz"
       - "dictionary.json"
+      - "book.json"
+      - "book.json"
       - ".github/workflows/android-apk.yml"
 
 permissions:

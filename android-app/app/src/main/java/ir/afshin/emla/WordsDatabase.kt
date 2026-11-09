@@ -21,6 +21,11 @@ data class WordEntry(
     val refTerms: String
 )
 
+data class SearchPage(
+    val entries: List<WordEntry>,
+    val total: Int
+)
+
 class WordsDatabase(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
@@ -108,9 +113,15 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         }
     }
 
-    fun search(query: String, kindFilter: Int?, exactOnly: Boolean): List<WordEntry> {
+    fun search(
+        query: String,
+        kindFilter: Int?,
+        exactOnly: Boolean,
+        offset: Int = 0,
+        limit: Int = 40
+    ): SearchPage {
         val queryNorm = normalize(query)
-        if (queryNorm.isEmpty()) return emptyList()
+        if (queryNorm.isEmpty()) return SearchPage(emptyList(), 0)
 
         val filterClause = if (kindFilter == null) "" else " AND kind = ?"
         val sql = """
@@ -126,7 +137,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
         val candidates = ArrayList<Pair<Int, WordEntry>>()
         readableDatabase.rawQuery(sql, args.toTypedArray()).use { cursor ->
             while (cursor.moveToNext()) {
-                if (Thread.currentThread().isInterrupted) return emptyList()
+                if (Thread.currentThread().isInterrupted) return SearchPage(emptyList(), 0)
                 val item = WordEntry(
                     id = cursor.getLong(0),
                     kind = cursor.getInt(1),
@@ -138,16 +149,26 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
                     notes = cursor.getString(7).orEmpty(),
                     refTerms = cursor.getString(8).orEmpty()
                 )
-                if (!exactOnly || hasExactTerm(item.title, queryNorm) || hasExactTerm(item.english, queryNorm) || hasExactTerm(item.refTerms, queryNorm)) {
+                if (!exactOnly || hasExactTerm(item.title, queryNorm) || hasExactTerm(item.english, queryNorm) ||
+                    hasExactTerm(item.refTerms, queryNorm) || (item.kind == 2 && hasExactTerm(item.definition, queryNorm))) {
                     val rank = entryRank(item, query)
                     candidates.add(rank to item)
                 }
             }
         }
-        return candidates
-            .sortedWith(compareBy<Pair<Int, WordEntry>> { it.first }.thenBy { it.second.title.lowercase(Locale.ROOT) })
-            .take(120)
-            .map { it.second }
+        val sorted = candidates.sortedWith(Comparator { left, right ->
+            val rankOrder = left.first.compareTo(right.first)
+            if (rankOrder != 0) {
+                rankOrder
+            } else if (left.second.kind == 2 && right.second.kind == 2) {
+                left.second.id.compareTo(right.second.id)
+            } else {
+                left.second.title.lowercase(Locale.ROOT).compareTo(right.second.title.lowercase(Locale.ROOT))
+            }
+        })
+        val safeOffset = offset.coerceAtLeast(0)
+        val page = sorted.drop(safeOffset).take(limit.coerceAtLeast(1)).map { it.second }
+        return SearchPage(page, sorted.size)
     }
 
     private fun hasExactTerm(value: String, queryNorm: String): Boolean {
@@ -157,6 +178,15 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
     }
 
     private fun entryRank(entry: WordEntry, query: String): Int {
+        if (entry.kind == 2) {
+            val queryNorm = normalize(query)
+            val titleTerms = splitTerms(entry.title)
+            if (titleTerms.any { normalize(it) == queryNorm }) return 0
+            if (titleTerms.any { startsWithExactQuery(it, query) }) return 1
+            val textRank = termMatchRank(entry.definition, query)
+            return if (textRank < Int.MAX_VALUE) textRank + 10 else 30
+        }
+
         val titleTerms = splitTerms(entry.title)
         val englishTerms = splitTerms(entry.english)
         val refs = splitTerms(entry.refTerms)
@@ -258,7 +288,7 @@ class WordsDatabase(context: Context) : SQLiteOpenHelper(
     companion object {
         private const val DATABASE_NAME = "emla-words.db"
         private const val DATABASE_SCHEMA_VERSION = 2
-        private const val DATA_VERSION = "3"
+        private const val DATA_VERSION = "5"
         private const val BUNDLED_DATABASE_ASSET = "emla-words.db"
     }
 }

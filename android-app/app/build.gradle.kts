@@ -11,8 +11,24 @@ android {
         applicationId = "ir.afshin.emla"
         minSdk = 23
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.1.1"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("AFRA_KEYSTORE_FILE") ?: "release-key.jks")
+            storePassword = System.getenv("AFRA_KEYSTORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("AFRA_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("AFRA_KEY_PASSWORD") ?: ""
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 
     compileOptions {
@@ -27,5 +43,6 @@ android {
 
 dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.core:core:1.13.1")
 }
 
