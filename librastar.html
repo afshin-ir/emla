@@ -488,7 +488,8 @@
     if(historyFrames[historyIndex]?.html===state.html){updateHistoryButtons();return;}
     const now=Date.now();
     const grouped=['insertText','deleteContentBackward','deleteContentForward','insertCompositionText'].includes(inputType);
-    const coalesce=grouped&&inputType===lastHistoryInputType&&now-lastHistoryTime<900&&historyIndex>0;
+    const replacingSelection=(inputType==='insertText'||inputType==='insertFromPaste')&&lastHistoryInputType.startsWith('delete')&&now-lastHistoryTime<1200;
+    const coalesce=(grouped&&inputType===lastHistoryInputType&&now-lastHistoryTime<900||replacingSelection)&&historyIndex>0;
     if(coalesce)historyFrames[historyIndex]=state;
     else{
       historyFrames=historyFrames.slice(0,historyIndex+1);
@@ -548,6 +549,23 @@
     historyIndex++;
     restoreHistoryState(historyFrames[historyIndex]);
     lastHistoryInputType='';
+  }
+  function insertLineBreak(){
+    const before=inputRich.innerHTML;
+    if(document.execCommand('insertLineBreak')&&inputRich.innerHTML!==before)return;
+    inputRich.focus();
+    const selection=window.getSelection();
+    let range;
+    if(selection&&selection.rangeCount&&inputRich.contains(selection.anchorNode))range=selection.getRangeAt(0);
+    else{range=document.createRange();range.selectNodeContents(inputRich);range.collapse(false);}
+    range.deleteContents();
+    const lineBreak=document.createElement('br');
+    range.insertNode(lineBreak);
+    range.setStartAfter(lineBreak);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    inputRich.dispatchEvent(new Event('input',{bubbles:true}));
   }
   function processText(){
     const text=input.value;
@@ -794,6 +812,10 @@
   redoButton.addEventListener('mousedown',event=>event.preventDefault());
   undoButton.addEventListener('click',undoEdit);
   redoButton.addEventListener('click',redoEdit);
+  inputRich.addEventListener('beforeinput',event=>{
+    const selection=window.getSelection();
+    if(selection&&!selection.isCollapsed&&inputRich.contains(selection.anchorNode))lastHistoryInputType='';
+  });
   inputRich.addEventListener('input',event=>{
     officeDocument=null;
     input.value=richPlainText(inputRich);
@@ -819,7 +841,7 @@
     }
     if(event.key==='Enter'){
       event.preventDefault();
-      const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode('\n'));insertAtCaret(fragment);
+      insertLineBreak();
     }
   });
   processText();
