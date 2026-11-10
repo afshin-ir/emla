@@ -85,7 +85,7 @@
 </main>
 
 <footer class="page-footer">
-ویراستار بر پایهٔ کتابخانهٔ <a href="https://github.com/brothersincode/virastar" target="_blank" rel="noopener noreferrer">ویراستار</a> نگارش ۰٫۲۲٫۱ ساخته شده است. کتابخانهٔ اصلی با مجوز MIT و ابزار نمایش تفاوت متن با مجوز BSD منتشر شده‌اند. خواندن و ساخت فایل‌های DOC با <a href="https://github.com/Alpaq92/JSDoc" target="_blank" rel="noopener noreferrer">JSDoc</a> (۰BSD) و خواندن و ویرایش فایل‌های DOCX/ODT با <a href="https://github.com/Stuk/jszip" target="_blank" rel="noopener noreferrer">JSZip</a> (MIT) انجام می‌شود.
+ویراستار بر پایهٔ کتابخانهٔ <a href="https://github.com/brothersincode/virastar" target="_blank" rel="noopener noreferrer">ویراستار</a> نگارش ۰٫۲۲٫۱ ساخته شده است. کتابخانهٔ اصلی با مجوز MIT و ابزار نمایش تفاوت متن با مجوز BSD منتشر شده‌اند. خواندن فایل‌های DOC با <a href="https://github.com/Alpaq92/JSDoc" target="_blank" rel="noopener noreferrer">JSDoc</a> (۰BSD) و خواندن فایل‌های DOCX/ODT با <a href="https://github.com/Stuk/jszip" target="_blank" rel="noopener noreferrer">JSZip</a> (MIT) انجام می‌شود.
 </footer>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -94,7 +94,6 @@
 <script src="./virastar-diff.min.js"></script>
 <script src="./virastar-jszip.min.js"></script>
 <script src="./virastar-doc.js"></script>
-<script src="./virastar-texttodoc.js"></script>
 <script>
 (()=> {
   const STORAGE_KEY='emlaVirastarOptions';
@@ -308,93 +307,6 @@
       }
     }
   }
-  function collectWordTokens(node,tokens){
-    if(node.nodeType===1&&node.namespaceURI===WORD_NS&&node.localName==='del')return;
-    if(node.nodeType===3){
-      const parent=node.parentElement;
-      if(parent&&parent.namespaceURI===WORD_NS&&parent.localName==='t'){
-        tokens.push({text:node.nodeValue||'',set:value=>{node.nodeValue=value;if(parent.textContent!==value)parent.textContent=value;}});
-      }
-      return;
-    }
-    if(node.nodeType!==1)return;
-    if(node.namespaceURI===WORD_NS&&node.localName==='t'){
-      if(!Array.from(node.childNodes).some(child=>child.nodeType===3)){
-        tokens.push({text:node.textContent||'',set:value=>{node.textContent=value;}});
-      }
-      return;
-    }
-    if(node.namespaceURI===WORD_NS&&(node.localName==='tab'||node.localName==='br'||node.localName==='cr')){
-      const original=node.localName==='tab'?'\t':'\n';
-      tokens.push({text:original,set:value=>{
-        if(value===original)return;
-        const textNode=node.ownerDocument.createElementNS(WORD_NS,'w:t');
-        textNode.setAttributeNS('http://www.w3.org/XML/1998/namespace','xml:space','preserve');
-        textNode.textContent=value;
-        node.parentNode.replaceChild(textNode,node);
-      }});
-      return;
-    }
-    for(const child of Array.from(node.childNodes))collectWordTokens(child,tokens);
-  }
-  function collectOdfTokens(node,tokens){
-    if(node.nodeType===3||node.nodeType===4){
-      const parent=node.parentElement;
-      if(!parent||parent.namespaceURI!==ODF_TEXT_NS||!['s','tab','line-break','soft-page-break'].includes(parent.localName)){
-        tokens.push({text:node.nodeValue||'',set:value=>{node.nodeValue=value;}});
-      }
-      return;
-    }
-    if(node.nodeType!==1)return;
-    if(node.namespaceURI===ODF_TEXT_NS&&['s','tab','line-break','soft-page-break'].includes(node.localName)){
-      let original='';
-      if(node.localName==='s'){
-        const count=Math.max(1,Math.min(1000,Number(node.getAttributeNS(ODF_TEXT_NS,'c'))||1));
-        original=' '.repeat(count);
-      }else original=node.localName==='tab'?'\t':'\n';
-      tokens.push({text:original,set:value=>{
-        if(value===original)return;
-        const textNode=node.ownerDocument.createTextNode(value);
-        node.parentNode.replaceChild(textNode,node);
-      }});
-      return;
-    }
-    for(const child of Array.from(node.childNodes))collectOdfTokens(child,tokens);
-  }
-  function distributeEditedText(tokens,newText){
-    const oldText=tokens.map(token=>token.text).join('');
-    const output=tokens.map(()=> '');
-    let sourceIndex=0;
-    function tokenAt(index){
-      let cursor=0;
-      for(let i=0;i<tokens.length;i++){
-        const end=cursor+tokens[i].text.length;
-        if(index<end)return i;
-        cursor=end;
-      }
-      return tokens.length-1;
-    }
-    const parts=Diff.diffChars(oldText,newText,{ignoreWhitespace:false});
-    for(const part of parts){
-      if(part.added){
-        const target=sourceIndex<oldText.length?tokenAt(sourceIndex):tokens.length-1;
-        if(target>=0)output[target]+=part.value;
-      }else if(part.removed){
-        sourceIndex+=part.value.length;
-      }else{
-        for(const char of part.value){
-          const target=tokenAt(sourceIndex);
-          if(target>=0)output[target]+=char;
-          sourceIndex+=char.length;
-        }
-      }
-    }
-    tokens.forEach((token,index)=>token.set(output[index]));
-    if(!tokens.length&&newText){
-      return false;
-    }
-    return true;
-  }
   function wordParagraphs(documentXml){
     return Array.from(documentXml.getElementsByTagNameNS(WORD_NS,'p'));
   }
@@ -410,7 +322,7 @@
       const model=window.docToText.model(buffer);
       if(text===null||!model||!Array.isArray(model.body))throw new Error('این فایل DOC خوانده نشد؛ ممکن است قالب آن قدیمی، رمزگذاری‌شده یا آسیب‌دیده باشد.');
       const paragraphTexts=model.body.map(paragraph=>(paragraph.runs||[]).map(run=>run.text||'').join(''));
-      officeDocument={extension,buffer,sourceText:text,paragraphTexts};
+      officeDocument={extension,sourceText:text,paragraphTexts};
       return text;
     }
     const zip=await JSZip.loadAsync(buffer);
@@ -423,7 +335,7 @@
     const paragraphs=extension==='docx'?wordParagraphs(documentXml):odfParagraphs(documentXml);
     const paragraphTexts=paragraphs.map(paragraph=>extension==='docx'?wordParagraphText(paragraph):odfInlineText(paragraph));
     const text=paragraphTexts.join('\n');
-    officeDocument={extension,buffer,sourceText:text,paragraphTexts,xmlPath};
+    officeDocument={extension,sourceText:text,paragraphTexts};
     return text;
   }
   async function readPlainTextFile(file){
@@ -476,97 +388,14 @@
       showToast(copied?'متن خروجی کپی شد.':'کپی خودکار ممکن نشد؛ متن خروجی را انتخاب و کپی کنید.');
     }
   });
-  async function downloadBlob(blob,filename,message){
+  document.getElementById('downloadButton').addEventListener('click',()=>{
+    const blob=new Blob([output.value],{type:'text/plain;charset=utf-8'});
     const link=document.createElement('a');
     link.href=URL.createObjectURL(blob);
-    link.download=filename;
+    link.download='virayeshgar-farsi-output.txt';
     link.click();
     setTimeout(()=>URL.revokeObjectURL(link.href),1000);
-    showToast(message);
-  }
-  function officeMime(extension){
-    return extension==='doc'?'application/msword':
-      extension==='docx'?'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-      'application/vnd.oasis.opendocument.text';
-  }
-  async function exportOfficeDocument(){
-    const extension=officeDocument.extension;
-    if(extension==='doc'){
-      const model=window.docToText.model(officeDocument.buffer);
-      if(!model||!Array.isArray(model.body))throw new Error('ساختار سند DOC برای خروجی گرفتن خوانده نشد.');
-      const changedByUser=input.value!==officeDocument.sourceText;
-      const editedLines=output.value.split('\n');
-      if(changedByUser&&editedLines.length!==model.body.length){
-        throw new Error('برای حفظ قالب‌بندی DOC، تعداد بندهای متن باید با سند اصلی برابر باشد.');
-      }
-      const originalLines=officeDocument.sourceText.split('\n');
-      model.body.forEach((paragraph,index)=>{
-        const runs=(paragraph.runs||[]).filter(run=>typeof run.text==='string');
-        const oldText=runs.map(run=>run.text).join('');
-        let newText;
-        if(changedByUser){
-          newText=editedLines[index];
-          const sourceLine=originalLines[index]||'';
-          const marker=sourceLine.endsWith(oldText)?sourceLine.slice(0,sourceLine.length-oldText.length):'';
-          if(marker&&newText.startsWith(marker))newText=newText.slice(marker.length);
-        }else{
-          newText=engine.cleanup(oldText,getOptions());
-        }
-        if(!distributeEditedText(runs.map(run=>({text:run.text,set:value=>{run.text=value;}})),newText)&&newText){
-          paragraph.runs=paragraph.runs||[];
-          paragraph.runs.push({text:newText});
-        }
-      });
-      if(typeof window.textToDoc!=='function')throw new Error('ابزار ساخت فایل DOC در دسترس نیست.');
-      const bytes=window.textToDoc(model,officeDocument.buffer);
-      return new Blob([bytes],{type:officeMime(extension)});
-    }
-    const zip=await JSZip.loadAsync(officeDocument.buffer);
-    const entry=zip.file(officeDocument.xmlPath);
-    if(!entry)throw new Error('بخش اصلی سند در فایل پیدا نشد.');
-    const xml=await entry.async('text');
-    const documentXml=new DOMParser().parseFromString(xml,'application/xml');
-    if(documentXml.getElementsByTagName('parsererror').length)throw new Error('ساختار سند برای ذخیره‌سازی خوانده نشد.');
-    const paragraphs=extension==='docx'?wordParagraphs(documentXml):odfParagraphs(documentXml);
-    const targets=officeDocument.sourceText===input.value
-      ?officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,getOptions()))
-      :(input.value===''&&output.value===''?paragraphs.map(()=> ''):output.value.split('\n'));
-    if(targets.length!==paragraphs.length){
-      throw new Error('برای حفظ قالب‌بندی، تعداد بندهای متن باید با سند اصلی برابر باشد. متن ورودی را به حالت اولیه برگردانید یا فقط درون بندها ویرایش کنید.');
-    }
-    paragraphs.forEach((paragraph,index)=>{
-      const tokens=[];
-      if(extension==='docx')collectWordTokens(paragraph,tokens);
-      else collectOdfTokens(paragraph,tokens);
-      const updated=distributeEditedText(tokens,targets[index]);
-      if(!updated&&targets[index]){
-        if(extension==='docx'){
-          const run=documentXml.createElementNS(WORD_NS,'w:r');
-          const textNode=documentXml.createElementNS(WORD_NS,'w:t');
-          textNode.setAttributeNS('http://www.w3.org/XML/1998/namespace','xml:space','preserve');
-          textNode.textContent=targets[index];
-          run.appendChild(textNode);
-          paragraph.appendChild(run);
-        }else{
-          paragraph.appendChild(documentXml.createTextNode(targets[index]));
-        }
-      }
-    });
-    zip.file(officeDocument.xmlPath,new XMLSerializer().serializeToString(documentXml));
-    return zip.generateAsync({type:'blob',mimeType:officeMime(extension)});
-  }
-  document.getElementById('downloadButton').addEventListener('click',async()=>{
-    try{
-      if(officeDocument){
-        const blob=await exportOfficeDocument();
-        await downloadBlob(blob,'virayeshgar-farsi-output.'+officeDocument.extension,'سندِ ویرایش‌شده با همان قالب دریافت شد.');
-        return;
-      }
-      const blob=new Blob([output.value],{type:'text/plain;charset=utf-8'});
-      await downloadBlob(blob,'virayeshgar-farsi-output.txt',output.value?'متنِ ویرایش‌شده دریافت شد.':'فایل خالی دریافت شد.');
-    }catch(error){
-      showToast(error&&error.message?error.message:'ساخت فایلِ ویرایش‌شده ممکن نشد.');
-    }
+    showToast(output.value?'متنِ ویرایش‌شده دریافت شد.':'فایل خالی دریافت شد.');
   });
   document.getElementById('resetSettings').addEventListener('click',()=>{
     try{localStorage.removeItem(STORAGE_KEY);}catch(_){}
