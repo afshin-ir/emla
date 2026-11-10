@@ -218,7 +218,7 @@
     try{
       let result;
       if(officeDocument&&officeDocument.extension!=='doc'&&text===officeDocument.sourceText){
-        result=officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,getOptions())).join('\\n');
+        result=officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,getOptions())).join('\n');
       }else{
         result=engine.cleanup(text,getOptions());
       }
@@ -326,7 +326,7 @@
       return;
     }
     if(node.namespaceURI===WORD_NS&&(node.localName==='tab'||node.localName==='br'||node.localName==='cr')){
-      const original=node.localName==='tab'?'\\t':'\\n';
+      const original=node.localName==='tab'?'\\t':'\n';
       tokens.push({text:original,set:value=>{
         if(value===original)return;
         const textNode=node.ownerDocument.createElementNS(WORD_NS,'w:t');
@@ -352,7 +352,7 @@
       if(node.localName==='s'){
         const count=Math.max(1,Math.min(1000,Number(node.getAttributeNS(ODF_TEXT_NS,'c'))||1));
         original=' '.repeat(count);
-      }else original=node.localName==='tab'?'\\t':'\\n';
+      }else original=node.localName==='tab'?'\\t':'\n';
       tokens.push({text:original,set:value=>{
         if(value===original)return;
         const textNode=node.ownerDocument.createTextNode(value);
@@ -423,7 +423,7 @@
     if(documentXml.getElementsByTagName('parsererror').length)throw new Error('خواندن ساختار سند ممکن نشد؛ فایل آسیب‌دیده است.');
     const paragraphs=extension==='docx'?wordParagraphs(documentXml):odfParagraphs(documentXml);
     const paragraphTexts=paragraphs.map(paragraph=>extension==='docx'?wordParagraphText(paragraph):odfInlineText(paragraph));
-    const text=paragraphTexts.join('\\n');
+    const text=paragraphTexts.join('\n');
     officeDocument={extension,buffer,sourceText:text,paragraphTexts,xmlPath};
     return text;
   }
@@ -496,11 +496,11 @@
       const model=window.docToText.model(officeDocument.buffer);
       if(!model||!Array.isArray(model.body))throw new Error('ساختار سند DOC برای خروجی گرفتن خوانده نشد.');
       const changedByUser=input.value!==officeDocument.sourceText;
-      const editedLines=output.value.split('\\n');
+      const editedLines=output.value.split('\n');
       if(changedByUser&&editedLines.length!==model.body.length){
         throw new Error('برای حفظ قالب‌بندی DOC، تعداد بندهای متن باید با سند اصلی برابر باشد.');
       }
-      const originalLines=officeDocument.sourceText.split('\\n');
+      const originalLines=officeDocument.sourceText.split('\n');
       model.body.forEach((paragraph,index)=>{
         const runs=(paragraph.runs||[]).filter(run=>typeof run.text==='string');
         const oldText=runs.map(run=>run.text).join('');
@@ -531,7 +531,7 @@
     const paragraphs=extension==='docx'?wordParagraphs(documentXml):odfParagraphs(documentXml);
     const targets=officeDocument.sourceText===input.value
       ?officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,getOptions()))
-      :(input.value===''&&output.value===''?paragraphs.map(()=> ''):output.value.split('\\n'));
+      :(input.value===''&&output.value===''?paragraphs.map(()=> ''):output.value.split('\n'));
     if(targets.length!==paragraphs.length){
       throw new Error('برای حفظ قالب‌بندی، تعداد بندهای متن باید با سند اصلی برابر باشد. متن ورودی را به حالت اولیه برگردانید یا فقط درون بندها ویرایش کنید.');
     }
