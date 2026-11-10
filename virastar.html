@@ -71,8 +71,8 @@
 <textarea id="inputText" aria-label="متن ورودی" spellcheck="true" placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
 </div>
 <div class="editor-pane">
-<div class="pane-head"><h2>متن پاک‌سازی‌شده</h2><span class="char-count"><span id="outputCount">۰</span> نویسه</span></div>
-<textarea id="outputText" aria-label="متن پاک‌سازی‌شده" readonly dir="auto" placeholder="متن پاک‌سازی‌شده اینجا نمایش داده می‌شود."></textarea>
+<div class="pane-head"><h2>متنِ ویرایش‌شده</h2><span class="char-count"><span id="outputCount">۰</span> نویسه</span></div>
+<textarea id="outputText" aria-label="متنِ ویرایش‌شده" readonly dir="auto" placeholder="متنِ ویرایش‌شده اینجا نمایش داده می‌شود."></textarea>
 </div>
 </div>
 <section id="diffPanel" class="diff-panel" aria-labelledby="diffTitle">
@@ -301,7 +301,7 @@
     link.download='paknevis-output.txt';
     link.click();
     setTimeout(()=>URL.revokeObjectURL(link.href),1000);
-    showToast(output.value?'متن پاک‌سازی‌شده دریافت شد.':'فایل خالی دریافت شد.');
+    showToast(output.value?'متنِ ویرایش‌شده دریافت شد.':'فایل خالی دریافت شد.');
   });
   document.getElementById('resetSettings').addEventListener('click',()=>{
     try{localStorage.removeItem(STORAGE_KEY);}catch(_){}
