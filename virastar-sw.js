@@ -1,4 +1,4 @@
-const CACHE_NAME='virastar-offline-v8';
+const CACHE_NAME='virastar-offline-v9';
 const PRECACHE_URLS=[
   './librastar.html',
   './virastar.js',
