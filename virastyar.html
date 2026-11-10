@@ -223,7 +223,7 @@
       output.value=result;
       updateCounts(text,result);
       renderDiff(text,result);
-      status.textContent=text===result?'متن آماده است؛ تغییری لازم نبود.':'متن ویرایش شد.';
+      status.textContent='';
       saveOptions();
     }catch(error){
       output.value='';
