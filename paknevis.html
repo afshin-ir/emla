@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f7f4">
+<meta name="description" content="پاک‌نویس افزونه‌ای آزاد برای ویراستاری و یکدست‌سازی متن فارسی در LibreOffice Writer؛ اصلاح رسم‌الخط، فاصله‌گذاری، نویسه‌ها و پانوشت‌ها.">
+<link rel="canonical" href="https://afshin-ir.github.io/emla/paknevis.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="icon" type="image/x-icon" href="./favicon.ico">
+<link rel="preload" href="./Vazirmatn%5Bwght%5D.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./fonts.css">
+<link rel="stylesheet" href="/emla/site-nav.css">
+<title>پاک‌نویس؛ ویراستاری متن فارسی در LibreOffice Writer</title>
+<style>
+:root{color-scheme:light;--bg:#f4f7f4;--paper:#fff;--ink:#1e2d2b;--muted:#687a73;--line:#dfe9e3;--green:#16765d;--dark:#105b48;--mint:#e8f4ee;--shadow:0 12px 34px #213b2d0b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Vazirmatn,system-ui,sans-serif;line-height:1.9}.shell{width:min(1040px,calc(100% - 32px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 0}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800;text-decoration:none}.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:var(--green);color:#fff}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.top-actions a{padding:6px 11px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--dark);font-size:.82rem;text-decoration:none}.mobile-menu-toggle{display:none}
+.hero{margin:14px 0 20px;padding:clamp(22px,4vw,42px);border-radius:24px;background:linear-gradient(125deg,#143f34,#18765c 72%,#399776);color:#fff;box-shadow:var(--shadow)}.eyebrow{margin:0 0 5px;color:#c5e7d7;font-size:.9rem;font-weight:700}.hero h1{font-size:clamp(2rem,5vw,3rem);line-height:1.45;margin:0 0 12px}.hero p{max-width:760px;margin:0;color:#e0f0e8;font-size:1.08rem}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 17px;border-radius:12px;font-weight:700;text-decoration:none}.button-primary{background:#fff;color:var(--dark)}.button-secondary{border:1px solid #ffffff75;color:#fff}.button:focus-visible,.text-link:focus-visible{outline:3px solid #f1c75b;outline-offset:3px}
+.panel{margin:18px 0;padding:clamp(20px,3.5vw,34px);border:1px solid var(--line);border-radius:19px;background:var(--paper);box-shadow:var(--shadow)}h2{margin:0 0 10px;font-size:1.4rem;line-height:1.6}.lead{margin:0;color:#40534b;font-size:1.02rem}.preview{display:block;width:100%;height:auto;margin:22px auto 0;border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 24px #213b2d12}.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.feature{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fbfdfb}.feature h3{margin:0 0 5px;color:var(--dark);font-size:1rem}.feature p{margin:0;color:var(--muted);font-size:.91rem}.note{margin:14px 0 0;padding:13px 16px;border-right:3px solid #8bbca8;border-radius:8px;background:#f4f8f5;color:#52665c;font-size:.9rem}.release{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.release p{margin:0;color:var(--muted)}.release strong{color:var(--dark)}.release .button{background:var(--green);color:#fff}.text-link{color:var(--dark);text-underline-offset:3px}.footer{margin:24px 0 28px;padding:16px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+@media(max-width:760px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.hero{margin-top:6px}.feature-grid{grid-template-columns:1fr}.release{align-items:flex-start}.release .button{width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+<a class="brand" href="./" aria-label="بازگشت به سایت دستور خط فارسی"><span class="brand-mark" aria-hidden="true">پ</span><span>دستور خط فارسی</span></a>
+<button class="mobile-menu-toggle site-nav-button" type="button" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span><span>بخش‌های سایت</span></button>
+<nav class="top-actions" id="primary-navigation" aria-label="بخش‌های سایت">
+<a href="./" class="site-nav-button nav-book">متن کتاب</a>
+<a href="./dictionary.html" class="site-nav-button nav-dictionary">فرهنگ املایی خط فارسی</a>
+<a href="./words.html" class="site-nav-button nav-words">واژگان مصوب فرهنگستان</a>
+<a href="./articles/" class="site-nav-button nav-articles">نقدها و مقاله‌ها</a>
+<a href="./afra.html" class="site-nav-button nav-afra">اَفرا</a>
+</nav>
+</header>
+<main>
+<section class="hero">
+<p class="eyebrow">افزونهٔ آزاد برای LibreOffice Writer</p>
+<h1>پاک‌نویس؛ ویرایش متن فارسی، یک‌دست و بی‌دردسر</h1>
+<p>پاک‌نویس مجموعه‌ای از اصلاح‌های نگارشی و نویسه‌ای را روی بخش انتخاب‌شده یا سراسر سند اجرا می‌کند و در پایان، گزارشی از تغییرها به شما می‌دهد.</p>
+<div class="hero-actions">
+<a class="button button-primary" href="https://github.com/afshin-ir/paknevis/releases/download/V1.2.10/Paknevis.oxt">دریافت پاک‌نویس ۱.۲.۱۰</a>
+<a class="button button-secondary" href="https://github.com/afshin-ir/paknevis">دیدن مخزن و جزئیات</a>
+</div>
+</section>
+
+<section class="panel" aria-labelledby="about">
+<h2 id="about">متن فارسی‌تان را با پاک‌نویس مرتب کنید</h2>
+<p class="lead">پاک‌نویس برای ویراستاری متن در LibreOffice Writer ساخته شده است. اصلاح‌ها را از میان گزینه‌های موجود انتخاب می‌کنید و افزونه همان‌ها را در متن اجرا می‌کند؛ چه فقط بخشی از سند را انتخاب کرده باشید و چه بخواهید سراسر آن را بررسی کنید.</p>
+<img class="preview" src="https://raw.githubusercontent.com/afshin-ir/paknevis/main/assets/paknevis-preview.jpg" alt="نمایی از پاک‌نویس در LibreOffice Writer" loading="lazy">
+</section>
+
+<section class="panel" aria-labelledby="what-it-does">
+<h2 id="what-it-does">پاک‌نویس چه چیزهایی را اصلاح می‌کند؟</h2>
+<div class="feature-grid">
+<article class="feature"><h3>رسم‌الخط و نیم‌فاصله</h3><p>فاصله‌گذاری پیشوندها و پسوندها، فعل‌های پیشوندی، ضمایر پیوسته و کسرهٔ اضافه را یکدست می‌کند.</p></article>
+<article class="feature"><h3>فاصله‌ها و نشانه‌گذاری</h3><p>فاصله‌های اضافی میان واژه‌ها و کنار نشانه‌های سجاوندی را اصلاح می‌کند و نشانه‌های رایج را به شکل فارسی درمی‌آورد.</p></article>
+<article class="feature"><h3>نویسه‌ها و عددها</h3><p>«ي» و «ك» عربی را به «ی» و «ک» فارسی و عددهای انگلیسی و عربی را به عددهای فارسی تبدیل می‌کند.</p></article>
+<article class="feature"><h3>پانوشت‌ها و گزارش اصلاح‌ها</h3><p>متن پانوشت‌ها را هم اصلاح می‌کند و ارجاع‌هایشان را در متن اصلی نگه می‌دارد. پس از اجرا، گزارشی از اصلاح‌های انجام‌شده در اختیارتان است.</p></article>
+</div>
+<p class="note">گزینهٔ «غلط‌های املایی (بانک)» نیز در تنظیمات افزونه در دسترس است و به‌طور پیش‌فرض خاموش است. تنظیم‌های انتخاب‌شده برای اجراهای بعدی حفظ می‌شوند.</p>
+</section>
+
+<section class="panel release" aria-label="دریافت پاک‌نویس">
+<div><h2>پاک‌نویس را دریافت کنید</h2><p>نسخهٔ پایدار ۱.۲.۱۰ · افزونهٔ LibreOffice با قالب OXT</p></div>
+<a class="button" href="https://github.com/afshin-ir/paknevis/releases/download/V1.2.10/Paknevis.oxt">دریافت افزونه</a>
+</section>
+<p class="lead" style="text-align:center;margin:0 0 24px">برای دیدن راهنمای کامل، کد منبع و تاریخچهٔ انتشار، به <a class="text-link" href="https://github.com/afshin-ir/paknevis">مخزن پاک‌نویس در گیت‌هاب</a> سر بزنید.</p>
+</main>
+<footer class="footer">پاک‌نویس با مجوز آزاد GPL-3.0 منتشر شده است. <a class="text-link" href="https://github.com/afshin-ir/paknevis/blob/main/LICENSE">متن مجوز</a></footer>
+</div>
+<script src="/emla/site-footer.js"></script>
+<script>
+const menuButton=document.querySelector('.mobile-menu-toggle');const navigation=document.querySelector('#primary-navigation');menuButton.addEventListener('click',()=>{const open=menuButton.getAttribute('aria-expanded')==='true';menuButton.setAttribute('aria-expanded',String(!open));navigation.classList.toggle('is-open',!open)});
+</script>
+</body>
+</html>
