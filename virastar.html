@@ -21,6 +21,7 @@
 .settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:#f7faf8;border-bottom:1px solid var(--line)}.settings-head h2{margin:0;font-size:1rem}.settings-head button{border:0;background:none;color:var(--dark);font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .option-group{margin:0;padding:12px 14px 8px;border:0;border-bottom:1px solid #edf2ee}.option-group legend{padding:0 0 6px;color:var(--dark);font-size:.82rem;font-weight:750}.option-list{display:grid;gap:2px}.option-row{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-radius:7px;color:#33453d;font-size:.8rem;line-height:1.55;cursor:pointer}.option-row:hover{background:#f4f8f5}.option-row input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--green);flex:0 0 auto}
 .editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.char-count{color:var(--muted);font-size:.74rem}.editor-pane textarea{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none}.editor-pane textarea:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.editor-pane textarea::placeholder{color:#94a39a}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
+.app-layout.settings-closed{grid-template-columns:minmax(0,1fr)}.app-layout.settings-closed .settings-panel{display:none}
 .privacy-note{margin:12px 2px 0;color:var(--muted);font-size:.78rem}.page-footer{margin:22px 0 26px;padding:13px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}.page-footer a{color:var(--dark);text-underline-offset:3px}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:12px;background:#183f33;color:#fff;box-shadow:0 8px 24px #0002;font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .2s}.toast.visible{opacity:1}
 @media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane textarea{min-height:320px}}
 @media(max-width:620px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.page-heading{align-items:flex-start;flex-direction:column;gap:0}.toolbar{gap:6px;padding:9px}.toolbar button{flex:1 1 auto;padding:7px 9px;font-size:.78rem}.toolbar .toolbar-spacer{display:none}.editor-grid{grid-template-columns:1fr}.editor-pane+ .editor-pane{border-right:0;border-top:1px solid var(--line)}.editor-pane textarea{min-height:240px}.diff-content{max-height:220px}}
@@ -95,7 +96,7 @@
   const initialText='ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .';
   const labels={
     normalize_eol:'یکسان‌سازی پایان سطرها',
-    decode_htmlentities:'تبدیل نویسه‌های HTML به متن',
+    decode_htmlentities:'تبدیل نویسه‌های اچ‌تی‌ام‌ال به متن',
     fix_dashes:'یکسان‌سازی خط تیره‌ها',
     fix_three_dots:'اصلاح سه‌نقطه',
     normalize_ellipsis:'یکسان‌سازی نشانۀ سه‌نقطه',
@@ -123,9 +124,9 @@
     cleanup_spacing:'یکسان‌سازی فاصله‌ها',
     cleanup_line_breaks:'یکسان‌سازی شکست سطرها',
     cleanup_begin_and_end:'پاک‌سازی ابتدا و انتهای متن',
-    preserve_HTML:'حفظ برچسب‌های HTML',
-    preserve_comments:'حفظ توضیحات HTML',
-    preserve_entities:'حفظ نویسه‌های ویژهٔ HTML',
+    preserve_HTML:'حفظ برچسب‌های اچ‌تی‌ام‌ال',
+    preserve_comments:'حفظ توضیحات اچ‌تی‌ام‌ال',
+    preserve_entities:'حفظ نویسه‌های ویژهٔ اچ‌تی‌ام‌ال',
     preserve_frontmatter:'حفظ فرادادهٔ آغازین',
     preserve_code_blocks:'حفظ بلوک‌های کد',
     preserve_inline_codes:'حفظ کدهای درون‌خطی',
@@ -212,7 +213,7 @@
       renderDiff(text,result);
       status.textContent=text===result?'متن آماده است؛ تغییری لازم نبود.':'متن پاک‌سازی شد.';
       saveOptions();
-      try{localStorage.removeItem('emlaVirastarText');}catch(_){}
+
     }catch(error){
       output.value='';
       diffContent.replaceChildren();
@@ -283,11 +284,25 @@
     processText();
     showToast('تنظیم‌ها به حالت پیش‌فرض برگشتند.');
   });
+  function syncSettingsLayout(){
+    const mobile=window.matchMedia('(max-width: 900px)').matches;
+    appLayout.classList.remove('settings-open','settings-closed');
+    settingsToggle.setAttribute('aria-expanded',String(!mobile));
+  }
   settingsToggle.addEventListener('click',()=>{
-    const open=!appLayout.classList.contains('settings-open');
-    appLayout.classList.toggle('settings-open',open);
-    settingsToggle.setAttribute('aria-expanded',String(open));
+    const open=settingsToggle.getAttribute('aria-expanded')==='true';
+    const next=!open;
+    if(window.matchMedia('(max-width: 900px)').matches){
+      appLayout.classList.toggle('settings-open',next);
+      appLayout.classList.remove('settings-closed');
+    }else{
+      appLayout.classList.toggle('settings-closed',!next);
+      appLayout.classList.remove('settings-open');
+    }
+    settingsToggle.setAttribute('aria-expanded',String(next));
   });
+  window.matchMedia('(max-width: 900px)').addEventListener('change',syncSettingsLayout);
+  syncSettingsLayout();
   diffToggle.addEventListener('click',()=>{
     const visible=!diffPanel.classList.contains('editor-hidden');
     diffPanel.classList.toggle('editor-hidden',visible);
