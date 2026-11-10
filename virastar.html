@@ -50,6 +50,8 @@
 
 <div class="toolbar" role="toolbar" aria-label="ابزارهای ویراستار">
 <button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="true" aria-controls="settingsPanel"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6"/></svg>تنظیمات</button>
+<input id="fileInput" type="file" hidden accept=".txt,.text,.md,.markdown,.html,.htm,.csv,.tsv,.log,.json,.xml,.yml,.yaml,.rst,.tex,text/plain,text/markdown,text/html,text/csv,application/json,application/xml">
+<button id="uploadButton" type="button" title="بارگذاری فایل متنی برای اصلاح"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>بارگذاری فایل</button>
 <button id="copyButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>کپی متن خروجی</button>
 <button id="downloadButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>دریافت متنِ اصلاح‌شده</button>
 <button id="diffToggle" type="button" aria-expanded="true" aria-controls="diffPanel">پنهان‌کردن تفاوت‌ها</button>
@@ -79,7 +81,7 @@
 </section>
 </section>
 </div>
-<p class="privacy-note">متن در همین مرورگر پردازش می‌شود و به سروری فرستاده نمی‌شود. تنظیم‌های شما در مرورگر ذخیره می‌شوند؛ متن ورودی پس از بستن صفحه نگه‌داری نمی‌شود.</p>
+<p class="privacy-note">متن و فایل انتخابی در همین مرورگر پردازش می‌شوند و به سروری فرستاده نمی‌شوند. تنظیم‌های شما در مرورگر ذخیره می‌شوند؛ متن ورودی پس از بستن صفحه نگه‌داری نمی‌شود.</p>
 </main>
 
 <footer class="page-footer">
@@ -149,6 +151,7 @@
     {title:'مارک‌داون و حفظ محتوا',keys:['markdown_normalize_braces','markdown_normalize_lists','skip_markdown_ordered_lists_numbers_conversion','preserve_HTML','preserve_comments','preserve_entities','preserve_frontmatter','preserve_code_blocks','preserve_inline_codes','preserve_URIs','preserve_nbsps','preserve_brackets','preserve_braces']}
   ];
   const input=document.getElementById('inputText');
+  const fileInput=document.getElementById('fileInput');
   const output=document.getElementById('outputText');
   const diffContent=document.getElementById('diffContent');
   const status=document.getElementById('status');
@@ -255,6 +258,31 @@
     clearTimeout(showToast.timer);
     showToast.timer=setTimeout(()=>toast.classList.remove('visible'),2100);
   }
+  document.getElementById('uploadButton').addEventListener('click',()=>fileInput.click());
+  fileInput.addEventListener('change',async()=>{
+    const file=fileInput.files&&fileInput.files[0];
+    if(!file)return;
+    if(!/\.(txt|text|md|markdown|html?|csv|tsv|log|json|xml|ya?ml|rst|tex)$/i.test(file.name)){
+      showToast('این قالب فایل پشتیبانی نمی‌شود؛ یک فایل متنی انتخاب کنید.');
+      fileInput.value='';
+      return;
+    }
+    try{
+      const text=typeof file.text==='function'?await file.text():await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(String(reader.result||''));
+        reader.onerror=()=>reject(reader.error||new Error('read failed'));
+        reader.readAsText(file,'UTF-8');
+      });
+      input.value=text;
+      processText();
+      showToast('فایل متنی بارگذاری شد و برای اصلاح آماده است.');
+    }catch(_){
+      showToast('خواندن فایل ممکن نشد؛ دوباره تلاش کنید.');
+    }finally{
+      fileInput.value='';
+    }
+  });
   document.getElementById('copyButton').addEventListener('click',async()=>{
     if(!output.value){showToast('متنی برای کپی‌کردن وجود ندارد.');return;}
     try{
