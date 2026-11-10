@@ -20,7 +20,7 @@
 .app-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}.settings-panel,.editor-panel{min-width:0;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}.settings-panel{grid-column:2;grid-row:1;border-radius:0 0 15px 15px;max-height:calc(100vh - 190px);overflow:auto;scrollbar-color:#b7cbbd transparent}.editor-panel{grid-column:1;grid-row:1;border-radius:0 0 15px 15px;overflow:hidden}
 .settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:#f7faf8;border-bottom:1px solid var(--line)}.settings-head h2{margin:0;font-size:1rem}.settings-head button{border:0;background:none;color:var(--dark);font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .option-group{margin:0;padding:12px 14px 8px;border:0;border-bottom:1px solid #edf2ee}.option-group legend{padding:0 0 6px;color:var(--dark);font-size:.82rem;font-weight:750}.option-list{display:grid;gap:2px}.option-row{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-radius:7px;color:#33453d;font-size:.8rem;line-height:1.55;cursor:pointer}.option-row:hover{background:#f4f8f5}.option-row input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--green);flex:0 0 auto}
-.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.output-tools{display:flex;align-items:center;gap:10px}.copy-output{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:4px 9px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--dark);font:inherit;font-size:.78rem;font-weight:650;cursor:pointer}.copy-output:hover:not(:disabled){border-color:#b9d7c6;background:var(--mint)}.copy-output:focus-visible{outline:2px solid var(--green);outline-offset:2px}.copy-output:disabled{opacity:.4;cursor:not-allowed}.char-count{color:var(--muted);font-size:.74rem}#inputCount{color:#b42318}#outputCount{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.history-button:hover:not(:disabled){border-color:#c8e1d2;background:#eff8f2;color:var(--green)}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea.plain-data{display:none}.editor-pane .rich-editor{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;overflow:auto;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}.editor-pane .rich-editor:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.rich-editor:empty::before{content:attr(data-placeholder);color:#94a39a;pointer-events:none}.rich-output{user-select:text}.rich-editor a{color:var(--green);text-decoration:underline}.rich-editor div,.rich-editor p{margin:0}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
+.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.output-tools{display:flex;align-items:center;gap:10px}.copy-output{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:4px 9px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--dark);font:inherit;font-size:.78rem;font-weight:650;cursor:pointer}.copy-output:hover:not(:disabled){border-color:#b9d7c6;background:var(--mint)}.copy-output:focus-visible{outline:2px solid var(--green);outline-offset:2px}.copy-output:disabled{opacity:.4;cursor:not-allowed}.char-count{color:var(--muted);font-size:.74rem}#inputCount{color:#b42318}#outputCount{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea.plain-data{display:none}.editor-pane .rich-editor{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;overflow:auto;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}.editor-pane .rich-editor:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.rich-editor:empty::before{content:attr(data-placeholder);color:#94a39a;pointer-events:none}.rich-output{user-select:text}.rich-editor a{color:var(--green);text-decoration:underline}.rich-editor div,.rich-editor p{margin:0}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
 .app-layout.settings-closed{grid-template-columns:minmax(0,1fr)}.app-layout.settings-closed .settings-panel{display:none}
 .privacy-note{margin:12px 2px 0;color:var(--muted);font-size:.78rem}.page-footer{margin:22px 0 26px;padding:13px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}.page-footer a{color:var(--dark);text-underline-offset:3px}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:12px;background:#183f33;color:#fff;box-shadow:0 8px 24px #0002;font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .2s}.toast.visible{opacity:1}
 @media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane .rich-editor{min-height:320px}}
@@ -67,7 +67,7 @@
 <section class="editor-panel" aria-label="ویرایشگر متن فارسی">
 <div class="editor-grid">
 <div class="editor-pane">
-<div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="undoButton" class="clear-input history-button" type="button" aria-label="واگردانی" title="برگشت به قبل" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 6.7"/></svg></button><button id="redoButton" class="clear-input history-button" type="button" aria-label="ازنو" title="برگشت به بعد" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 6.7"/></svg></button><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
+<div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
 <div id="inputRich" class="rich-editor" role="textbox" aria-multiline="true" aria-label="متن ورودی" contenteditable="true" spellcheck="true" data-placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto"></div>
 <textarea id="inputText" class="plain-data" aria-hidden="true" tabindex="-1">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
 </div>
@@ -207,8 +207,6 @@
   const inputRich=document.getElementById('inputRich');
   const fileInput=document.getElementById('fileInput');
   const clearInputButton=document.getElementById('clearInputButton');
-  const undoButton=document.getElementById('undoButton');
-  const redoButton=document.getElementById('redoButton');
   const output=document.getElementById('outputText');
   const outputRich=document.getElementById('outputRich');
   const copyButton=document.getElementById('copyButton');
@@ -438,126 +436,6 @@
     outputRich.replaceChildren(fragment);
   }
   function setPlainRich(root,text){root.textContent=text;}
-  let historyFrames=[];
-  let historyIndex=0;
-  let lastHistoryInputType='';
-  let lastHistoryTime=0;
-  let paragraphEditOpen=false;
-  function subtreeLength(node){
-    if(node.nodeType===Node.TEXT_NODE)return node.nodeValue.length;
-    if(node.nodeType!==Node.ELEMENT_NODE)return 0;
-    if(node.tagName==='BR')return 1;
-    let length=0;
-    for(const child of node.childNodes)length+=subtreeLength(child);
-    return length;
-  }
-  function currentSelectionOffsets(){
-    const selection=window.getSelection();
-    if(!selection||!selection.rangeCount||!inputRich.contains(selection.anchorNode))return {start:subtreeLength(inputRich),end:subtreeLength(inputRich)};
-    function offsetOf(target,targetOffset){
-      let position=0,found=null;
-      function visit(node){
-        if(found!==null)return;
-        if(node===target){
-          if(node.nodeType===Node.TEXT_NODE)found=position+targetOffset;
-          else{
-            for(let i=0;i<Math.min(targetOffset,node.childNodes.length);i++)position+=subtreeLength(node.childNodes[i]);
-            found=position;
-          }
-          return;
-        }
-        if(node.nodeType===Node.TEXT_NODE){position+=node.nodeValue.length;return;}
-        if(node.nodeType!==Node.ELEMENT_NODE)return;
-        if(node.tagName==='BR'){position++;return;}
-        for(const child of node.childNodes)visit(child);
-      }
-      visit(inputRich);
-      return found===null?position:found;
-    }
-    const anchor=offsetOf(selection.anchorNode,selection.anchorOffset);
-    const focus=offsetOf(selection.focusNode,selection.focusOffset);
-    return {start:Math.min(anchor,focus),end:Math.max(anchor,focus)};
-  }
-  function captureHistoryState(){return {html:inputRich.innerHTML,...currentSelectionOffsets()};}
-  function updateHistoryButtons(){
-    undoButton.disabled=historyIndex<=0;
-    redoButton.disabled=historyIndex>=historyFrames.length-1;
-  }
-  function recordHistory(inputType='edit'){
-    if(!historyFrames.length)return;
-    const state=captureHistoryState();
-    if(historyFrames[historyIndex]?.html===state.html){updateHistoryButtons();return;}
-    const now=Date.now();
-    const inlineEditTypes=['insertText','insertCompositionText','deleteContentBackward','deleteContentForward'];
-    const inlineEdit=inlineEditTypes.includes(inputType);
-    const sameTextEditRun=inlineEdit&&inlineEditTypes.includes(lastHistoryInputType)&&(paragraphEditOpen||now-lastHistoryTime<1200);
-    const afterParagraph=inlineEdit&&['insertParagraph','insertLineBreak'].includes(lastHistoryInputType);
-    const replacingSelection=(inputType==='insertText'||inputType==='insertFromPaste')&&lastHistoryInputType.startsWith('delete')&&now-lastHistoryTime<1200;
-    const coalesce=(sameTextEditRun||afterParagraph||replacingSelection)&&historyIndex>0;
-    if(coalesce)historyFrames[historyIndex]=state;
-    else{
-      historyFrames=historyFrames.slice(0,historyIndex+1);
-      historyFrames.push(state);
-      historyIndex=historyFrames.length-1;
-    }
-    if(historyFrames.length>100){historyFrames.shift();historyIndex--;}
-    lastHistoryInputType=inputType;
-    lastHistoryTime=now;
-    if(['insertParagraph','insertLineBreak'].includes(inputType))paragraphEditOpen=true;
-    else if(!inlineEdit)paragraphEditOpen=false;
-    updateHistoryButtons();
-  }
-  function locationAtOffset(offset){
-    let position=0,found=null;
-    function visit(node){
-      if(found)return;
-      if(node.nodeType===Node.TEXT_NODE){
-        const length=node.nodeValue.length;
-        if(offset<=position+length)found={node,offset:Math.max(0,offset-position)};
-        else position+=length;
-        return;
-      }
-      if(node.nodeType!==Node.ELEMENT_NODE)return;
-      if(node.tagName==='BR'){
-        if(offset<=position+1)found={node:node.parentNode,offset:Array.prototype.indexOf.call(node.parentNode.childNodes,node)+(offset>position?1:0)};
-        else position++;
-        return;
-      }
-      for(const child of node.childNodes)visit(child);
-    }
-    visit(inputRich);
-    return found||{node:inputRich,offset:inputRich.childNodes.length};
-  }
-  function restoreHistoryState(state){
-    inputRich.innerHTML=state.html;
-    input.value=richPlainText(inputRich);
-    officeDocument=null;
-    processText();
-    inputRich.focus();
-    const selection=window.getSelection();
-    const start=locationAtOffset(state.start);
-    const end=locationAtOffset(state.end);
-    const range=document.createRange();
-    range.setStart(start.node,Math.min(start.offset,start.node.nodeType===Node.TEXT_NODE?start.node.nodeValue.length:start.node.childNodes.length));
-    range.setEnd(end.node,Math.min(end.offset,end.node.nodeType===Node.TEXT_NODE?end.node.nodeValue.length:end.node.childNodes.length));
-    selection.removeAllRanges();
-    selection.addRange(range);
-    updateHistoryButtons();
-  }
-  function undoEdit(){
-    if(historyIndex<=0)return;
-    historyIndex--;
-    restoreHistoryState(historyFrames[historyIndex]);
-    lastHistoryInputType='';
-    paragraphEditOpen=false;
-  }
-  function redoEdit(){
-    if(historyIndex>=historyFrames.length-1)return;
-    historyIndex++;
-    restoreHistoryState(historyFrames[historyIndex]);
-    lastHistoryInputType='';
-    paragraphEditOpen=false;
-  }
   function insertLineBreak(){
     const before=inputRich.innerHTML;
     if(document.execCommand('insertParagraph')&&inputRich.innerHTML!==before)return;
@@ -730,7 +608,6 @@
       const text=officeExtensions.includes(extension)?await readOfficeFile(file,extension):await readPlainTextFile(file);
       input.value=text;
       setPlainRich(inputRich,text);
-      recordHistory('insertFromFile');
       processText();
       showToast('متن فایل بارگذاری شد و برای ویرایش آماده است.');
     }catch(error){
@@ -743,7 +620,6 @@
     if(!input.value)return;
     input.value='';
     inputRich.replaceChildren();
-    recordHistory('clear');
     processText();
     inputRich.focus();
     showToast('متن ورودی پاک شد.');
@@ -813,21 +689,9 @@
   });
   renderOptions();
   setPlainRich(inputRich,input.value);
-  historyFrames=[captureHistoryState()];
-  historyIndex=0;
-  updateHistoryButtons();
-  undoButton.addEventListener('mousedown',event=>event.preventDefault());
-  redoButton.addEventListener('mousedown',event=>event.preventDefault());
-  undoButton.addEventListener('click',undoEdit);
-  redoButton.addEventListener('click',redoEdit);
-  inputRich.addEventListener('beforeinput',event=>{
-    const selection=window.getSelection();
-    if(selection&&!selection.isCollapsed&&inputRich.contains(selection.anchorNode)){lastHistoryInputType='';paragraphEditOpen=false;}
-  });
-  inputRich.addEventListener('input',event=>{
+  inputRich.addEventListener('input',()=>{
     officeDocument=null;
     input.value=richPlainText(inputRich);
-    recordHistory(event.inputType||'edit');
     scheduleProcess();
   });
   inputRich.addEventListener('paste',event=>{
@@ -839,14 +703,6 @@
     else {const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode(plain||''));insertAtCaret(fragment);}
   });
   inputRich.addEventListener('keydown',event=>{
-    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='z'){
-      event.preventDefault();
-      if(event.shiftKey)redoEdit();else undoEdit();
-      return;
-    }
-    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='y'){
-      event.preventDefault();redoEdit();return;
-    }
     if(event.key==='Enter'){
       event.preventDefault();
       insertLineBreak();
