@@ -326,7 +326,7 @@
       return;
     }
     if(node.namespaceURI===WORD_NS&&(node.localName==='tab'||node.localName==='br'||node.localName==='cr')){
-      const original=node.localName==='tab'?'\\t':'\n';
+      const original=node.localName==='tab'?'\t':'\n';
       tokens.push({text:original,set:value=>{
         if(value===original)return;
         const textNode=node.ownerDocument.createElementNS(WORD_NS,'w:t');
@@ -352,7 +352,7 @@
       if(node.localName==='s'){
         const count=Math.max(1,Math.min(1000,Number(node.getAttributeNS(ODF_TEXT_NS,'c'))||1));
         original=' '.repeat(count);
-      }else original=node.localName==='tab'?'\\t':'\n';
+      }else original=node.localName==='tab'?'\t':'\n';
       tokens.push({text:original,set:value=>{
         if(value===original)return;
         const textNode=node.ownerDocument.createTextNode(value);
