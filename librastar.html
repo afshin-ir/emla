@@ -841,13 +841,19 @@
     else {const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode(plain||''));insertAtCaret(fragment);}
   });
   inputRich.addEventListener('keydown',event=>{
-    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='z'){
+    const key=String(event.key||'').toLowerCase();
+    const undoShortcut=event.code==='KeyZ'||event.keyCode===90||key==='z';
+    const redoShortcut=event.code==='KeyY'||event.keyCode===89||key==='y';
+    if((event.ctrlKey||event.metaKey)&&undoShortcut){
       event.preventDefault();
+      event.stopPropagation();
       if(event.shiftKey)redoEdit();else undoEdit();
       return;
     }
-    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='y'){
-      event.preventDefault();redoEdit();return;
+    if((event.ctrlKey||event.metaKey)&&redoShortcut){
+      event.preventDefault();
+      event.stopPropagation();
+      redoEdit();return;
     }
     if(event.key==='Enter'){
       event.preventDefault();
