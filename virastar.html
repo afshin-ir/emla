@@ -303,7 +303,7 @@
   function collectOdfParagraphs(node,paragraphs){
     for(const child of node.childNodes){
       if(child.nodeType===1&&child.namespaceURI===ODF_TEXT_NS&&(child.localName==='p'||child.localName==='h')){
-        paragraphs.push(odfInlineText(child));
+        paragraphs.push(child);
       }else if(child.childNodes&&child.childNodes.length){
         collectOdfParagraphs(child,paragraphs);
       }
