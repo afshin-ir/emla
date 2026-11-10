@@ -1,6 +1,6 @@
-const CACHE_NAME='virastar-offline-v7';
+const CACHE_NAME='virastar-offline-v8';
 const PRECACHE_URLS=[
-  './virastyar.html',
+  './librastar.html',
   './virastar.js',
   './virastar-diff.min.js',
   './virastar-jszip.min.js',
@@ -31,7 +31,7 @@ self.addEventListener('fetch',event=>{
   if(request.method!=='GET')return;
   const url=new URL(request.url);
   if(url.origin!==self.location.origin)return;
-  if(request.mode==='navigate'&&url.pathname.endsWith('/virastyar.html')){
+  if(request.mode==='navigate'&&url.pathname.endsWith('/librastar.html')){
     event.respondWith(
       fetch(request)
         .then(response=>{
