@@ -495,10 +495,24 @@
     if(extension==='doc'){
       const model=window.docToText.model(officeDocument.buffer);
       if(!model||!Array.isArray(model.body))throw new Error('ساختار سند DOC برای خروجی گرفتن خوانده نشد.');
-      model.body.forEach(paragraph=>{
+      const changedByUser=input.value!==officeDocument.sourceText;
+      const editedLines=output.value.split('\\n');
+      if(changedByUser&&editedLines.length!==model.body.length){
+        throw new Error('برای حفظ قالب‌بندی DOC، تعداد بندهای متن باید با سند اصلی برابر باشد.');
+      }
+      const originalLines=officeDocument.sourceText.split('\\n');
+      model.body.forEach((paragraph,index)=>{
         const runs=(paragraph.runs||[]).filter(run=>typeof run.text==='string');
         const oldText=runs.map(run=>run.text).join('');
-        const newText=engine.cleanup(oldText,getOptions());
+        let newText;
+        if(changedByUser){
+          newText=editedLines[index];
+          const sourceLine=originalLines[index]||'';
+          const marker=sourceLine.endsWith(oldText)?sourceLine.slice(0,sourceLine.length-oldText.length):'';
+          if(marker&&newText.startsWith(marker))newText=newText.slice(marker.length);
+        }else{
+          newText=engine.cleanup(oldText,getOptions());
+        }
         if(!distributeEditedText(runs.map(run=>({text:run.text,set:value=>{run.text=value;}})),newText)&&newText){
           paragraph.runs=paragraph.runs||[];
           paragraph.runs.push({text:newText});
