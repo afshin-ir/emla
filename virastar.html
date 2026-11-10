@@ -51,7 +51,7 @@
 <div class="toolbar" role="toolbar" aria-label="ابزارهای ویراستار">
 <button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="true" aria-controls="settingsPanel"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6"/></svg>تنظیمات</button>
 <button id="copyButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>کپی متن خروجی</button>
-<button id="downloadButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>دریافت متن</button>
+<button id="downloadButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>دریافت متنِ اصلاح‌شده</button>
 <button id="diffToggle" type="button" aria-expanded="true" aria-controls="diffPanel">پنهان‌کردن تفاوت‌ها</button>
 <span class="toolbar-spacer"></span>
 <span id="status" class="status" role="status" aria-live="polite"></span>
@@ -270,7 +270,7 @@
     const blob=new Blob([output.value],{type:'text/plain;charset=utf-8'});
     const link=document.createElement('a');
     link.href=URL.createObjectURL(blob);
-    link.download='virastar-output.txt';
+    link.download='paknevis-output.txt';
     link.click();
     setTimeout(()=>URL.revokeObjectURL(link.href),1000);
     showToast(output.value?'متن پاک‌سازی‌شده دریافت شد.':'فایل خالی دریافت شد.');
