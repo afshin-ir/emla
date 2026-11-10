@@ -16,8 +16,8 @@
 :root{color-scheme:light;--bg:#f4f7f4;--paper:#fff;--ink:#1e2d2b;--muted:#687a73;--line:#dfe9e3;--green:#16765d;--dark:#105b48;--mint:#e8f4ee;--shadow:0 12px 34px #213b2d0b}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Vazirmatn,system-ui,sans-serif;line-height:1.9}.shell{width:min(1040px,calc(100% - 32px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 0}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:800;text-decoration:none}.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:var(--green);color:#fff}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.top-actions a{padding:6px 11px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--dark);font-size:.82rem;text-decoration:none}.mobile-menu-toggle{display:none}
 .hero{margin:14px 0 20px;padding:clamp(22px,4vw,42px);border-radius:24px;background:linear-gradient(125deg,#143f34,#18765c 72%,#399776);color:#fff;box-shadow:var(--shadow)}.eyebrow{margin:0 0 5px;color:#c5e7d7;font-size:.9rem;font-weight:700}.hero h1{font-size:clamp(2rem,5vw,3rem);line-height:1.45;margin:0 0 12px}.hero p{max-width:760px;margin:0;color:#e0f0e8;font-size:1.08rem}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 17px;border-radius:12px;font-weight:700;text-decoration:none}.button-primary{background:#fff;color:var(--dark)}.button-secondary{border:1px solid #ffffff75;color:#fff}.button:focus-visible,.text-link:focus-visible{outline:3px solid #f1c75b;outline-offset:3px}
-.panel{margin:18px 0;padding:clamp(20px,3.5vw,34px);border:1px solid var(--line);border-radius:19px;background:var(--paper);box-shadow:var(--shadow)}h2{margin:0 0 10px;font-size:1.4rem;line-height:1.6}.lead{margin:0;color:#40534b;font-size:1.02rem}.preview{display:block;width:100%;height:auto;margin:22px auto 0;border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 24px #213b2d12}.feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.feature{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fbfdfb}.feature h3{margin:0 0 5px;color:var(--dark);font-size:1rem}.feature p{margin:0;color:var(--muted);font-size:.91rem}.note{margin:14px 0 0;padding:13px 16px;border-right:3px solid #8bbca8;border-radius:8px;background:#f4f8f5;color:#52665c;font-size:.9rem}.release{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.release p{margin:0;color:var(--muted)}.release strong{color:var(--dark)}.release .button{background:var(--green);color:#fff}.text-link{color:var(--dark);text-underline-offset:3px}.footer{margin:24px 0 28px;padding:16px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
-@media(max-width:760px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.hero{margin-top:6px}.feature-grid{grid-template-columns:1fr}.release{align-items:flex-start}.release .button{width:100%}}
+.panel{margin:18px 0;padding:clamp(20px,3.5vw,34px);border:1px solid var(--line);border-radius:19px;background:var(--paper);box-shadow:var(--shadow)}h2{margin:0 0 10px;font-size:1.4rem;line-height:1.6}.lead{margin:0;color:#40534b;font-size:1.02rem}.preview{display:block;width:100%;height:auto;margin:22px auto 0;border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 24px #213b2d12}.capability-list{margin:14px 0 0;padding:0 1.3rem 0 0}.capability-list li{padding:5px 0 5px .2rem}.capability-list li::marker{color:var(--green)}.capability-list strong{color:var(--dark)}.note{margin:14px 0 0;padding:13px 16px;border-right:3px solid #8bbca8;border-radius:8px;background:#f4f8f5;color:#52665c;font-size:.9rem}.release{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.release p{margin:0;color:var(--muted)}.release strong{color:var(--dark)}.release .button{background:var(--green);color:#fff}.text-link{color:var(--dark);text-underline-offset:3px}.footer{margin:24px 0 28px;padding:16px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+@media(max-width:760px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.hero{margin-top:6px}.release{align-items:flex-start}.release .button{width:100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -51,15 +51,31 @@
 <img class="preview" src="https://raw.githubusercontent.com/afshin-ir/paknevis/main/assets/paknevis-preview.jpg" alt="نمایی از پاک‌نویس در LibreOffice Writer" loading="lazy">
 </section>
 
-<section class="panel" aria-labelledby="what-it-does">
-<h2 id="what-it-does">پاک‌نویس چه چیزهایی را اصلاح می‌کند؟</h2>
-<div class="feature-grid">
-<article class="feature"><h3>رسم‌الخط و نیم‌فاصله</h3><p>فاصله‌گذاری پیشوندها و پسوندها، فعل‌های پیشوندی، ضمایر پیوسته و کسرهٔ اضافه را یکدست می‌کند.</p></article>
-<article class="feature"><h3>فاصله‌ها و نشانه‌گذاری</h3><p>فاصله‌های اضافی میان واژه‌ها و کنار نشانه‌های سجاوندی را اصلاح می‌کند و نشانه‌های رایج را به شکل فارسی درمی‌آورد.</p></article>
-<article class="feature"><h3>نویسه‌ها و عددها</h3><p>«ي» و «ك» عربی را به «ی» و «ک» فارسی و عددهای انگلیسی و عربی را به عددهای فارسی تبدیل می‌کند.</p></article>
-<article class="feature"><h3>پانوشت‌ها و گزارش اصلاح‌ها</h3><p>متن پانوشت‌ها را هم اصلاح می‌کند و ارجاع‌هایشان را در متن اصلی نگه می‌دارد. پس از اجرا، گزارشی از اصلاح‌های انجام‌شده در اختیارتان است.</p></article>
-</div>
-<p class="note">گزینهٔ «غلط‌های املایی (بانک)» نیز در تنظیمات افزونه در دسترس است و به‌طور پیش‌فرض خاموش است. تنظیم‌های انتخاب‌شده برای اجراهای بعدی حفظ می‌شوند.</p>
+<section class="panel" aria-labelledby="capabilities">
+<h2 id="capabilities">قابلیت‌ها</h2>
+<ul class="capability-list">
+<li><strong>اجرای اصلاح‌ها:</strong> اصلاح‌ها را روی متن انتخاب‌شده یا سراسر سند اجرا می‌کند.</li>
+<li>افزودن نیم‌فاصله به پیشوندهای فعلی «می» و «نمی»؛ مانند «می روم» ← «می‌روم».</li>
+<li>اصلاح فاصلهٔ اجزای فعل‌های پیشوندی؛ مانند «فرا گرفتن» ← «فراگرفتن» و «باز گشتن» ← «بازگشتن».</li>
+<li>اصلاح فاصلهٔ پیشوندهای جمع؛ مانند «کتاب ها» ← «کتاب‌ها» و «کتاب های» ← «کتاب‌های».</li>
+<li>اصلاح فاصلهٔ پسوندهای تفضیلی و عالی؛ مانند «کثیف تر» ← «کثیف‌تر» و «کثیف ترین» ← «کثیف‌ترین».</li>
+<li>اصلاح فاصلهٔ ضمایر پیوسته و ملکی؛ مانند «خانه ام» ← «خانه‌ام» و «رفته ام» ← «رفته‌ام».</li>
+<li>اصلاح کسرهٔ اضافه؛ مانند «خانه‌ی» ← «خانهٔ».</li>
+<li>تبدیل نیم‌فاصله‌های کاذب و نویسه‌های نامتعارف مشابه به نیم‌فاصلهٔ واقعی.</li>
+<li>حذف فاصله‌های اضافی میان واژه‌ها و درون یا پیش از علائم سجاوندی، با رعایت موارد استثنا.</li>
+<li>تبدیل «ي» و «ك» عربی به «ی» و «ک» فارسی.</li>
+<li>تبدیل اعداد انگلیسی و عربی به اعداد فارسی.</li>
+<li>تبدیل برخی علائم سجاوندی انگلیسی به معادل فارسی.</li>
+<li>تبدیل گیومه‌های انگلیسی و گونه‌های رایج نقل‌قول به گیومهٔ فارسی «».</li>
+<li>تبدیل سه‌نقطه‌های متوالی به نویسهٔ واحد تعلیق «…».</li>
+<li>حذف تکرار پیاپی علامت سؤال و علامت تعجب.</li>
+<li><strong>غلط‌های املایی:</strong> امکان بررسی با بانک واژه‌های همراه افزونه؛ این گزینه به‌طور پیش‌فرض خاموش است و به نصب جداگانهٔ فایل نیاز ندارد.</li>
+<li><strong>پانوشت‌ها:</strong> متن داخل پانوشت‌ها نیز اصلاح می‌شود و ارجاع پانوشت در متن اصلی حفظ می‌شود.</li>
+<li><strong>گزارش اصلاح‌ها:</strong> گزارش هر بار اجرا با نامی شامل تاریخ و ساعت در پوشهٔ سند ذخیره می‌شود؛ اگر سند هنوز ذخیره نشده باشد، گزارش در پوشهٔ خانگی کاربر قرار می‌گیرد.</li>
+<li><strong>تنظیمات:</strong> گزینه‌های انتخاب‌شده برای اجراهای بعدی حفظ می‌شوند.</li>
+<li><strong>نمایش پیشرفت و خطا:</strong> شمار بندهای بررسی‌شده هنگام پردازش در نوار وضعیت Writer نمایش داده می‌شود و جزئیات خطا در فایل گزارش خطا ثبت می‌شود.</li>
+</ul>
+<p class="note">برای نخستین اجرا بهتر است یک نسخهٔ پشتیبان از سند داشته باشید. تا پایان پردازش ممکن است فرمان‌های دیگر LibreOffice موقتاً در دسترس نباشند.</p>
 </section>
 
 <section class="panel release" aria-label="دریافت پاک‌نویس">
