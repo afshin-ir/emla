@@ -25,16 +25,18 @@
     .eyebrow{margin:0 0 4px;color:var(--green);font-size:.86rem;font-weight:700}
     h1{margin:0 0 10px;font-size:clamp(1.65rem,4vw,2.25rem);line-height:1.5}
     .intro{max-width:680px;margin:0 0 24px;color:#53665e}
-    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .form-grid{display:grid;grid-template-columns:1fr;gap:16px}
     .field{display:flex;flex-direction:column;gap:6px;min-width:0}
-    .field-full{grid-column:1/-1}
     label{font-size:.9rem;font-weight:700;color:#344b42}
     input,textarea{width:100%;border:1px solid #cfdcd4;border-radius:11px;background:#fff;padding:11px 13px;color:var(--ink);font:inherit;font-size:.94rem;line-height:1.7;transition:border-color .15s,box-shadow .15s}
     input{min-height:46px}
+    input[type=file]{padding:8px 10px;background:#fbfdfb}
+    input[type=file]::file-selector-button{margin-inline-end:10px;padding:7px 12px;border:0;border-radius:8px;background:var(--mint);color:var(--dark);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}
     textarea{min-height:160px;resize:vertical}
     input:focus,textarea:focus{outline:0;border-color:#62a58a;box-shadow:0 0 0 3px #16765d1a}
     input::placeholder,textarea::placeholder{color:#87958f}
     .ltr-field{direction:ltr;text-align:left}
+    .field-help{margin:-2px 0 0;color:var(--muted);font-size:.78rem}
     .actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:18px}
     .submit-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:9px 19px;border:0;border-radius:12px;background:var(--green);color:#fff;font:inherit;font-weight:700;cursor:pointer;transition:background-color .15s,transform .15s}
     .submit-button:hover:not(:disabled){background:var(--dark);transform:translateY(-1px)}
@@ -48,7 +50,7 @@
     .secondary-links{display:flex;gap:8px 18px;flex-wrap:wrap;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.87rem}
     .honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
     @media(max-width:720px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{justify-content:flex-start}.main{margin-top:14px}}
-    @media(max-width:560px){.shell{width:min(100% - 24px,1050px)}.form-grid{grid-template-columns:1fr}.field-full{grid-column:auto}.panel{border-radius:18px}.actions{align-items:stretch}.submit-button{width:100%}}
+    @media(max-width:560px){.shell{width:min(100% - 24px,1050px)}.panel{border-radius:18px}.actions{align-items:stretch}.submit-button{width:100%}}
   </style>
 </head>
 <body>
@@ -72,10 +74,11 @@
         <h1 id="page-title">تماس با ما</h1>
         <p class="intro">پرسش، پیشنهاد یا گزارشی دربارهٔ دستور خط فارسی، فرهنگ املایی، واژگان مصوب یا اپ اَفرا دارید؟ پیام‌تان را بفرستید.</p>
 
-        <form id="contact-form" action="https://formsubmit.co/ajax/afshin@riseup.net" method="POST">
+        <form id="contact-form" action="https://formsubmit.co/afshin@riseup.net" method="POST" enctype="multipart/form-data">
           <input type="hidden" name="_subject" value="پیام تازه از فرم تماس سایت اَفرا">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_url" value="https://afshin-ir.github.io/emla/contact.html">
+          <input type="hidden" name="_next" value="https://afshin-ir.github.io/emla/contact.html?sent=1">
           <div class="field honeypot" aria-hidden="true">
             <label for="website">این کادر را خالی بگذارید</label>
             <input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off">
@@ -90,13 +93,18 @@
               <label for="contact-email">نشانی ایمیل برای پاسخ</label>
               <input id="contact-email" class="ltr-field" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required>
             </div>
-            <div class="field field-full">
+            <div class="field">
               <label for="contact-subject">موضوع <span style="font-weight:400;color:#687a73">(اختیاری)</span></label>
               <input id="contact-subject" name="subject" type="text" maxlength="120">
             </div>
-            <div class="field field-full">
+            <div class="field">
               <label for="contact-message">پیام</label>
               <textarea id="contact-message" name="message" rows="6" maxlength="5000" required></textarea>
+            </div>
+            <div class="field">
+              <label for="contact-attachment">پیوست (اختیاری)</label>
+              <input id="contact-attachment" name="attachment" type="file">
+              <p class="field-help">حداکثر اندازۀ فایل ۱۰ مگابایت است.</p>
             </div>
           </div>
 
@@ -104,7 +112,7 @@
             <button class="submit-button" type="submit">فرستادن پیام <span aria-hidden="true">←</span></button>
           </div>
           <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
-          <p class="privacy-note">برای رساندن پیام به ایمیل، فرم از سرویس <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> استفاده می‌کند. این سرویس پیام‌ها را تا ۳۰ روز نگه می‌دارد؛ لطفاً اطلاعات محرمانه نفرستید.</p>
+          <p class="privacy-note">برای رساندن پیام و پیوست به ایمیل، فرم از سرویس <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> استفاده می‌کند. پیام‌ها تا ۳۰ روز نگه‌داری می‌شوند؛ لطفاً اطلاعات محرمانه نفرستید.</p>
         </form>
 
         <div class="secondary-links">
@@ -122,34 +130,25 @@
       const form = document.getElementById('contact-form');
       const status = document.getElementById('form-status');
       const button = form.querySelector('button[type="submit"]');
-      form.addEventListener('submit', async event => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
+      const attachment = document.getElementById('contact-attachment');
+      const maxFileSize = 10 * 1024 * 1024;
+
+      if (new URLSearchParams(location.search).get('sent') === '1') {
+        status.textContent = 'پیامتان ثبت شد. اگر فرم هنوز فعال نشده باشد، پس از تأیید ایمیل سایت به مقصد می‌رسد.';
+        status.className = 'form-status is-success';
+      }
+
+      form.addEventListener('submit', event => {
+        const file = attachment.files && attachment.files[0];
+        if (file && file.size > maxFileSize) {
+          event.preventDefault();
+          status.textContent = 'اندازۀ فایل نباید بیشتر از ۱۰ مگابایت باشد.';
+          status.className = 'form-status is-error';
+          attachment.focus();
+          return;
+        }
         button.disabled = true;
         button.textContent = 'در حال فرستادن…';
-        status.textContent = '';
-        status.className = 'form-status';
-        try {
-          const payload = Object.fromEntries(new FormData(form).entries());
-          const response = await fetch(form.action, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          const result = await response.json();
-          if (!response.ok || result.success === false || result.success === 'false') {
-            throw new Error('submission_failed');
-          }
-          form.reset();
-          status.textContent = 'پیامتان فرستاده شد. اگر نخستین بار است که فرم استفاده می‌شود، ممکن است تحویل پیام کمی زمان ببرد.';
-          status.className = 'form-status is-success';
-        } catch {
-          status.textContent = 'ارسال پیام انجام نشد. لطفاً دوباره تلاش کنید یا از تلگرام پیام بدهید.';
-          status.className = 'form-status is-error';
-        } finally {
-          button.disabled = false;
-          button.innerHTML = 'فرستادن پیام <span aria-hidden="true">←</span>';
-        }
       });
     })();
   </script>
