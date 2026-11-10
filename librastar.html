@@ -78,7 +78,7 @@
 </div>
 </div>
 <section id="diffPanel" class="diff-panel" aria-labelledby="diffTitle">
-<div class="diff-heading"><h2 id="diffTitle">آمار ویرایش</h2></div>
+<div class="diff-heading"><h2 id="diffTitle">آمار ویراسته‌ها</h2></div>
 <div id="diffContent" class="diff-content" aria-live="polite"></div>
 </section>
 </section>
@@ -834,7 +834,8 @@
   window.matchMedia('(max-width: 900px)').addEventListener('change',syncSettingsLayout);
   syncSettingsLayout();
   document.getElementById('statsJump').addEventListener('click',()=>{
-    document.getElementById('diffPanel').scrollIntoView({behavior:'smooth',block:'start'});
+    const firstStat=document.querySelector('#diffContent .stats-list li');
+    (firstStat||document.getElementById('diffContent')).scrollIntoView({behavior:'smooth',block:'start'});
   });
   const mobileMenu=document.querySelector('.mobile-menu-toggle');
   const navigation=document.getElementById('primary-navigation');
