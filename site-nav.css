@@ -91,3 +91,5 @@
 .topbar .mobile-menu-toggle:hover{border-color:#b9d7c6;background:#e8f4ee}
 .topbar .mobile-menu-toggle:focus-visible{outline:2px solid #16765d;outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.site-nav-button{transition:none}}
+
+.site-nav-button.nav-contact[aria-current=page]{border-color:#b9d7c6;background:#e8f4ee;color:#105b48;font-weight:700}
