@@ -1,6 +1,6 @@
-const CACHE_NAME='virastar-offline-v4';
+const CACHE_NAME='virastar-offline-v5';
 const PRECACHE_URLS=[
-  './paknevis-online.html',
+  './virayeshgar-farsi.html',
   './virastar.js',
   './virastar-diff.min.js',
   './virastar-jszip.min.js',
@@ -32,7 +32,7 @@ self.addEventListener('fetch',event=>{
   if(request.method!=='GET')return;
   const url=new URL(request.url);
   if(url.origin!==self.location.origin)return;
-  if(request.mode==='navigate'&&url.pathname.endsWith('/paknevis-online.html')){
+  if(request.mode==='navigate'&&url.pathname.endsWith('/virayeshgar-farsi.html')){
     event.respondWith(
       fetch(request)
         .then(response=>{
