@@ -237,14 +237,12 @@
     const pre=document.createElement('pre');
     const parts=Diff.diffChars(source,result,{ignoreWhitespace:false});
     parts.forEach(part=>{
-      if(part.removed && !/[^
-]/.test(part.value))return;
+      if(part.removed && !/[^\n]/.test(part.value))return;
       const span=document.createElement('span');
       if(part.added)span.className='added';
       else if(part.removed)span.className='removed';
       let value=part.value;
-      if(part.removed)value=value.replace(/
-/g,'');
+      if(part.removed)value=value.replace(/\n/g,'');
       if(value==='‌'){span.classList.add('zwnj');value='·';}
       span.appendChild(document.createTextNode(value));
       pre.appendChild(span);
