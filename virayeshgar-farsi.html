@@ -560,11 +560,11 @@
     try{
       if(officeDocument){
         const blob=await exportOfficeDocument();
-        await downloadBlob(blob,'paknevis-output.'+officeDocument.extension,'سندِ ویرایش‌شده با همان قالب دریافت شد.');
+        await downloadBlob(blob,'virayeshgar-farsi-output.'+officeDocument.extension,'سندِ ویرایش‌شده با همان قالب دریافت شد.');
         return;
       }
       const blob=new Blob([output.value],{type:'text/plain;charset=utf-8'});
-      await downloadBlob(blob,'paknevis-output.txt',output.value?'متنِ ویرایش‌شده دریافت شد.':'فایل خالی دریافت شد.');
+      await downloadBlob(blob,'virayeshgar-farsi-output.txt',output.value?'متنِ ویرایش‌شده دریافت شد.':'فایل خالی دریافت شد.');
     }catch(error){
       showToast(error&&error.message?error.message:'ساخت فایلِ ویرایش‌شده ممکن نشد.');
     }
