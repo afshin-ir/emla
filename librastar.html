@@ -20,11 +20,11 @@
 .app-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}.settings-panel,.editor-panel{min-width:0;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}.settings-panel{grid-column:2;grid-row:1;border-radius:0 0 15px 15px;max-height:calc(100vh - 190px);overflow:auto;scrollbar-color:#b7cbbd transparent}.editor-panel{grid-column:1;grid-row:1;border-radius:0 0 15px 15px;overflow:hidden}
 .settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:#f7faf8;border-bottom:1px solid var(--line)}.settings-head h2{margin:0;font-size:1rem}.settings-head button{border:0;background:none;color:var(--dark);font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .option-group{margin:0;padding:12px 14px 8px;border:0;border-bottom:1px solid #edf2ee}.option-group legend{padding:0 0 6px;color:var(--dark);font-size:.82rem;font-weight:750}.option-list{display:grid;gap:2px}.option-row{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-radius:7px;color:#33453d;font-size:.8rem;line-height:1.55;cursor:pointer}.option-row:hover{background:#f4f8f5}.option-row input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--green);flex:0 0 auto}
-.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.char-count{color:var(--muted);font-size:.74rem}#inputCount{color:#b42318}#outputCount{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none}.editor-pane textarea:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.editor-pane textarea::placeholder{color:#94a39a}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
+.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.char-count{color:var(--muted);font-size:.74rem}#inputCount{color:#b42318}#outputCount{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea.plain-data{display:none}.editor-pane .rich-editor{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;overflow:auto;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}.editor-pane .rich-editor:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.rich-editor:empty::before{content:attr(data-placeholder);color:#94a39a;pointer-events:none}.rich-output{user-select:text}.rich-editor a{color:var(--green);text-decoration:underline}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
 .app-layout.settings-closed{grid-template-columns:minmax(0,1fr)}.app-layout.settings-closed .settings-panel{display:none}
 .privacy-note{margin:12px 2px 0;color:var(--muted);font-size:.78rem}.page-footer{margin:22px 0 26px;padding:13px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}.page-footer a{color:var(--dark);text-underline-offset:3px}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:12px;background:#183f33;color:#fff;box-shadow:0 8px 24px #0002;font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .2s}.toast.visible{opacity:1}
-@media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane textarea{min-height:320px}}
-@media(max-width:620px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.page-heading{align-items:flex-start;flex-direction:column;gap:0}.toolbar{gap:6px;padding:9px}.toolbar button{flex:1 1 auto;padding:7px 9px;font-size:.78rem}.toolbar .toolbar-spacer{display:none}.editor-grid{grid-template-columns:1fr}.editor-pane+ .editor-pane{border-right:0;border-top:1px solid var(--line)}.editor-pane textarea{min-height:240px}.diff-content{max-height:220px}}
+@media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane .rich-editor{min-height:320px}}
+@media(max-width:620px){.topbar{flex-wrap:wrap}.mobile-menu-toggle{display:flex;align-items:center;gap:7px}.top-actions{display:none;flex-basis:100%;padding:8px;border:1px solid var(--line);border-radius:14px;background:#fff}.top-actions.is-open{display:flex}.top-actions a{flex:1 1 45%;text-align:center}.page-heading{align-items:flex-start;flex-direction:column;gap:0}.toolbar{gap:6px;padding:9px}.toolbar button{flex:1 1 auto;padding:7px 9px;font-size:.78rem}.toolbar .toolbar-spacer{display:none}.editor-grid{grid-template-columns:1fr}.editor-pane+ .editor-pane{border-right:0;border-top:1px solid var(--line)}.editor-pane .rich-editor{min-height:240px}.diff-content{max-height:220px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
 </style>
 </head>
@@ -68,11 +68,13 @@
 <div class="editor-grid">
 <div class="editor-pane">
 <div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
-<textarea id="inputText" aria-label="متن ورودی" spellcheck="true" placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
+<div id="inputRich" class="rich-editor" role="textbox" aria-multiline="true" aria-label="متن ورودی" contenteditable="true" spellcheck="true" data-placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto"></div>
+<textarea id="inputText" class="plain-data" aria-hidden="true" tabindex="-1">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
 </div>
 <div class="editor-pane">
 <div class="pane-head"><h2>متنِ ویرایش‌شده</h2><span class="char-count"><span id="outputCount">۰</span> نویسه</span></div>
-<textarea id="outputText" aria-label="متنِ ویرایش‌شده" readonly dir="auto" placeholder="متنِ ویرایش‌شده اینجا نمایش داده می‌شود."></textarea>
+<div id="outputRich" class="rich-editor rich-output" role="textbox" aria-readonly="true" aria-label="متنِ ویرایش‌شده" data-placeholder="متنِ ویرایش‌شده اینجا نمایش داده می‌شود." dir="auto"></div>
+<textarea id="outputText" class="plain-data" aria-hidden="true" tabindex="-1" readonly></textarea>
 </div>
 </div>
 <section id="diffPanel" class="diff-panel" aria-labelledby="diffTitle">
@@ -202,9 +204,11 @@
     {title:'مارک‌داون و حفظ محتوا',keys:['markdown_normalize_braces','markdown_normalize_lists','skip_markdown_ordered_lists_numbers_conversion','preserve_HTML','preserve_comments','preserve_entities','preserve_frontmatter','preserve_code_blocks','preserve_inline_codes','preserve_URIs','preserve_nbsps','preserve_brackets','preserve_braces']}
   ];
   const input=document.getElementById('inputText');
+  const inputRich=document.getElementById('inputRich');
   const fileInput=document.getElementById('fileInput');
   const clearInputButton=document.getElementById('clearInputButton');
   const output=document.getElementById('outputText');
+  const outputRich=document.getElementById('outputRich');
   const diffContent=document.getElementById('diffContent');
   const status=document.getElementById('status');
   const optionsRoot=document.getElementById('options');
@@ -264,6 +268,172 @@
   }
   function toPersianDigits(value){return String(value).replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[Number(d)]);}
   let debounceTimer;
+  function richPlainText(root){
+    let result='';
+    const blockTags=new Set(['DIV','P','LI','UL','OL','BLOCKQUOTE','H1','H2','H3','H4','H5','H6']);
+    function addBreak(){
+      if(result && !result.endsWith('\n'))result+='\n';
+    }
+    function walk(node){
+      if(node.nodeType===Node.TEXT_NODE){result+=node.nodeValue||'';return;}
+      if(node.nodeType!==Node.ELEMENT_NODE)return;
+      const tag=node.tagName;
+      if(tag==='BR'){result+='\n';return;}
+      const block=blockTags.has(tag);
+      if(block)addBreak();
+      for(const child of node.childNodes)walk(child);
+      if(block)addBreak();
+    }
+    for(const child of root.childNodes)walk(child);
+    if(root.querySelector('div,p,li,ul,ol,blockquote,h1,h2,h3,h4,h5,h6')&&result.endsWith('\n'))result=result.slice(0,-1);
+    return result;
+  }
+  function insertAtCaret(fragment){
+    inputRich.focus();
+    const selection=window.getSelection();
+    let range;
+    if(selection&&selection.rangeCount&&inputRich.contains(selection.anchorNode)){
+      range=selection.getRangeAt(0);
+    }else{
+      range=document.createRange();
+      range.selectNodeContents(inputRich);
+      range.collapse(false);
+    }
+    range.deleteContents();
+    const last=fragment.lastChild;
+    range.insertNode(fragment);
+    if(last){
+      range.setStartAfter(last);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+    inputRich.dispatchEvent(new Event('input',{bubbles:true}));
+  }
+  function sanitizedClipboard(html){
+    const parsed=new DOMParser().parseFromString(html,'text/html');
+    const fragment=document.createDocumentFragment();
+    const allowed=new Set(['STRONG','B','EM','I','U','S','DEL','CODE','A']);
+    const block=new Set(['P','DIV','LI','UL','OL','BLOCKQUOTE','H1','H2','H3','H4','H5','H6']);
+    function newline(parent){
+      const last=parent.lastChild;
+      if(last?.nodeType===Node.TEXT_NODE){
+        if(!last.nodeValue.endsWith('\n'))last.nodeValue+='\n';
+      }else parent.appendChild(document.createTextNode('\n'));
+    }
+    function append(node,parent){
+      if(node.nodeType===Node.TEXT_NODE){parent.appendChild(document.createTextNode(node.nodeValue||''));return;}
+      if(node.nodeType!==Node.ELEMENT_NODE)return;
+      const tag=node.tagName;
+      if(['SCRIPT','STYLE','IFRAME','OBJECT','SVG','IMG','VIDEO','AUDIO','FORM','INPUT'].includes(tag))return;
+      const isBlock=block.has(tag);
+      if(isBlock)newline(parent);
+      let target=parent;
+      const wrappers=[];
+      if(allowed.has(tag)){
+        const mapped={B:'STRONG',I:'EM',DEL:'S'}[tag]||tag;
+        const wrapper=document.createElement(mapped);
+        if(mapped==='A'){
+          const href=node.getAttribute('href')||'';
+          if(/^(https?:|mailto:)/i.test(href))wrapper.setAttribute('href',href);
+          else {for(const child of node.childNodes)append(child,parent);if(isBlock)newline(parent);return;}
+        }
+        wrappers.push(wrapper);
+      }
+      if(tag==='SPAN'){
+        const style=(node.getAttribute('style')||'').toLowerCase();
+        if(/font-weight\s*:\s*(bold|[6-9]00)/.test(style))wrappers.push(document.createElement('strong'));
+        if(/font-style\s*:\s*italic/.test(style))wrappers.push(document.createElement('em'));
+        if(/text-decoration[^;]*underline/.test(style))wrappers.push(document.createElement('u'));
+        if(/text-decoration[^;]*line-through/.test(style))wrappers.push(document.createElement('s'));
+      }
+      if(tag==='LI'){
+        const list=node.parentElement;
+        const marker=list?.tagName==='OL'?String(Array.from(list.children).indexOf(node)+1)+'. ':'• ';
+        parent.appendChild(document.createTextNode(marker));
+      }
+      for(const wrapper of wrappers){target.appendChild(wrapper);target=wrapper;}
+      for(const child of node.childNodes)append(child,target);
+      if(isBlock)newline(parent);
+    }
+    for(const child of parsed.body.childNodes)append(child,fragment);
+    if(fragment.firstChild?.nodeType===Node.TEXT_NODE)fragment.firstChild.nodeValue=fragment.firstChild.nodeValue.replace(/^\n+/,'');
+    if(fragment.lastChild?.nodeType===Node.TEXT_NODE)fragment.lastChild.nodeValue=fragment.lastChild.nodeValue.replace(/\n+$/,'');
+    return fragment;
+  }
+  function formattingMap(root){
+    const chars=[],styles=[];
+    const block=new Set(['DIV','P','LI','UL','OL','BLOCKQUOTE','H1','H2','H3','H4','H5','H6']);
+    function add(text,style){
+      for(const char of text){chars.push(char);styles.push({...style});}
+    }
+    function walk(node,style){
+      if(node.nodeType===Node.TEXT_NODE){add(node.nodeValue||'',style);return;}
+      if(node.nodeType!==Node.ELEMENT_NODE)return;
+      const tag=node.tagName;
+      if(tag==='BR'){add('\n',style);return;}
+      const next={...style};
+      if(tag==='B'||tag==='STRONG'||tag==='TH')next.bold=true;
+      if(tag==='I'||tag==='EM')next.italic=true;
+      if(tag==='U')next.underline=true;
+      if(tag==='S'||tag==='DEL'||tag==='STRIKE')next.strike=true;
+      if(tag==='A'){
+        const href=node.getAttribute('href')||'';
+        if(/^(https?:|mailto:)/i.test(href))next.href=href;
+      }
+      const isBlock=block.has(tag);
+      if(isBlock&&chars.length&&!chars.at(-1).endsWith('\n'))add('\n',style);
+      for(const child of node.childNodes)walk(child,next);
+      if(isBlock&&chars.length&&!chars.at(-1).endsWith('\n'))add('\n',style);
+    }
+    for(const child of root.childNodes)walk(child,{});
+    if(root.querySelector('div,p,li,ul,ol,blockquote,h1,h2,h3,h4,h5,h6')&&chars.at(-1)==='\n'){chars.pop();styles.pop();}
+    return {text:chars.join(''),styles};
+  }
+  function renderRichOutput(sourceRoot,sourceText,resultText){
+    const mapped=formattingMap(sourceRoot);
+    const sourceChars=mapped.text.split('');
+    const sourceStyles=mapped.styles;
+    const parts=Diff.diffChars(sourceText,resultText,{ignoreWhitespace:false});
+    const outputChars=[],outputStyles=[];
+    let sourceIndex=0,lastStyle={};
+    for(const part of parts){
+      if(part.removed){sourceIndex+=part.value.length;continue;}
+      if(part.added){
+        const style=sourceStyles[sourceIndex]||sourceStyles[sourceIndex-1]||lastStyle||{};
+        for(const char of part.value){outputChars.push(char);outputStyles.push({...style});}
+      }else{
+        for(let i=0;i<part.value.length;i++){
+          const char=part.value[i];
+          const style=sourceStyles[sourceIndex]||{};
+          outputChars.push(char);outputStyles.push({...style});lastStyle=style;sourceIndex++;
+        }
+      }
+    }
+    const fragment=document.createDocumentFragment();
+    let run='',runStyle=null;
+    function sameStyle(a,b){return a.bold===b.bold&&a.italic===b.italic&&a.underline===b.underline&&a.strike===b.strike&&a.href===b.href;}
+    function flush(){
+      if(!run)return;
+      let target=fragment;
+      const style=runStyle||{};
+      if(style.href){const a=document.createElement('a');a.href=style.href;a.rel='noopener noreferrer';target.appendChild(a);target=a;}
+      for(const [active,tag] of [[style.bold,'strong'],[style.italic,'em'],[style.underline,'u'],[style.strike,'s']]){
+        if(active){const el=document.createElement(tag);target.appendChild(el);target=el;}
+      }
+      target.appendChild(document.createTextNode(run));
+      run='';runStyle=null;
+    }
+    for(let i=0;i<outputChars.length;i++){
+      const style=outputStyles[i]||{};
+      if(runStyle&&!sameStyle(runStyle,style))flush();
+      if(!runStyle)runStyle=style;
+      run+=outputChars[i];
+    }
+    flush();
+    outputRich.replaceChildren(fragment);
+  }
+  function setPlainRich(root,text){root.textContent=text;}
   function processText(){
     const text=input.value;
     try{
@@ -274,12 +444,14 @@
         result=engine.cleanup(text,getOptions());
       }
       output.value=result;
+      renderRichOutput(inputRich,text,result);
       updateCounts(text,result);
       renderDiff(text,result);
       status.textContent='';
       saveOptions();
     }catch(error){
       output.value='';
+      outputRich.replaceChildren();
       diffContent.replaceChildren();
       status.textContent='پردازش متن با خطا روبه‌رو شد.';
       console.error(error);
@@ -415,6 +587,7 @@
       officeDocument=null;
       const text=officeExtensions.includes(extension)?await readOfficeFile(file,extension):await readPlainTextFile(file);
       input.value=text;
+      setPlainRich(inputRich,text);
       processText();
       showToast('متن فایل بارگذاری شد و برای ویرایش آماده است.');
     }catch(error){
@@ -426,8 +599,9 @@
   clearInputButton.addEventListener('click',()=>{
     if(!input.value)return;
     input.value='';
+    inputRich.replaceChildren();
     processText();
-    input.focus();
+    inputRich.focus();
     showToast('متن ورودی پاک شد.');
   });
   document.getElementById('copyButton').addEventListener('click',async()=>{
@@ -436,8 +610,12 @@
       await navigator.clipboard.writeText(output.value);
       showToast('متن خروجی کپی شد.');
     }catch(_){
-      output.focus();output.select();
+      const selection=window.getSelection();
+      const range=document.createRange();
+      range.selectNodeContents(outputRich);
+      selection.removeAllRanges();selection.addRange(range);
       const copied=document.execCommand('copy');
+      selection.removeAllRanges();
       showToast(copied?'متن خروجی کپی شد.':'کپی خودکار ممکن نشد؛ متن خروجی را انتخاب و کپی کنید.');
     }
   });
@@ -490,7 +668,26 @@
     navigation.classList.toggle('is-open',!open);
   });
   renderOptions();
-  input.addEventListener('input',scheduleProcess);
+  setPlainRich(inputRich,input.value);
+  inputRich.addEventListener('input',()=>{
+    officeDocument=null;
+    input.value=richPlainText(inputRich);
+    scheduleProcess();
+  });
+  inputRich.addEventListener('paste',event=>{
+    event.preventDefault();
+    const clipboard=event.clipboardData;
+    const html=clipboard&&clipboard.getData('text/html');
+    const plain=clipboard&&clipboard.getData('text/plain');
+    if(html)insertAtCaret(sanitizedClipboard(html));
+    else {const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode(plain||''));insertAtCaret(fragment);}
+  });
+  inputRich.addEventListener('keydown',event=>{
+    if(event.key==='Enter'){
+      event.preventDefault();
+      const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode('\\n'));insertAtCaret(fragment);
+    }
+  });
   processText();
 })();
   if('serviceWorker' in navigator && location.protocol==='https:'){
