@@ -653,7 +653,7 @@
       if(count){
         const item=document.createElement('li');
         const name=document.createElement('span');
-        name.textContent=(labels[key]||key)+': ';
+        name.textContent=(labels[key]||key)+':\u00a0';
         const amount=document.createElement('strong');
         amount.className='stats-count';
         amount.textContent=toPersianDigits(count);
