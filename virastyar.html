@@ -147,6 +147,55 @@
     markdown_normalize_braces:'یکسان‌سازی فاصله‌های نشانه‌گذاری مارک‌داون',
     markdown_normalize_lists:'یکسان‌سازی فهرست‌های مارک‌داون'
   };
+  const descriptions={
+    normalize_eol:'پایان سطرها را به شکل استاندارد یکسان می‌کند تا متن در برنامه‌ها و سیستم‌های مختلف درست نمایش داده شود.',
+    decode_htmlentities:'کدهای متنی HTML مانند &amp; را به نویسهٔ واقعی تبدیل می‌کند.',
+    fix_dashes:'شکل خط‌تیره‌ها و خط‌های بلند را در متن یکدست می‌کند.',
+    fix_three_dots:'سه نقطهٔ پیاپی را به نشانۀ معیار سه‌نقطه تبدیل می‌کند.',
+    normalize_ellipsis:'نشانۀ سه‌نقطه را در سراسر متن به یک شکل استاندارد درمی‌آورد.',
+    remove_spaces_before_ellipsis:'فاصلهٔ ناخواسته را از پیش از نشانۀ سه‌نقطه برمی‌دارد.',
+    normalize_dates:'ترتیب و شکل نوشتن تاریخ‌های شناخته‌شده را یکدست می‌کند.',
+    fix_english_quotes_pairs:'گیومه‌های انگلیسیِ جفت را به گیومهٔ فارسی «...» تبدیل می‌کند.',
+    fix_english_quotes:'نشانه‌های نقل‌قول انگلیسی را در متن فارسی به شکل فارسی تبدیل می‌کند.',
+    fix_hamzeh:'شکل همزه و نشانۀ اضافه را در واژه‌های فارسی اصلاح می‌کند.',
+    fix_hamzeh_arabic:'نویسهٔ عربی «ة» را به شکل فارسی «هٔ» تبدیل می‌کند.',
+    cleanup_rlm:'نویسه‌های نامرئیِ جهت راست‌به‌چپ را که می‌توانند ترتیب متن را به‌هم بزنند پاک‌سازی می‌کند.',
+    cleanup_zwnj:'نیم‌فاصله‌های تکراری یا نادرست را پاک‌سازی می‌کند.',
+    fix_spacing_for_braces_and_quotes:'فاصله‌های داخل و اطراف پرانتز، کروشه، آکولاد و گیومه را اصلاح می‌کند.',
+    fix_arabic_numbers:'رقم‌های عربی مانند ١٢٣ را به رقم‌های فارسی ۱۲۳ تبدیل می‌کند.',
+    fix_english_numbers:'رقم‌های انگلیسی مانند 123 را به رقم‌های فارسی ۱۲۳ تبدیل می‌کند.',
+    fix_misc_non_persian_chars:'نویسه‌های عربیِ هم‌شکل را به حرف فارسیِ معیار، مانند «ي» به «ی»، تبدیل می‌کند.',
+    fix_punctuations:'نشانه‌های سجاوندی غیرفارسی را به شکل مناسب متن فارسی تبدیل می‌کند.',
+    fix_question_mark:'علامت سؤال را به نشانۀ فارسی «؟» تبدیل می‌کند.',
+    skip_markdown_ordered_lists_numbers_conversion:'شماره‌های انگلیسیِ فهرست‌های شماره‌دار مارک‌داون، مانند 1. و 2.، را انگلیسی نگه می‌دارد.',
+    fix_perfix_spacing:'فاصله‌گذاری پیشوندهایی مانند «می‌» و «نمی‌» را اصلاح می‌کند.',
+    fix_suffix_spacing:'پسوندهای رایج را با فاصله یا نیم‌فاصلهٔ درست به واژه می‌چسباند.',
+    fix_suffix_misc:'صورت نوشتاریِ پسوند «ه‌ای» را یکدست می‌کند.',
+    kashidas_as_parenthetic:'کشیدۀ داخل پرانتز را به خط تیره تبدیل می‌کند.',
+    cleanup_kashidas:'کشیده‌های تزئینی «ـ» را از متن حذف می‌کند.',
+    cleanup_extra_marks:'نشانه‌های تکراریِ پیاپی، مانند چند علامت تعجب، را کم می‌کند.',
+    cleanup_spacing:'فاصله‌های اضافی و چند فاصلهٔ پیاپی را یکدست می‌کند.',
+    cleanup_line_breaks:'شکست سطرهای اضافی را پاک‌سازی و فاصلهٔ بین بندها را مرتب می‌کند.',
+    cleanup_begin_and_end:'فاصله‌ها و سطرهای خالیِ ابتدا و انتهای متن را حذف می‌کند.',
+    preserve_HTML:'برچسب‌ها و ساختار HTML را هنگام ویرایش متن حفظ می‌کند.',
+    preserve_comments:'توضیحات HTML بین نشانه‌های &lt;!-- و --&gt; را دست‌نخورده نگه می‌دارد.',
+    preserve_entities:'کدهای نویسه‌ای HTML مانند &amp; و &nbsp; را به شکل کد حفظ می‌کند.',
+    preserve_frontmatter:'بخش فرادادهٔ آغازینِ فایل‌های مارک‌داون را دست‌نخورده نگه می‌دارد.',
+    preserve_code_blocks:'متن داخل بلوک‌های کدِ سه‌نقل‌قولی را ویرایش نمی‌کند.',
+    preserve_inline_codes:'متن داخل کدهای درون‌خطیِ میان بک‌تیک را دست‌نخورده می‌گذارد.',
+    preserve_URIs:'نشانی‌های وب و پیوندها را از تغییرهای نگارشی حفظ می‌کند.',
+    preserve_nbsps:'فاصله‌های نشکن HTML را به همان شکل نگه می‌دارد.',
+    preserve_brackets:'متن داخل کروشه را از اصلاح خودکار کنار می‌گذارد.',
+    preserve_braces:'متن داخل آکولاد را از اصلاح خودکار کنار می‌گذارد.',
+    fix_diacritics:'حرکت‌های موجود را به شکل و جایگاه معیار نزدیک‌تر می‌کند.',
+    remove_diacritics:'حرکت‌ها و نشانه‌های آوایی را از متن حذف می‌کند.',
+    fix_numeral_symbols:'نمادهای عددی را به شکل معیار فارسی تبدیل می‌کند.',
+    fix_persian_glyphs:'شکل‌های نمایشی یا غیراستاندارد حروف را به نویسه‌های معمول فارسی تبدیل می‌کند.',
+    fix_misc_spacing:'چند مورد ویژهٔ فاصله‌گذاری را که در گزینه‌های دیگر نمی‌گنجد اصلاح می‌کند.',
+    fix_spacing_for_punctuations:'فاصلهٔ پیش و پس از نشانه‌هایی مانند نقطه و ویرگول را اصلاح می‌کند.',
+    markdown_normalize_braces:'فاصله‌گذاری پرانتز و کروشه را در نشانه‌گذاری مارک‌داون یکدست می‌کند.',
+    markdown_normalize_lists:'فاصله و نشانه‌های آغاز فهرست‌های مارک‌داون را یکدست می‌کند.'
+  };
   const groups=[
     {title:'فاصله‌گذاری و رسم‌الخط',keys:['fix_perfix_spacing','fix_suffix_spacing','fix_suffix_misc','cleanup_zwnj','cleanup_spacing','cleanup_line_breaks','cleanup_begin_and_end','fix_spacing_for_braces_and_quotes','fix_spacing_for_punctuations','fix_misc_spacing','fix_diacritics','remove_diacritics','normalize_eol']},
     {title:'نویسه‌ها و نشانه‌ها',keys:['decode_htmlentities','fix_dashes','fix_three_dots','normalize_ellipsis','remove_spaces_before_ellipsis','normalize_dates','fix_english_quotes_pairs','fix_english_quotes','fix_hamzeh','fix_hamzeh_arabic','cleanup_rlm','fix_arabic_numbers','fix_english_numbers','fix_misc_non_persian_chars','fix_punctuations','fix_question_mark','kashidas_as_parenthetic','cleanup_kashidas','cleanup_extra_marks','fix_numeral_symbols','fix_persian_glyphs']},
@@ -192,6 +241,10 @@
         checkbox.value=key;
         checkbox.checked=Object.prototype.hasOwnProperty.call(saved,key)?Boolean(saved[key]):Boolean(defaults[key]);
         checkbox.addEventListener('change',()=>{saveOptions();processText();});
+        const description=descriptions[key]||`${labels[key]||key} را روشن یا خاموش می‌کند.`;
+        label.title=description;
+        checkbox.title=description;
+        checkbox.setAttribute('aria-description',description);
         const text=document.createElement('span');
         text.textContent=labels[key]||key;
         label.append(checkbox,text);
