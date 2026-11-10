@@ -1,67 +1,49 @@
-const CACHE_PREFIX = 'emla-';
-const CACHE_NAME = 'emla-static-v87';
-const PRECACHE_URLS = [
-  './', './index.html', './afra.html', './site-nav.css', './site-footer.js', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
-  './manifest.json', './favicon.svg', './favicon.ico', './assets/favicon.svg', './assets/book-cover.jpg',
-  './assets/approved-words-cover.jpg',
-  './articles/', './articles/index.html', './articles/1/', './articles/2/', './articles/3/',
-  './articles/3/assets/figure-1.png', './articles/3/assets/figure-2.png', './articles/3/assets/figure-3.png',
-  './words.html', './words-search-worker.js', './words-new-worker.js?v=single-gzip-8', './words-new-data.json.gz?v=single-gzip-2', './approved-words.html', './approved-words-1.json.gz', './approved-words-2.json.gz',
-  './approved-words-3.json.gz', './approved-words-4.json.gz'
+const CACHE_NAME='virastar-offline-v3';
+const PRECACHE_URLS=[
+  './virastar.html',
+  './virastar.js',
+  './virastar-diff.min.js',
+  './virastar-jszip.min.js',
+  './virastar-doc.js',
+  './virastar-texttodoc.js',
+  './fonts.css',
+  './Vazirmatn%5Bwght%5D.woff2',
+  './site-nav.css',
+  './site-footer.js',
+  './favicon.svg',
+  './favicon.ico'
 ];
-self.addEventListener('install', event => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    await cache.addAll(PRECACHE_URLS);
-    await self.skipWaiting();
-  })());
+self.addEventListener('install',event=>{
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache=>cache.addAll(PRECACHE_URLS))
+      .then(()=>self.skipWaiting())
+  );
 });
-self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map(key => caches.delete(key)));
-    await self.clients.claim();
-  })());
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(keys.filter(key=>key.startsWith('virastar-offline-')&&key!==CACHE_NAME).map(key=>caches.delete(key))))
+      .then(()=>self.clients.claim())
+  );
 });
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
-  if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const response = await fetch(request);
-        if (response.ok) (await caches.open(CACHE_NAME)).put(request, response.clone());
-        return response;
-      } catch {
-        const cache = await caches.open(CACHE_NAME);
-        return (await cache.match(request)) || (await cache.match('./dictionary.html')) || (await cache.match('./articles/')) || (await cache.match('./index.html'));
-      }
-    })());
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET')return;
+  const url=new URL(request.url);
+  if(url.origin!==self.location.origin)return;
+  if(request.mode==='navigate'&&url.pathname.endsWith('/virastar.html')){
+    event.respondWith(
+      fetch(request)
+        .then(response=>{
+          if(response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy));}
+          return response;
+        })
+        .catch(()=>caches.match(request,{ignoreSearch:true}))
+    );
     return;
   }
-  if (url.pathname.endsWith('/book.json') || url.pathname.endsWith('/dictionary.json')) {
-    event.respondWith((async () => {
-      const cache = await caches.open(CACHE_NAME);
-      try {
-        const response = await fetch(request);
-        if (response.ok) cache.put(request, response.clone());
-        return response;
-      } catch {
-        const saved = await cache.match(request);
-        if (saved) return saved;
-        throw new Error('Data is not available offline yet.');
-      }
-    })());
-    return;
-  }
-  event.respondWith((async () => {
-    const cache = await caches.open(CACHE_NAME), cached = await cache.match(request);
-    const refresh = fetch(request).then(response => { if (response.ok) cache.put(request, response.clone()); return response; }).catch(() => null);
-    if (cached) { event.waitUntil(refresh); return cached; }
-    return (await refresh) || Response.error();
-  })());
+  event.respondWith(
+    caches.match(request,{ignoreSearch:true}).then(cached=>cached||fetch(request))
+  );
 });
-
-
