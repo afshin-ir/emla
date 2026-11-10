@@ -325,6 +325,7 @@
       if(node.nodeType===Node.TEXT_NODE){parent.appendChild(document.createTextNode(node.nodeValue||''));return;}
       if(node.nodeType!==Node.ELEMENT_NODE)return;
       const tag=node.tagName;
+      if(tag==='BR'){parent.appendChild(document.createTextNode('\n'));return;}
       if(['SCRIPT','STYLE','IFRAME','OBJECT','SVG','IMG','VIDEO','AUDIO','FORM','INPUT'].includes(tag))return;
       const isBlock=block.has(tag);
       if(isBlock)newline(parent);
