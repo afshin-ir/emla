@@ -81,7 +81,7 @@
 </section>
 </section>
 </div>
-<p class="privacy-note">متن و فایل انتخابی در همین مرورگر پردازش می‌شوند و به سروری فرستاده نمی‌شوند. تنظیم‌های شما در مرورگر ذخیره می‌شوند؛ متن ورودی پس از بستن صفحه نگه‌داری نمی‌شود.</p>
+<p class="privacy-note">متن و فایل انتخابی در همین مرورگر پردازش می‌شوند و به سروری فرستاده نمی‌شوند. با یک‌بار بازکردن صفحه در حالت آنلاین، نسخۀ آفلاین آن در مرورگر ذخیره می‌شود؛ پس از آن برای بارگذاری و اصلاح فایل به اینترنت نیازی نیست. تنظیم‌ها ذخیره می‌شوند، اما متن ورودی پس از بستن صفحه نگه‌داری نمی‌شود.</p>
 </main>
 
 <footer class="page-footer">
@@ -346,6 +346,9 @@
   input.addEventListener('input',scheduleProcess);
   processText();
 })();
+  if('serviceWorker' in navigator && location.protocol==='https:'){
+    navigator.serviceWorker.register('./virastar-sw.js',{scope:'./virastar.html'}).catch(()=>{});
+  }
 </script>
 </body>
 </html>
