@@ -67,7 +67,7 @@
 <section class="editor-panel" aria-label="ویرایشگر متن فارسی">
 <div class="editor-grid">
 <div class="editor-pane">
-<div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="undoButton" class="clear-input history-button" type="button" aria-label="واگردانی" title="واگردانی (Ctrl+Z)" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 6.7"/></svg></button><button id="redoButton" class="clear-input history-button" type="button" aria-label="ازنو" title="ازنو (Ctrl+Shift+Z)" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 6.7"/></svg></button><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
+<div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="undoButton" class="clear-input history-button" type="button" aria-label="واگردانی" title="برگشت به قبل" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 1 3 6.7"/></svg></button><button id="redoButton" class="clear-input history-button" type="button" aria-label="ازنو" title="برگشت به بعد" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 7v6h-6"/><path d="M21 13a9 9 0 1 0-3 6.7"/></svg></button><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
 <div id="inputRich" class="rich-editor" role="textbox" aria-multiline="true" aria-label="متن ورودی" contenteditable="true" spellcheck="true" data-placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto"></div>
 <textarea id="inputText" class="plain-data" aria-hidden="true" tabindex="-1">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
 </div>
@@ -819,7 +819,7 @@
     }
     if(event.key==='Enter'){
       event.preventDefault();
-      const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode('\\n'));insertAtCaret(fragment);
+      const fragment=document.createDocumentFragment();fragment.appendChild(document.createTextNode('\n'));insertAtCaret(fragment);
     }
   });
   processText();
