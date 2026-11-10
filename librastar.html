@@ -20,7 +20,7 @@
 .app-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}.settings-panel,.editor-panel{min-width:0;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}.settings-panel{grid-column:2;grid-row:1;border-radius:0 0 15px 15px;max-height:calc(100vh - 190px);overflow:auto;scrollbar-color:#b7cbbd transparent}.editor-panel{grid-column:1;grid-row:1;border-radius:0 0 15px 15px;overflow:hidden}
 .settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:#f7faf8;border-bottom:1px solid var(--line)}.settings-head h2{margin:0;font-size:1rem}.settings-head button{border:0;background:none;color:var(--dark);font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .option-group{margin:0;padding:12px 14px 8px;border:0;border-bottom:1px solid #edf2ee}.option-group legend{padding:0 0 6px;color:var(--dark);font-size:.82rem;font-weight:750}.option-list{display:grid;gap:2px}.option-row{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-radius:7px;color:#33453d;font-size:.8rem;line-height:1.55;cursor:pointer}.option-row:hover{background:#f4f8f5}.option-row input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--green);flex:0 0 auto}
-.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.output-tools{display:flex;align-items:center;gap:10px}.copy-output{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:4px 9px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--dark);font:inherit;font-size:.78rem;font-weight:650;cursor:pointer}.copy-output:hover:not(:disabled){border-color:#b9d7c6;background:var(--mint)}.copy-output:focus-visible{outline:2px solid var(--green);outline-offset:2px}.copy-output:disabled{opacity:.4;cursor:not-allowed}.char-count{color:var(--muted);font-size:.74rem}#inputCount,#inputWordCount,.raw-label{color:#b42318}#outputCount,#outputWordCount,.edited-label{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.history-button:hover:not(:disabled){border-color:#c8e1d2;background:#eff8f2;color:var(--green)}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea.plain-data{display:none}.editor-pane .rich-editor{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;overflow:auto;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}.editor-pane .rich-editor:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.rich-editor:empty::before{content:attr(data-placeholder);color:#94a39a;pointer-events:none}.rich-output{user-select:text}.rich-editor a{color:var(--green);text-decoration:underline}.rich-editor div,.rich-editor p{margin:0}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
+.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.output-tools{display:flex;align-items:center;gap:10px}.copy-output{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:4px 9px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--dark);font:inherit;font-size:.78rem;font-weight:650;cursor:pointer}.copy-output:hover:not(:disabled){border-color:#b9d7c6;background:var(--mint)}.copy-output:focus-visible{outline:2px solid var(--green);outline-offset:2px}.copy-output:disabled{opacity:.4;cursor:not-allowed}.char-count{color:var(--muted);font-size:.74rem}#inputCount,#inputWordCount,.raw-label{color:#b42318}#outputCount,#outputWordCount,.edited-label{color:var(--green)}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.history-button:hover:not(:disabled){border-color:#c8e1d2;background:#eff8f2;color:var(--green)}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea.plain-data{display:none}.editor-pane .rich-editor{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;overflow:auto;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}.editor-pane .rich-editor:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.rich-editor:empty::before{content:attr(data-placeholder);color:#94a39a;pointer-events:none}.rich-output{user-select:text}.rich-editor a{color:var(--green);text-decoration:underline}.rich-editor div,.rich-editor p{margin:0}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content .stats-list{display:grid;gap:2px;margin:0;padding:0;list-style:none}.diff-content .stats-list li{padding:4px 0;border-bottom:1px solid var(--line)}.diff-content .stats-count{color:var(--green);font-weight:800}.diff-content .stats-message{color:var(--muted)}.editor-hidden{display:none}
 .app-layout.settings-closed{grid-template-columns:minmax(0,1fr)}.app-layout.settings-closed .settings-panel{display:none}
 .privacy-note{margin:12px 2px 0;color:var(--muted);font-size:.78rem}.page-footer{margin:22px 0 26px;padding:13px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}.page-footer a{color:var(--dark);text-underline-offset:3px}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:12px;background:#183f33;color:#fff;box-shadow:0 8px 24px #0002;font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .2s}.toast.visible{opacity:1}
 @media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane .rich-editor{min-height:320px}}
@@ -53,7 +53,7 @@
 <button id="uploadButton" type="button" title="بارگذاری فایل متنی برای اصلاح"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>بارگذاری فایل</button>
 
 <button id="downloadButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>دریافت متنِ اصلاح‌شده</button>
-<button id="diffToggle" type="button" aria-expanded="true" aria-controls="diffPanel">پنهان‌کردن تفاوت‌ها</button>
+<button id="diffToggle" type="button" aria-expanded="true" aria-controls="diffPanel">پنهان‌کردن آمار</button>
 <button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="true" aria-controls="settingsPanel"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6"/></svg>تنظیمات</button>
 <span class="toolbar-spacer"></span>
 <span id="status" class="status" role="status" aria-live="polite"></span>
@@ -78,7 +78,7 @@
 </div>
 </div>
 <section id="diffPanel" class="diff-panel" aria-labelledby="diffTitle">
-<div class="diff-heading"><h2 id="diffTitle">تفاوت‌ها</h2><div class="diff-legend"><span class="legend-added">افزوده‌شده</span><span class="legend-removed">حذف‌شده</span></div></div>
+<div class="diff-heading"><h2 id="diffTitle">آمار ویرایش</h2></div>
 <div id="diffContent" class="diff-content" aria-live="polite"></div>
 </section>
 </section>
@@ -271,6 +271,7 @@
   }
   function toPersianDigits(value){return String(value).replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[Number(d)]);}
   let debounceTimer;
+  let statsRenderToken=0;
   function richPlainText(root){
     let result='';
     const blockTags=new Set(['DIV','P','LI','UL','OL','BLOCKQUOTE','H1','H2','H3','H4','H5','H6']);
@@ -562,22 +563,25 @@
     selection.addRange(range);
     dispatchEditorInput('insertParagraph');
   }
+  function cleanText(text,options){
+    if(officeDocument&&officeDocument.extension!=='doc'&&text===officeDocument.sourceText){
+      return officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,options)).join('\n');
+    }
+    return engine.cleanup(text,options);
+  }
   function processText(){
     const text=input.value;
     try{
-      let result;
-      if(officeDocument&&officeDocument.extension!=='doc'&&text===officeDocument.sourceText){
-        result=officeDocument.paragraphTexts.map(paragraph=>engine.cleanup(paragraph,getOptions())).join('\n');
-      }else{
-        result=engine.cleanup(text,getOptions());
-      }
+      const options=getOptions();
+      const result=cleanText(text,options);
       output.value=result;
       renderRichOutput(inputRich,text,result);
       updateCounts(text,result);
-      renderDiff(text,result);
+      renderStats(text,result,options);
       status.textContent='';
       saveOptions();
     }catch(error){
+      statsRenderToken++;
       output.value='';
       outputRich.replaceChildren();
       diffContent.replaceChildren();
@@ -598,28 +602,68 @@
     clearInputButton.disabled=source.length===0;
     copyButton.disabled=result.length===0;
   }
-  function renderDiff(source,result){
+  function countEditRuns(before,after){
+    const parts=Diff.diffChars(before,after,{ignoreWhitespace:false});
+    let count=0,inEdit=false;
+    for(const part of parts){
+      const changed=part.added||part.removed;
+      if(changed&&!inEdit)count++;
+      inEdit=changed;
+    }
+    return count;
+  }
+  function renderStats(source,result,options){
+    const token=++statsRenderToken;
     diffContent.replaceChildren();
-    if(source===result){
+    if(!source.trim()){
       const msg=document.createElement('span');
-      msg.textContent=source?'تغییری در متن ایجاد نشد.':'پس از نوشتن متن، تفاوت‌ها اینجا دیده می‌شوند.';
+      msg.className='stats-message';
+      msg.textContent='پس از نوشتن متن، آمار ویرایش اینجا نمایش داده می‌شود.';
       diffContent.appendChild(msg);
       return;
     }
-    const pre=document.createElement('pre');
-    const parts=Diff.diffChars(source,result,{ignoreWhitespace:false});
-    parts.forEach(part=>{
-      if(part.removed && !/[^\n]/.test(part.value))return;
-      const span=document.createElement('span');
-      if(part.added)span.className='added';
-      else if(part.removed)span.className='removed';
-      let value=part.value;
-      if(part.removed)value=value.replace(/\n/g,'');
-      if(value==='‌'){span.classList.add('zwnj');value='·';}
-      span.appendChild(document.createTextNode(value));
-      pre.appendChild(span);
-    });
-    diffContent.appendChild(pre);
+    if(source===result){
+      const msg=document.createElement('span');
+      msg.className='stats-message';
+      msg.textContent='اصلاحی در متن انجام نشد.';
+      diffContent.appendChild(msg);
+      return;
+    }
+    const keys=Object.keys(options).filter(key=>options[key]);
+    const list=document.createElement('ul');
+    list.className='stats-list';
+    diffContent.appendChild(list);
+    let index=0,shown=0;
+    function next(){
+      if(token!==statsRenderToken)return;
+      if(index>=keys.length){
+        if(!shown){
+          list.remove();
+          const msg=document.createElement('span');
+          msg.className='stats-message';
+          msg.textContent='اصلاح انجام شد، اما اثر آن به تنظیم جداگانه‌ای نسبت داده نشد.';
+          diffContent.appendChild(msg);
+        }
+        return;
+      }
+      const key=keys[index++];
+      const withoutOptions={...options,[key]:false};
+      const withoutResult=cleanText(source,withoutOptions);
+      const count=countEditRuns(withoutResult,result);
+      if(count){
+        const item=document.createElement('li');
+        const name=document.createElement('span');
+        name.textContent=(labels[key]||key)+': ';
+        const amount=document.createElement('strong');
+        amount.className='stats-count';
+        amount.textContent=toPersianDigits(count);
+        item.append(name,amount,document.createTextNode(' بار'));
+        list.appendChild(item);
+        shown++;
+      }
+      setTimeout(next,0);
+    }
+    next();
   }
   function showToast(message){
     toast.textContent=message;
@@ -795,7 +839,7 @@
     const visible=!diffPanel.classList.contains('editor-hidden');
     diffPanel.classList.toggle('editor-hidden',visible);
     diffToggle.setAttribute('aria-expanded',String(!visible));
-    diffToggle.textContent=visible?'نمایش تفاوت‌ها':'پنهان‌کردن تفاوت‌ها';
+    diffToggle.textContent=visible?'نمایش آمار':'پنهان‌کردن آمار';
   });
   const mobileMenu=document.querySelector('.mobile-menu-toggle');
   const navigation=document.getElementById('primary-navigation');
@@ -820,6 +864,7 @@
     pendingSelection=Boolean(selection&&!selection.isCollapsed&&inputRich.contains(selection.anchorNode));
   });
   inputRich.addEventListener('input',event=>{
+    statsRenderToken++;
     const previous=input.value;
     const next=richPlainText(inputRich);
     const type=event.inputType||pendingBeforeInputType||'insertText';
