@@ -20,7 +20,7 @@
 .app-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start}.settings-panel,.editor-panel{min-width:0;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}.settings-panel{grid-column:2;grid-row:1;border-radius:0 0 15px 15px;max-height:calc(100vh - 190px);overflow:auto;scrollbar-color:#b7cbbd transparent}.editor-panel{grid-column:1;grid-row:1;border-radius:0 0 15px 15px;overflow:hidden}
 .settings-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:#f7faf8;border-bottom:1px solid var(--line)}.settings-head h2{margin:0;font-size:1rem}.settings-head button{border:0;background:none;color:var(--dark);font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .option-group{margin:0;padding:12px 14px 8px;border:0;border-bottom:1px solid #edf2ee}.option-group legend{padding:0 0 6px;color:var(--dark);font-size:.82rem;font-weight:750}.option-list{display:grid;gap:2px}.option-row{display:flex;align-items:flex-start;gap:8px;padding:5px 3px;border-radius:7px;color:#33453d;font-size:.8rem;line-height:1.55;cursor:pointer}.option-row:hover{background:#f4f8f5}.option-row input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--green);flex:0 0 auto}
-.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.char-count{color:var(--muted);font-size:.74rem}.editor-pane textarea{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none}.editor-pane textarea:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.editor-pane textarea::placeholder{color:#94a39a}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
+.editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:430px}.editor-pane{min-width:0;display:flex;flex-direction:column}.editor-pane+ .editor-pane{border-right:1px solid var(--line)}.pane-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fbfdfb}.pane-head h2{margin:0;font-size:.92rem}.char-count{color:var(--muted);font-size:.74rem}.pane-tools{display:flex;align-items:center;gap:8px}.clear-input{display:grid;place-items:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer}.clear-input:hover:not(:disabled){border-color:#f1d3d0;background:#fff0ef;color:#a23f37}.clear-input:disabled{opacity:.35;cursor:not-allowed}.clear-input:focus-visible{outline:2px solid var(--green);outline-offset:2px}.editor-pane textarea{display:block;flex:1;width:100%;min-height:400px;padding:16px;border:0;resize:vertical;background:#fff;color:var(--ink);font:400 .98rem/2 Vazirmatn,system-ui,sans-serif;direction:rtl;unicode-bidi:plaintext;outline:none}.editor-pane textarea:focus{box-shadow:inset 0 0 0 2px #c8e1d2}.editor-pane textarea::placeholder{color:#94a39a}.diff-panel{border-top:1px solid var(--line)}.diff-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:#fbfdfb}.diff-heading h2{margin:0;font-size:.92rem}.diff-legend{display:flex;gap:12px;color:var(--muted);font-size:.72rem}.legend-added,.legend-removed{display:inline-flex;align-items:center;gap:5px}.legend-added::before,.legend-removed::before{content:"";width:9px;height:9px;border-radius:3px}.legend-added::before{background:#d9f0df}.legend-removed::before{background:#f9dddd}.diff-content{max-height:260px;overflow:auto;padding:15px;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl;unicode-bidi:plaintext;font:400 .92rem/2 Vazirmatn,system-ui,sans-serif}.diff-content pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.diff-content .added{background:#e5f4e8;color:#24633d;border-radius:3px}.diff-content .removed{background:#fde8e6;color:#8d3029;text-decoration:line-through;border-radius:3px}.diff-content .zwnj{color:#7c4d00;background:#fff0c2;border-radius:3px}.editor-hidden{display:none}
 .app-layout.settings-closed{grid-template-columns:minmax(0,1fr)}.app-layout.settings-closed .settings-panel{display:none}
 .privacy-note{margin:12px 2px 0;color:var(--muted);font-size:.78rem}.page-footer{margin:22px 0 26px;padding:13px 4px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}.page-footer a{color:var(--dark);text-underline-offset:3px}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:12px;background:#183f33;color:#fff;box-shadow:0 8px 24px #0002;font-size:.86rem;opacity:0;pointer-events:none;transition:opacity .2s}.toast.visible{opacity:1}
 @media(max-width:900px){.shell{width:min(100% - 22px,760px)}.app-layout{grid-template-columns:minmax(0,1fr)}.settings-panel{display:none;grid-column:1;grid-row:1;max-height:55vh;border-radius:0 0 14px 14px}.app-layout.settings-open .settings-panel{display:block}.editor-panel{grid-column:1;grid-row:2;border-radius:0 0 14px 14px}.app-layout.settings-open .editor-panel{grid-row:2}.settings-toggle{display:inline-flex!important}.toolbar .status{flex-basis:100%;margin-right:0}.editor-grid{min-height:340px}.editor-pane textarea{min-height:320px}}
@@ -49,12 +49,13 @@
 </div>
 
 <div class="toolbar" role="toolbar" aria-label="ابزارهای ویراستار">
-<button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="true" aria-controls="settingsPanel"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6"/></svg>تنظیمات</button>
-<input id="fileInput" type="file" hidden accept=".txt,.text,.md,.markdown,.html,.htm,.csv,.tsv,.log,.json,.xml,.yml,.yaml,.rst,.tex,text/plain,text/markdown,text/html,text/csv,application/json,application/xml">
+
+<input id="fileInput" type="file" hidden accept=".txt,.text,.md,.markdown,.html,.htm,.csv,.tsv,.log,.json,.xml,.yml,.yaml,.rst,.tex,.odt,.doc,.docx,text/plain,text/markdown,text/html,text/csv,application/json,application/xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text">
 <button id="uploadButton" type="button" title="بارگذاری فایل متنی برای اصلاح"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 15v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>بارگذاری فایل</button>
 <button id="copyButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>کپی متن خروجی</button>
 <button id="downloadButton" type="button"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>دریافت متنِ اصلاح‌شده</button>
 <button id="diffToggle" type="button" aria-expanded="true" aria-controls="diffPanel">پنهان‌کردن تفاوت‌ها</button>
+<button id="settingsToggle" class="settings-toggle" type="button" aria-expanded="true" aria-controls="settingsPanel"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6"/></svg>تنظیمات</button>
 <span class="toolbar-spacer"></span>
 <span id="status" class="status" role="status" aria-live="polite"></span>
 </div>
@@ -67,7 +68,7 @@
 <section class="editor-panel" aria-label="ویرایشگر متن فارسی">
 <div class="editor-grid">
 <div class="editor-pane">
-<div class="pane-head"><h2>متن ورودی</h2><span class="char-count"><span id="inputCount">۰</span> نویسه</span></div>
+<div class="pane-head"><h2>متن ورودی</h2><div class="pane-tools"><span class="char-count"><span id="inputCount">۰</span> نویسه</span><button id="clearInputButton" class="clear-input" type="button" aria-label="پاک‌کردن متن ورودی" title="پاک‌کردن متن ورودی" disabled><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div></div>
 <textarea id="inputText" aria-label="متن ورودی" spellcheck="true" placeholder="متن فارسی را اینجا بنویسید یا جای‌گذاری کنید." dir="auto">ويراستار به شما كمك مي كند تا متون فارسي زيبا تر و درست تري بنويسيد .</textarea>
 </div>
 <div class="editor-pane">
@@ -85,13 +86,15 @@
 </main>
 
 <footer class="page-footer">
-ویراستار بر پایهٔ کتابخانهٔ <a href="https://github.com/brothersincode/virastar" target="_blank" rel="noopener noreferrer">Virastar</a> نگارش ۰٫۲۲٫۱ ساخته شده است. کتابخانهٔ اصلی با مجوز MIT و ابزار نمایش تفاوت متن با مجوز BSD منتشر شده‌اند.
+ویراستار بر پایهٔ کتابخانهٔ <a href="https://github.com/brothersincode/virastar" target="_blank" rel="noopener noreferrer">Virastar</a> نگارش ۰٫۲۲٫۱ ساخته شده است. کتابخانهٔ اصلی با مجوز MIT و ابزار نمایش تفاوت متن با مجوز BSD منتشر شده‌اند. خواندن فایل‌های DOC با <a href="https://github.com/Alpaq92/JSDoc" target="_blank" rel="noopener noreferrer">JSDoc</a> (۰BSD) و DOCX/ODT با <a href="https://github.com/Stuk/jszip" target="_blank" rel="noopener noreferrer">JSZip</a> (MIT) انجام می‌شود.
 </footer>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="./virastar.js"></script>
 <script src="./virastar-diff.min.js"></script>
+<script src="./virastar-jszip.min.js"></script>
+<script src="./virastar-doc.js"></script>
 <script>
 (()=> {
   const STORAGE_KEY='emlaVirastarOptions';
@@ -152,6 +155,7 @@
   ];
   const input=document.getElementById('inputText');
   const fileInput=document.getElementById('fileInput');
+  const clearInputButton=document.getElementById('clearInputButton');
   const output=document.getElementById('outputText');
   const diffContent=document.getElementById('diffContent');
   const status=document.getElementById('status');
@@ -228,6 +232,7 @@
   function updateCounts(source,result){
     document.getElementById('inputCount').textContent=toPersianDigits(source.length);
     document.getElementById('outputCount').textContent=toPersianDigits(result.length);
+    clearInputButton.disabled=source.length===0;
   }
   function renderDiff(source,result){
     diffContent.replaceChildren();
@@ -259,29 +264,104 @@
     showToast.timer=setTimeout(()=>toast.classList.remove('visible'),2100);
   }
   document.getElementById('uploadButton').addEventListener('click',()=>fileInput.click());
+  const WORD_NS='http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+  const ODF_TEXT_NS='urn:oasis:names:tc:opendocument:xmlns:text:1.0';
+  function wordParagraphText(node){
+    if(node.nodeType===3||node.nodeType===4)return node.nodeValue||'';
+    if(node.nodeType!==1)return '';
+    if(node.namespaceURI===WORD_NS){
+      if(node.localName==='del')return '';
+      if(node.localName==='t')return node.textContent||'';
+      if(node.localName==='tab')return '\t';
+      if(node.localName==='br'||node.localName==='cr')return '\n';
+    }
+    let result='';
+    for(const child of node.childNodes)result+=wordParagraphText(child);
+    return result;
+  }
+  function odfInlineText(node){
+    if(node.nodeType===3||node.nodeType===4)return node.nodeValue||'';
+    if(node.nodeType!==1)return '';
+    if(node.namespaceURI===ODF_TEXT_NS){
+      if(node.localName==='s'){
+        const count=Math.max(1,Math.min(1000,Number(node.getAttributeNS(ODF_TEXT_NS,'c'))||1));
+        return ' '.repeat(count);
+      }
+      if(node.localName==='tab')return '\t';
+      if(node.localName==='line-break'||node.localName==='soft-page-break')return '\n';
+    }
+    let result='';
+    for(const child of node.childNodes)result+=odfInlineText(child);
+    return result;
+  }
+  function collectOdfParagraphs(node,paragraphs){
+    for(const child of node.childNodes){
+      if(child.nodeType===1&&child.namespaceURI===ODF_TEXT_NS&&(child.localName==='p'||child.localName==='h')){
+        paragraphs.push(odfInlineText(child));
+      }else if(child.childNodes&&child.childNodes.length){
+        collectOdfParagraphs(child,paragraphs);
+      }
+    }
+  }
+  async function readOfficeFile(file,extension){
+    const buffer=await file.arrayBuffer();
+    if(extension==='doc'){
+      const text=window.docToText(buffer);
+      if(text===null)throw new Error('این فایل DOC خوانده نشد؛ ممکن است قالب آن قدیمی، رمزگذاری‌شده یا آسیب‌دیده باشد.');
+      return text;
+    }
+    const zip=await JSZip.loadAsync(buffer);
+    const xmlPath=extension==='docx'?'word/document.xml':'content.xml';
+    const entry=zip.file(xmlPath);
+    if(!entry)throw new Error('محتوای اصلی سند پیدا نشد؛ فایل معتبر یا پشتیبانی‌شده نیست.');
+    const xml=await entry.async('text');
+    const documentXml=new DOMParser().parseFromString(xml,'application/xml');
+    if(documentXml.getElementsByTagName('parsererror').length)throw new Error('خواندن ساختار سند ممکن نشد؛ فایل آسیب‌دیده است.');
+    if(extension==='docx'){
+      const paragraphs=Array.from(documentXml.getElementsByTagNameNS(WORD_NS,'p'));
+      return paragraphs.map(wordParagraphText).join('\n');
+    }
+    const paragraphs=[];
+    collectOdfParagraphs(documentXml.documentElement,paragraphs);
+    return paragraphs.join('\n');
+  }
+  async function readPlainTextFile(file){
+    if(typeof file.text==='function')return file.text();
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(String(reader.result||''));
+      reader.onerror=()=>reject(reader.error||new Error('read failed'));
+      reader.readAsText(file,'UTF-8');
+    });
+  }
   fileInput.addEventListener('change',async()=>{
     const file=fileInput.files&&fileInput.files[0];
     if(!file)return;
-    if(!/\.(txt|text|md|markdown|html?|csv|tsv|log|json|xml|ya?ml|rst|tex)$/i.test(file.name)){
-      showToast('این قالب فایل پشتیبانی نمی‌شود؛ یک فایل متنی انتخاب کنید.');
+    const extension=file.name.split('.').pop().toLowerCase();
+    const officeExtensions=['odt','doc','docx'];
+    const textExtensions=['txt','text','md','markdown','html','htm','csv','tsv','log','json','xml','yml','yaml','rst','tex'];
+    if(!officeExtensions.includes(extension)&&!textExtensions.includes(extension)){
+      showToast('این قالب فایل پشتیبانی نمی‌شود؛ یک فایل متنی، ODT، DOC یا DOCX انتخاب کنید.');
       fileInput.value='';
       return;
     }
     try{
-      const text=typeof file.text==='function'?await file.text():await new Promise((resolve,reject)=>{
-        const reader=new FileReader();
-        reader.onload=()=>resolve(String(reader.result||''));
-        reader.onerror=()=>reject(reader.error||new Error('read failed'));
-        reader.readAsText(file,'UTF-8');
-      });
+      const text=officeExtensions.includes(extension)?await readOfficeFile(file,extension):await readPlainTextFile(file);
       input.value=text;
       processText();
-      showToast('فایل متنی بارگذاری شد و برای اصلاح آماده است.');
-    }catch(_){
-      showToast('خواندن فایل ممکن نشد؛ دوباره تلاش کنید.');
+      showToast('متن فایل بارگذاری شد و برای ویرایش آماده است.');
+    }catch(error){
+      showToast(error&&error.message?error.message:'خواندن فایل ممکن نشد؛ دوباره تلاش کنید.');
     }finally{
       fileInput.value='';
     }
+  });
+  clearInputButton.addEventListener('click',()=>{
+    if(!input.value)return;
+    input.value='';
+    processText();
+    input.focus();
+    showToast('متن ورودی پاک شد.');
   });
   document.getElementById('copyButton').addEventListener('click',async()=>{
     if(!output.value){showToast('متنی برای کپی‌کردن وجود ندارد.');return;}
