@@ -1,8 +1,10 @@
-const CACHE_NAME='virastar-offline-v1';
+const CACHE_NAME='virastar-offline-v2';
 const PRECACHE_URLS=[
   './virastar.html',
   './virastar.js',
   './virastar-diff.min.js',
+  './virastar-jszip.min.js',
+  './virastar-doc.js',
   './fonts.css',
   './Vazirmatn%5Bwght%5D.woff2',
   './site-nav.css',
