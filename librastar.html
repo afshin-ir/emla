@@ -657,7 +657,7 @@
         const amount=document.createElement('strong');
         amount.className='stats-count';
         amount.textContent=toPersianDigits(count);
-        item.append(name,amount,document.createTextNode(' بار'));
+        item.append(name,amount,document.createTextNode('\u00a0بار'));
         list.appendChild(item);
         shown++;
       }
