@@ -1,7 +1,7 @@
 const CACHE_PREFIX = 'emla-';
-const CACHE_NAME = 'emla-static-v87';
+const CACHE_NAME = 'emla-static-v88';
 const PRECACHE_URLS = [
-  './', './index.html', './afra.html', './site-nav.css', './site-footer.js', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
+  './', './index.html', './afra.html', './site-nav.css', './site-nav.js', './site-footer.js', './book.json', './dictionary.html', './dictionary.json', './dictionary.webp',
   './manifest.json', './favicon.svg', './favicon.ico', './assets/favicon.svg', './assets/book-cover.jpg',
   './assets/approved-words-cover.jpg',
   './articles/', './articles/index.html', './articles/1/', './articles/2/', './articles/3/',
