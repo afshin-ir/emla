@@ -1,18 +1,209 @@
 [
- {"id":"spacing","category":"فاصله و نیم‌فاصله","rule":"item-62","examples":"item-63","conditions":"نمونه‌های نیم‌فاصله؛ همسانی کامل نویسه‌ها","exceptions":"معنا و ساخت ممکن است متفاوت باشد","strategy":"exact_examples"},
- {"id":"prefix_bi","category":"پیشوندها و پسوندها","rule":"item-191","examples":"item-192","conditions":"«بی» در نقش پیشوند نفی","exceptions":"item-193؛ واژه‌های بسیط در item-196","strategy":"exact_examples"},
- {"id":"prefix_ham","category":"پیشوندها و پسوندها","rule":"item-202","examples":"item-203","conditions":"«هم» در ترکیب","exceptions":"item-204","strategy":"exact_examples"},
- {"id":"prefixes","category":"پیشوندها و پسوندها","rule":"item-163","examples":"item-164","conditions":"پیشوندهای مذکور در بند","exceptions":"به تفکیک نقش پیشوند و کلمه نیاز دارد","strategy":"exact_examples"},
- {"id":"suffix_fam","category":"پیشوندها و پسوندها","rule":"item-336","examples":"item-337","conditions":"پسوندهای نام‌برده در بند","exceptions":"تشخیص پسوند و حروف اتصال","strategy":"exact_examples"},
- {"id":"compounds","category":"واژه‌های مرکب و ترکیب‌ها","rule":"item-340","examples":"item-341","conditions":"ترکیب‌های واژگانی‌شده","exceptions":"تفاوت معنایی هم‌نگاشت‌ها","strategy":"exact_examples"},
- {"id":"compound_verbs","category":"واژه‌های مرکب و ترکیب‌ها","rule":"item-359","examples":"item-360","conditions":"بن مضارع واژگانی‌شده یا صنفی","exceptions":"نقش و معنای مدخل","strategy":"exact_examples"},
- {"id":"compound_adjectives","category":"واژه‌های مرکب و ترکیب‌ها","rule":"item-406","examples":"item-407","conditions":"صفت‌های مرکب","exceptions":"نیاز به تعیین نقش صفت","strategy":"exact_examples"},
- {"id":"hamza","category":"همزه و دیگر قواعد املایی","rule":"item-256","examples":"item-257","conditions":"همزه با کرسی دندانه","exceptions":"item-258؛ موارد دیگر در بندهای پیشین","strategy":"exact_examples"},
- {"id":"hamza_fatha","category":"همزه و دیگر قواعد املایی","rule":"item-247","examples":"item-248","conditions":"همزه میانی پس از فتحه","exceptions":"مصوت پس از همزه","strategy":"exact_examples"},
- {"id":"hamza_end","category":"همزه و دیگر قواعد املایی","rule":"item-260","examples":"item-261","conditions":"همزه پایانی پس از فتحه","exceptions":"تلفظ و ساخت واژه","strategy":"exact_examples"},
- {"id":"exceptions_ham","category":"استثناها، چنداملایی و موارد دشوار","rule":"item-202","examples":"item-204","conditions":"استثناهای صریح هم","exceptions":"فهرست بند شاهد","strategy":"exact_examples"},
- {"id":"suffix_vare","category":"استثناها، چنداملایی و موارد دشوار","rule":"item-331","examples":"item-332","conditions":"پسوند واره پیوسته","exceptions":"تشخیص پسوند","strategy":"exact_examples"},
- {"id":"exceptions_khane","category":"استثناها، چنداملایی و موارد دشوار","rule":"item-338","examples":"item-339","conditions":"واژگانی‌شدن خانه و نامه","exceptions":"فهرست نمونه‌ها در بند شاهد","strategy":"exact_examples"},
- {"id":"zwnj_flag","category":"فاصله و نیم‌فاصله","rule":"item-62","examples":"item-63","conditions":"نیم‌فاصلهٔ تکراری","exceptions":"ممکن است انتقال، نشانه یا تبدیل باشد","strategy":"repeated_zwnj"},
- {"id":"multi_flag","category":"استثناها، چنداملایی و موارد دشوار","rule":"item-448","examples":"table-456","conditions":"مدخل دارای صورت‌های جداشده با ممیز","exceptions":"نشانه ممکن است کاربرد دیگری داشته باشد؛ صورت‌ها ممکن است معنای متفاوتی داشته باشند","strategy":"multiple_forms"}
+  {
+    "id": "spacing",
+    "category": "فاصله و نیم‌فاصله",
+    "rule": "item-62",
+    "examples": "item-63",
+    "conditions": "نمونه‌های نیم‌فاصله؛ همسانی کامل نویسه‌ها",
+    "exceptions": "معنا و ساخت ممکن است متفاوت باشد",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "prefix_bi",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-191",
+    "examples": "item-192",
+    "conditions": "«بی» در نقش پیشوند نفی",
+    "exceptions": "item-193؛ واژه‌های بسیط در item-196",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "prefix_ham",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-202",
+    "examples": "item-203",
+    "conditions": "«هم» در ترکیب",
+    "exceptions": "item-204",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "prefixes",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-163",
+    "examples": "item-164",
+    "conditions": "پیشوندهای مذکور در بند",
+    "exceptions": "به تفکیک نقش پیشوند و کلمه نیاز دارد",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "suffix_fam",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-336",
+    "examples": "item-337",
+    "conditions": "پسوندهای نام‌برده در بند",
+    "exceptions": "تشخیص پسوند و حروف اتصال",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "compounds",
+    "category": "واژه‌های مرکب و ترکیب‌ها",
+    "rule": "item-340",
+    "examples": "item-341",
+    "conditions": "ترکیب‌های واژگانی‌شده",
+    "exceptions": "تفاوت معنایی هم‌نگاشت‌ها",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "compound_verbs",
+    "category": "واژه‌های مرکب و ترکیب‌ها",
+    "rule": "item-359",
+    "examples": "item-360",
+    "conditions": "بن مضارع واژگانی‌شده یا صنفی",
+    "exceptions": "نقش و معنای مدخل",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "compound_adjectives",
+    "category": "واژه‌های مرکب و ترکیب‌ها",
+    "rule": "item-406",
+    "examples": "item-407",
+    "conditions": "صفت‌های مرکب",
+    "exceptions": "نیاز به تعیین نقش صفت",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "hamza",
+    "category": "همزه و دیگر قواعد املایی",
+    "rule": "item-256",
+    "examples": "item-257",
+    "conditions": "همزه با کرسی دندانه",
+    "exceptions": "item-258؛ موارد دیگر در بندهای پیشین",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "hamza_fatha",
+    "category": "همزه و دیگر قواعد املایی",
+    "rule": "item-247",
+    "examples": "item-248",
+    "conditions": "همزه میانی پس از فتحه",
+    "exceptions": "مصوت پس از همزه",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "hamza_end",
+    "category": "همزه و دیگر قواعد املایی",
+    "rule": "item-260",
+    "examples": "item-261",
+    "conditions": "همزه پایانی پس از فتحه",
+    "exceptions": "تلفظ و ساخت واژه",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "exceptions_ham",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-202",
+    "examples": "item-204",
+    "conditions": "استثناهای صریح هم",
+    "exceptions": "فهرست بند شاهد",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "suffix_vare",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-331",
+    "examples": "item-332",
+    "conditions": "پسوند واره پیوسته",
+    "exceptions": "تشخیص پسوند",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "exceptions_khane",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-338",
+    "examples": "item-339",
+    "conditions": "واژگانی‌شدن خانه و نامه",
+    "exceptions": "فهرست نمونه‌ها در بند شاهد",
+    "strategy": "exact_examples"
+  },
+  {
+    "id": "zwnj_flag",
+    "category": "فاصله و نیم‌فاصله",
+    "rule": "item-62",
+    "examples": "item-63",
+    "conditions": "نیم‌فاصلهٔ تکراری",
+    "exceptions": "ممکن است انتقال، نشانه یا تبدیل باشد",
+    "strategy": "repeated_zwnj"
+  },
+  {
+    "id": "multi_flag",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-448",
+    "examples": "table-456",
+    "conditions": "مدخل دارای صورت‌های جداشده با ممیز",
+    "exceptions": "نشانه ممکن است کاربرد دیگری داشته باشد؛ صورت‌ها ممکن است معنای متفاوتی داشته باشند",
+    "strategy": "multiple_forms"
+  },
+  {
+    "id": "morph_bi",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-191",
+    "examples": "item-193",
+    "conditions": "پیشوند نفی بی در ترکیب",
+    "exceptions": "item-193 و item-196؛ تشخیص معنا و نقش الزامی است",
+    "strategy": "morph_bi"
+  },
+  {
+    "id": "morph_ham",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-202",
+    "examples": "item-204",
+    "conditions": "هم در نقش پیشوند ترکیبی",
+    "exceptions": "item-204؛ تشخیص واژه و معنا ضروری است",
+    "strategy": "morph_ham"
+  },
+  {
+    "id": "morph_nim",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-168",
+    "examples": "item-169",
+    "conditions": "نیم در نقش پیشوندواره",
+    "exceptions": "تشخیص نقش و ساخت ضروری است",
+    "strategy": "morph_nim"
+  },
+  {
+    "id": "morph_fam",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-336",
+    "examples": "item-337",
+    "conditions": "پسوندهای آسا، آگین، باره، جات، فام و وش",
+    "exceptions": "تشخیص پسوند و نوع حروف ضروری است",
+    "strategy": "morph_suffix"
+  },
+  {
+    "id": "morph_vare",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-331",
+    "examples": "item-332",
+    "conditions": "واره در نقش پسوند",
+    "exceptions": "تشخیص پسوند و ترکیب ضروری است",
+    "strategy": "morph_vare"
+  },
+  {
+    "id": "morph_khane",
+    "category": "واژه‌های مرکب و ترکیب‌ها",
+    "rule": "item-338",
+    "examples": "item-339",
+    "conditions": "خانه و نامه در نقش پسوندواره",
+    "exceptions": "ترکیب‌های واژگانی‌شده و تشخیص نقش جزء",
+    "strategy": "morph_compound"
+  },
+  {
+    "id": "hamza_table",
+    "category": "همزه و دیگر قواعد املایی",
+    "rule": "item-246",
+    "examples": "table-275",
+    "conditions": "صورت دقیق در جدول کتابت همزه",
+    "exceptions": "شکل یکسان به تنهایی نشانه تطبیق معنایی نیست",
+    "strategy": "hamza_table"
+  }
 ]

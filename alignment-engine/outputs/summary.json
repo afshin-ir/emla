@@ -4,13 +4,14 @@
   "unprocessed": 0,
   "consistent": 0,
   "inconsistent": 0,
-  "possible": 144,
-  "unknown": 31650,
-  "no_rule": 29590,
+  "possible": 288,
+  "unknown": 31506,
+  "no_rule": 27845,
   "errors": 0,
   "source_sha256": {
     "dictionary.json": "f46ccbed7ac3047f168b18fc50b4daed6a77f67d22ce847b932706a886b5f61d",
     "book.json": "39fea5a3cb9a5f71100105a2925f53ee48f5a9b06ded6283f2332d7ef31c78bb"
   },
-  "rules_sha256": "2356e921156a7e98147656baf3f9b1fdf09bd3133bc1f7384c5af59d822bac6d"
+  "rules_sha256": "97d52dcb7bc199de190a3972702355e78c62c5a111c7c9c1a74b8884c8cc657e",
+  "engine_sha256": "1c1d01f8a460cc5585b1dd88c1a446c4495e202fb9a320d5c9d61b3bdce34f45"
 }

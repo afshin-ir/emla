@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Reproducible, conservative dictionary alignment; Python standard library only."""
-import argparse,collections,csv,hashlib,json,re,sqlite3,sys
+import argparse,collections,csv,hashlib,json,re,sqlite3,sys,unicodedata
 from pathlib import Path
 HERE=Path(__file__).resolve().parent; ROOT=HERE.parent
 
@@ -14,23 +14,69 @@ def load():
   for field in ('rule','examples'):
    if r[field] not in blocks:raise ValueError(f"Missing {r[field]}")
   r['_examples']=set(part.strip().strip('.') for part in blocks[r['examples']]['text'].split('،'))
+  if r['strategy']=='hamza_table':r['_table_forms']={cell.strip() for row in blocks[r['examples']]['rows'] for cell in row[2:] if re.fullmatch(r'[\u0600-\u06ff\u200c]+',cell.strip())}
  return entries,blocks,rules
 
 def entry_id(i,s):return f"{i+1}:{hashlib.sha256(s.encode()).hexdigest()}"
+def plain_word(entry):
+ # Mixed alternatives and explanations require a separate parse; never discard them.
+ return bool(re.fullmatch(r'[\u0621-\u063a\u0641-\u064a\u066e-\u06d3\u064b-\u065f\u0670\u200c]+',entry))
+
+def visible(s):
+ return ''.join(c for c in s if unicodedata.category(c) not in ('Mn','Me'))
+
+def morphology(entry,strategy):
+ if not plain_word(entry):return None
+ w=visible(entry)
+ prefixes={'morph_bi':'بی','morph_ham':'هم','morph_nim':'نیم'}
+ if strategy in prefixes:
+  prefix=prefixes[strategy]
+  if not w.startswith(prefix) or len(w)<=len(prefix)+1:return None
+  tail=w[len(prefix):];sep='نیم‌فاصله' if tail.startswith('\u200c') else 'پیوسته';base=tail.lstrip('\u200c')
+  if not base or '\u200c' in base:return None
+  return {'components':[prefix,base],'observed_separator':sep,'hypothesis':'ممکن است جزء نخست پیشوند باشد؛ نقش واژه باید بررسی شود.','expected_if_hypothesis':'نیم‌فاصله'}
+ suffixes={'morph_suffix':['آسا','آگین','باره','جات','فام','وش'],'morph_vare':['واره'],'morph_compound':['خانه','نامه']}
+ if strategy not in suffixes:return None
+ for suffix in suffixes[strategy]:
+  if not w.endswith(suffix):continue
+  raw=w[:-len(suffix)];base=raw.rstrip('\u200c')
+  if len(base)<2 or '\u200c' in base:continue
+  expected='پیوسته' if strategy=='morph_vare' else ('بی‌فاصله' if base[-1] in 'اآدذرزژوؤء' else 'نیم‌فاصله')
+  return {'components':[base,suffix],'observed_separator':'نیم‌فاصله' if raw.endswith('\u200c') else 'پیوسته','expected_if_hypothesis':expected,'hypothesis':'ممکن است جزء پایانی پسوند یا پسوندواره باشد؛ ساخت و استثناها باید بررسی شوند.'}
+ return None
+
 def evaluate(i,entry,blocks,rules):
  matches=[]
  for r in rules:
-  st=r['strategy'];hit=(st=='exact_examples' and entry in r['_examples']) or (st=='repeated_zwnj' and '\u200c\u200c' in entry) or (st=='multiple_forms' and bool(re.search(r'\s/\s',entry)))
+  st=r['strategy'];analysis=morphology(entry,st)
+  hit=(st=='exact_examples' and entry in r['_examples']) or (st=='repeated_zwnj' and '\u200c\u200c' in entry) or (st=='multiple_forms' and bool(re.search(r'\s/\s',entry))) or (st=='hamza_table' and entry in r['_table_forms']) or analysis is not None
   if not hit:continue
   rule=blocks[r['rule']];example=blocks[r['examples']]
-  exact=st=='exact_examples'
-  matches.append({'rule_id':r['id'],'category':r['category'],'block_id':rule['id'],'pages':rule.get('pages',[]),'rule_text':rule['text'],'example_id':example['id'],'example_pages':example.get('pages',[]),'evidence':example['text'] if exact else rule['text'],'reason':'صورت دقیق مدخل در فهرست مثال‌های بند شاهد آمده است؛ انطباق معنا نیازمند بررسی است.' if exact else 'نشانۀ ظاهری شناسایی شد؛ ساخت، معنا و استثناها بررسی نشده‌اند.','status':'محتمل' if exact else 'نامشخص','confidence':'متوسط' if exact else 'پایین','conditions':r['conditions'],'exceptions':r['exceptions']})
+  exact=st in ('exact_examples','hamza_table')
+  match={'rule_id':r['id'],'category':r['category'],'block_id':rule['id'],'pages':rule.get('pages',[]),'rule_text':rule['text'],'example_id':example['id'],'example_pages':example.get('pages',[]),'evidence':example['text'] if exact else rule['text'],'reason':'صورت دقیق مدخل در فهرست شاهد آمده است؛ انطباق معنا نیازمند بررسی است.' if exact else 'تحلیل ساختی یا نشانۀ ظاهری به‌تنهایی نقش و معنا را اثبات نمی‌کند.','status':'محتمل' if exact else 'نامشخص','confidence':'متوسط' if exact else 'پایین','conditions':r['conditions'],'exceptions':r['exceptions']}
+  if analysis:
+   match['analysis']=analysis
+   exception_ids={'morph_bi':['item-193','item-196'],'morph_ham':['item-204'],'morph_compound':['item-339'],'morph_vare':['item-332'],'morph_nim':[],'morph_suffix':[]}[st]
+   match['exception_evidence']=[{'id':key,'text':blocks[key]['text'],'pages':blocks[key].get('pages',[])} for key in exception_ids]
+   if st in ('morph_bi','morph_ham','morph_compound'):
+    exception_forms=set()
+    for key in exception_ids:
+     text=blocks[key]['text'].removeprefix('استثنا:').strip()
+     for part in text.split('،'):
+      part=part.strip().split(' (')[0].strip().strip('.')
+      if re.fullmatch(r'[\u0600-\u06ff\u200c]+',part):exception_forms.add(part)
+    if st=='morph_bi':exception_forms.update(['بیهوده','بیگانه'])
+    match['analysis']['exception_or_lexicalized'] = entry in exception_forms
+    if match['analysis']['exception_or_lexicalized']:
+     match['analysis'].pop('expected_if_hypothesis',None)
+     match['analysis']['hypothesis'] += ' این صورت در شاهد استثنا یا واژگانی‌شدن نیز آمده است.'
+  matches.append(match)
  return {'id':entry_id(i,entry),'index':i,'entry':entry,'status':'محتمل' if any(x['status']=='محتمل' for x in matches) else 'نامشخص','confidence':'متوسط' if any(x['status']=='محتمل' for x in matches) else 'پایین','matches':matches}
 
 def run(dbpath,batch=500,limit=None):
  entries,blocks,rules=load();db=sqlite3.connect(dbpath)
  db.execute('CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY,value TEXT NOT NULL)');db.execute('CREATE TABLE IF NOT EXISTS results (idx INTEGER PRIMARY KEY,id TEXT UNIQUE NOT NULL, payload TEXT NOT NULL)')
- hashes={p:digest(ROOT/p) for p in ('dictionary.json','book.json')};hashes['rules.json']=digest(HERE/'rules.json');old=dict(db.execute('SELECT key,value FROM meta'))
+ hashes={p:digest(ROOT/p) for p in ('dictionary.json','book.json')};hashes['rules.json']=digest(HERE/'rules.json');hashes['engine.py']=digest(HERE/'engine.py');old=dict(db.execute('SELECT key,value FROM meta'))
  if old and old!=hashes:raise ValueError('Source or rules changed; create a new checkpoint database')
  if not old:db.executemany('INSERT INTO meta VALUES (?,?)',hashes.items());db.commit()
  end=min(len(entries),limit if limit is not None else len(entries));count=0
@@ -43,9 +89,11 @@ def run(dbpath,batch=500,limit=None):
  db.close();return count
 
 def report(dbpath,out):
- entries,blocks,rules=load();db=sqlite3.connect(dbpath);rows=[json.loads(x[0]) for x in db.execute('SELECT payload FROM results ORDER BY idx')];db.close()
+ entries,blocks,rules=load();db=sqlite3.connect(dbpath);meta=dict(db.execute('SELECT key,value FROM meta'));expected={p:digest(ROOT/p) for p in ('dictionary.json','book.json')};expected.update({'rules.json':digest(HERE/'rules.json'),'engine.py':digest(HERE/'engine.py')});
+ if meta!=expected:raise ValueError('Source, rules or engine changed; create a new checkpoint database')
+ rows=[json.loads(x[0]) for x in db.execute('SELECT payload FROM results ORDER BY idx')];db.close()
  if len({x['id'] for x in rows})!=len(rows) or any(entries[x['index']]!=x['entry'] for x in rows):raise ValueError('checkpoint mismatch')
- counts=collections.Counter(x['status'] for x in rows);stats={'total':len(entries),'processed':len(rows),'unprocessed':len(entries)-len(rows),'consistent':counts['سازگار'],'inconsistent':counts['ناسازگار مستند'],'possible':counts['محتمل'],'unknown':counts['نامشخص'],'no_rule':sum(not x['matches'] for x in rows),'errors':0,'source_sha256':{p:digest(ROOT/p) for p in ('dictionary.json','book.json')},'rules_sha256':digest(HERE/'rules.json')}
+ counts=collections.Counter(x['status'] for x in rows);stats={'total':len(entries),'processed':len(rows),'unprocessed':len(entries)-len(rows),'consistent':counts['سازگار'],'inconsistent':counts['ناسازگار مستند'],'possible':counts['محتمل'],'unknown':counts['نامشخص'],'no_rule':sum(not x['matches'] for x in rows),'errors':0,'source_sha256':{p:digest(ROOT/p) for p in ('dictionary.json','book.json')},'rules_sha256':digest(HERE/'rules.json'),'engine_sha256':digest(HERE/'engine.py')}
  out.mkdir(parents=True,exist_ok=True)
  with (out/'results.jsonl').open('w',encoding='utf8') as f:
   for x in rows:f.write(json.dumps(x,ensure_ascii=False)+'\n')
