@@ -1,0 +1,189 @@
+[
+  {
+    "entry": "آتش‌فام",
+    "required": "morph_fam",
+    "block": "item-336",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "برق‌آسا",
+    "required": "morph_fam",
+    "block": "item-336",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "خشم‌آگین",
+    "required": "morph_fam",
+    "block": "item-336",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "هم‌بازی",
+    "required": "morph_ham",
+    "block": "item-202",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله",
+    "exception": false
+  },
+  {
+    "entry": "همکار",
+    "required": "morph_ham",
+    "block": "item-202",
+    "exception": true
+  },
+  {
+    "entry": "بی‌تردید",
+    "required": "morph_bi",
+    "block": "item-191",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله",
+    "exception": false
+  },
+  {
+    "entry": "بیگانه",
+    "required": "morph_bi",
+    "block": "item-191",
+    "exception": true
+  },
+  {
+    "entry": "بیهوده",
+    "required": "morph_bi",
+    "block": "item-191",
+    "exception": true
+  },
+  {
+    "entry": "نیم‌بند",
+    "required": "morph_nim",
+    "block": "item-168",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "جشنواره",
+    "required": "morph_vare",
+    "block": "item-331",
+    "separator": "پیوسته",
+    "rule_expected": "پیوسته"
+  },
+  {
+    "entry": "سنگواره",
+    "required": "morph_vare",
+    "block": "item-331",
+    "separator": "پیوسته",
+    "rule_expected": "پیوسته"
+  },
+  {
+    "entry": "کتابخانه",
+    "required": "morph_khane",
+    "block": "item-338",
+    "exception": true
+  },
+  {
+    "entry": "دانشنامه",
+    "required": "morph_khane",
+    "block": "item-338",
+    "exception": true
+  },
+  {
+    "entry": "آب‌خانه",
+    "required": "morph_khane",
+    "block": "item-338",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "ائتلاف",
+    "required": "hamza_table",
+    "block": "item-246",
+    "example": "table-275"
+  },
+  {
+    "entry": "شئون",
+    "required": "hamza_table",
+    "block": "item-246",
+    "example": "table-275"
+  },
+  {
+    "entry": "تئاتر",
+    "required": "hamza",
+    "block": "item-256",
+    "example": "item-257"
+  },
+  {
+    "entry": "آبرو",
+    "required": "compounds",
+    "block": "item-340",
+    "example": "item-341"
+  },
+  {
+    "entry": "آب‌رو",
+    "forbidden": "compounds"
+  },
+  {
+    "entry": "آب‌بان",
+    "forbidden": "compounds"
+  },
+  {
+    "entry": "آب‌پاش - آبپاش",
+    "forbidden": "morph_bi"
+  },
+  {
+    "entry": "آب‌زدایی / آب‌زدائی",
+    "required": "multi_flag",
+    "block": "item-448"
+  },
+  {
+    "entry": "اتو / اطو",
+    "required": "multiple_table-456",
+    "block": "item-448",
+    "preferred": [
+      "اتو"
+    ]
+  },
+  {
+    "entry": "بغچه / بقچه",
+    "required": "multiple_table-456",
+    "block": "item-448",
+    "preferred": [
+      "بقچه"
+    ]
+  },
+  {
+    "entry": "توفان / طوفان",
+    "required": "multiple_table-456",
+    "block": "item-448",
+    "preferred": [
+      "توفان",
+      "طوفان"
+    ]
+  },
+  {
+    "entry": "تشت / طشت",
+    "required": "multiple_table-456",
+    "block": "item-448",
+    "preferred": [
+      "تشت"
+    ]
+  },
+  {
+    "entry": "بزرگوار",
+    "required": "morph_var",
+    "block": "item-329",
+    "exception": true
+  },
+  {
+    "entry": "همسان",
+    "required": "morph_san",
+    "block": "item-333",
+    "exception": true
+  },
+  {
+    "entry": "دیوانه‌وار",
+    "required": "morph_var",
+    "block": "item-329",
+    "exception": false
+  }
+]

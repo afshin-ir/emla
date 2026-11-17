@@ -15,6 +15,14 @@ def load():
    if r[field] not in blocks:raise ValueError(f"Missing {r[field]}")
   r['_examples']=set(part.strip().strip('.') for part in blocks[r['examples']]['text'].split('،'))
   if r['strategy']=='hamza_table':r['_table_forms']={cell.strip() for row in blocks[r['examples']]['rows'] for cell in row[2:] if re.fullmatch(r'[\u0600-\u06ff\u200c]+',cell.strip())}
+  if r['strategy']=='exact_table_variants':
+   table=collections.defaultdict(list)
+   for number,row in enumerate(blocks[r['examples']]['rows'],1):
+    if len(row)<2 or any(c in ''.join(row[:2]) for c in '()（）؛;،') or not row[1].strip():continue
+    forms=tuple(x.strip() for x in row[0].split('/'));preferred=tuple(x.strip() for x in row[1].split('/'))
+    if len(forms)<2 or len(set(forms))!=len(forms) or not all(plain_word(x) for x in forms+preferred):continue
+    table[frozenset(forms)].append({'row':number,'forms':forms,'preferred':preferred})
+   r['_table_variants']=table
  return entries,blocks,rules
 
 def entry_id(i,s):return f"{i+1}:{hashlib.sha256(s.encode()).hexdigest()}"
@@ -35,7 +43,7 @@ def morphology(entry,strategy):
   tail=w[len(prefix):];sep='نیم‌فاصله' if tail.startswith('\u200c') else 'پیوسته';base=tail.lstrip('\u200c')
   if not base or '\u200c' in base:return None
   return {'components':[prefix,base],'observed_separator':sep,'hypothesis':'ممکن است جزء نخست پیشوند باشد؛ نقش واژه باید بررسی شود.','expected_if_hypothesis':'نیم‌فاصله'}
- suffixes={'morph_suffix':['آسا','آگین','باره','جات','فام','وش'],'morph_vare':['واره'],'morph_compound':['خانه','نامه']}
+ suffixes={'morph_suffix':['آسا','آگین','باره','جات','فام','وش'],'morph_vare':['واره'],'morph_compound':['خانه','نامه'],'morph_var':['وار'],'morph_san':['سان']}
  if strategy not in suffixes:return None
  for suffix in suffixes[strategy]:
   if not w.endswith(suffix):continue
@@ -48,21 +56,30 @@ def morphology(entry,strategy):
 def evaluate(i,entry,blocks,rules):
  matches=[]
  for r in rules:
-  st=r['strategy'];analysis=morphology(entry,st)
-  hit=(st=='exact_examples' and entry in r['_examples']) or (st=='repeated_zwnj' and '\u200c\u200c' in entry) or (st=='multiple_forms' and bool(re.search(r'\s/\s',entry))) or (st=='hamza_table' and entry in r['_table_forms']) or analysis is not None
+  st=r['strategy'];analysis=morphology(entry,st);table_match=None
+  if st=='exact_table_variants':
+   forms=tuple(x.strip() for x in entry.split('/'))
+   if len(forms)>1 and len(set(forms))==len(forms) and all(plain_word(x) for x in forms):
+    found=r['_table_variants'].get(frozenset(forms),[])
+    if len(found)==1:table_match=found[0]
+  hit=(st=='exact_examples' and entry in r['_examples']) or (st=='repeated_zwnj' and '\u200c\u200c' in entry) or (st=='multiple_forms' and bool(re.search(r'\s/\s',entry))) or (st=='hamza_table' and entry in r['_table_forms']) or table_match is not None or analysis is not None
   if not hit:continue
   rule=blocks[r['rule']];example=blocks[r['examples']]
-  exact=st in ('exact_examples','hamza_table')
+  exact=st in ('exact_examples','hamza_table','exact_table_variants')
   match={'rule_id':r['id'],'category':r['category'],'block_id':rule['id'],'pages':rule.get('pages',[]),'rule_text':rule['text'],'example_id':example['id'],'example_pages':example.get('pages',[]),'evidence':example['text'] if exact else rule['text'],'reason':'صورت دقیق مدخل در فهرست شاهد آمده است؛ انطباق معنا نیازمند بررسی است.' if exact else 'تحلیل ساختی یا نشانۀ ظاهری به‌تنهایی نقش و معنا را اثبات نمی‌کند.','status':'محتمل' if exact else 'نامشخص','confidence':'متوسط' if exact else 'پایین','conditions':r['conditions'],'exceptions':r['exceptions']}
+  if table_match:
+   match['table_match']=table_match
+   match['evidence']=' / '.join(table_match['forms'])+' ← '+' / '.join(table_match['preferred'])
+   match['reason']='صورت‌های مدخل با یک ردیف جدول یکسان‌اند؛ پیوند معنایی و قیدهای پیرامون جدول نیازمند بازبینی است.'
   if analysis:
    match['analysis']=analysis
-   exception_ids={'morph_bi':['item-193','item-196'],'morph_ham':['item-204'],'morph_compound':['item-339'],'morph_vare':['item-332'],'morph_nim':[],'morph_suffix':[]}[st]
+   exception_ids={'morph_bi':['item-193','item-196'],'morph_ham':['item-204'],'morph_compound':['item-339'],'morph_vare':['item-332'],'morph_nim':[],'morph_suffix':[],'morph_var':['item-330'],'morph_san':['item-334']}[st]
    match['exception_evidence']=[{'id':key,'text':blocks[key]['text'],'pages':blocks[key].get('pages',[])} for key in exception_ids]
-   if st in ('morph_bi','morph_ham','morph_compound'):
+   if st in ('morph_bi','morph_ham','morph_compound','morph_var','morph_san'):
     exception_forms=set()
     for key in exception_ids:
      text=blocks[key]['text'].removeprefix('استثنا:').strip()
-     for part in text.split('،'):
+     for part in re.split(r'،|/',text):
       part=part.strip().split(' (')[0].strip().strip('.')
       if re.fullmatch(r'[\u0600-\u06ff\u200c]+',part):exception_forms.add(part)
     if st=='morph_bi':exception_forms.update(['بیهوده','بیگانه'])
@@ -119,8 +136,20 @@ def sample(dbpath,out):
   if deficits:f.write('\nکمبود گروه‌ها: '+str(deficits)+'\n')
  return len(chosen),deficits
 
+def write_book_inventory(out):
+ # Catalog every source block; references do not imply full implementation.
+ _,blocks,rules=load();rows=[]
+ for block in blocks.values():
+  as_rule=[r['id'] for r in rules if r['rule']==block['id']]
+  as_example=[r['id'] for r in rules if r['examples']==block['id']]
+  rows.append({'id':block['id'],'kind':block['kind'],'section':block.get('section',''),'pages':block.get('pages',[]),'referenced_as_rule':as_rule,'referenced_as_example':as_example,'coverage':'ارجاع محدود در موتور' if as_rule else ('فقط شاهد' if as_example else 'بدون پیاده‌سازی مستقیم')})
+ out.mkdir(parents=True,exist_ok=True)
+ with (out/'book-inventory.jsonl').open('w',encoding='utf8') as f:
+  for x in rows:f.write(json.dumps(x,ensure_ascii=False)+'\n')
+ return {'blocks':len(rows),'referenced_as_rule':sum(bool(x['referenced_as_rule']) for x in rows),'no_direct_implementation':sum(not x['referenced_as_rule'] for x in rows)}
+
 def main():
  p=argparse.ArgumentParser();p.add_argument('--db',type=Path,default=HERE/'alignment.sqlite3');p.add_argument('--out',type=Path,default=HERE/'outputs');p.add_argument('--batch',type=int,default=500);p.add_argument('--limit',type=int);a=p.parse_args()
  if a.batch<1 or (a.limit is not None and a.limit<0):p.error('invalid batch or limit')
- n=run(a.db,a.batch,a.limit);stats=report(a.db,a.out);cnt,deficits=sample(a.db,a.out);print(json.dumps({'new':n,'summary':stats,'sample':cnt,'deficits':deficits},ensure_ascii=False))
+ n=run(a.db,a.batch,a.limit);stats=report(a.db,a.out);cnt,deficits=sample(a.db,a.out);inventory=write_book_inventory(a.out);print(json.dumps({'new':n,'summary':stats,'sample':cnt,'deficits':deficits,'book_inventory':inventory},ensure_ascii=False))
 if __name__=='__main__':main()

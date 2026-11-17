@@ -205,5 +205,41 @@
     "conditions": "صورت دقیق در جدول کتابت همزه",
     "exceptions": "شکل یکسان به تنهایی نشانه تطبیق معنایی نیست",
     "strategy": "hamza_table"
+  },
+  {
+    "id": "multiple_table-456",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-448",
+    "examples": "table-456",
+    "conditions": "صورت‌های کامل ردیف فرهنگ عیناً با صورت‌های یک ردیف جدول برابرند",
+    "exceptions": "ردیف‌های دارای پرانتز یا توضیح و همچنین ردیف‌های مبهم کنار گذاشته می‌شوند",
+    "strategy": "exact_table_variants"
+  },
+  {
+    "id": "multiple_table-458",
+    "category": "استثناها، چنداملایی و موارد دشوار",
+    "rule": "item-448",
+    "examples": "table-458",
+    "conditions": "صورت‌های کامل ردیف فرهنگ عیناً با صورت‌های یک ردیف جدول برابرند",
+    "exceptions": "ردیف‌های دارای پرانتز یا توضیح و همچنین ردیف‌های مبهم کنار گذاشته می‌شوند",
+    "strategy": "exact_table_variants"
+  },
+  {
+    "id": "morph_var",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-329",
+    "examples": "item-330",
+    "conditions": "وار در نقش پسوند",
+    "exceptions": "صورت‌های استثنا در item-330، معنای واژه و نقش پسوند",
+    "strategy": "morph_var"
+  },
+  {
+    "id": "morph_san",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-333",
+    "examples": "item-334",
+    "conditions": "سان در نقش پسوند",
+    "exceptions": "همسان و یکسان در item-334؛ نقش جزء",
+    "strategy": "morph_san"
   }
 ]
