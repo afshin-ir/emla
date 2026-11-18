@@ -202,8 +202,8 @@
 {"id": "item-202", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": ["prefix_ham", "exceptions_ham", "morph_ham"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
 {"id": "item-203", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": ["prefix_ham"], "coverage": "فقط شاهد"}
 {"id": "item-204", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": ["exceptions_ham", "morph_ham"], "coverage": "فقط شاهد"}
-{"id": "item-205", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
-{"id": "item-206", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-205", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": ["morph_comparative"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-206", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["morph_comparative"], "coverage": "فقط شاهد"}
 {"id": "item-207", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
 {"id": "item-208", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
 {"id": "item-209", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}

@@ -6,12 +6,14 @@
   "inconsistent": 0,
   "possible": 322,
   "unknown": 31472,
-  "no_rule": 27737,
+  "no_rule": 27709,
+  "entries_with_variant_analysis": 2017,
+  "entries_with_variant_matches": 99,
   "errors": 0,
   "source_sha256": {
     "dictionary.json": "f46ccbed7ac3047f168b18fc50b4daed6a77f67d22ce847b932706a886b5f61d",
     "book.json": "39fea5a3cb9a5f71100105a2925f53ee48f5a9b06ded6283f2332d7ef31c78bb"
   },
-  "rules_sha256": "9ed374dcdfebebf044e5955be5dfa3bedcc0a52808585c5a00723d4403be1613",
-  "engine_sha256": "f536127948bf82b5949d0bed8561c09b17f25525711aa6592c5e9ad033c3ed5b"
+  "rules_sha256": "2c26e7bf5c254546b26b7db0e7a73ec73242643c63319be20ac5ea27aaebae22",
+  "engine_sha256": "1ed954d95857a532c2e30907ee13e84474b824ffac826bbebd1116f79c8a58c8"
 }

@@ -36,6 +36,11 @@ def visible(s):
 def morphology(entry,strategy):
  if not plain_word(entry):return None
  w=visible(entry)
+ if strategy=='morph_comparative':
+  # A visible boundary is required: e.g. دفتر is not evidence of a suffix.
+  m=re.fullmatch(r'(.+)\u200c(ترین|تر)',w)
+  if not m:return None
+  return {'components':[m.group(1),m.group(2)],'observed_separator':'نیم‌فاصله','expected_if_hypothesis':'نیم‌فاصله','hypothesis':'اگر جزء پایانی پسوند تفضیلی یا عالی باشد؛ ساخت و معنا باید بررسی شوند.'}
  prefixes={'morph_bi':'بی','morph_ham':'هم','morph_nim':'نیم'}
  if strategy in prefixes:
   prefix=prefixes[strategy]
@@ -53,7 +58,7 @@ def morphology(entry,strategy):
   return {'components':[base,suffix],'observed_separator':'نیم‌فاصله' if raw.endswith('\u200c') else 'پیوسته','expected_if_hypothesis':expected,'hypothesis':'ممکن است جزء پایانی پسوند یا پسوندواره باشد؛ ساخت و استثناها باید بررسی شوند.'}
  return None
 
-def evaluate(i,entry,blocks,rules):
+def evaluate(i,entry,blocks,rules,analyze_variants=True):
  matches=[]
  for r in rules:
   st=r['strategy'];analysis=morphology(entry,st);table_match=None
@@ -73,7 +78,7 @@ def evaluate(i,entry,blocks,rules):
    match['reason']='صورت‌های مدخل با یک ردیف جدول یکسان‌اند؛ پیوند معنایی و قیدهای پیرامون جدول نیازمند بازبینی است.'
   if analysis:
    match['analysis']=analysis
-   exception_ids={'morph_bi':['item-193','item-196'],'morph_ham':['item-204'],'morph_compound':['item-339'],'morph_vare':['item-332'],'morph_nim':[],'morph_suffix':[],'morph_var':['item-330'],'morph_san':['item-334']}[st]
+   exception_ids={'morph_bi':['item-193','item-196'],'morph_ham':['item-204'],'morph_compound':['item-339'],'morph_vare':['item-332'],'morph_nim':[],'morph_suffix':[],'morph_var':['item-330'],'morph_san':['item-334'],'morph_comparative':['item-206']}[st]
    match['exception_evidence']=[{'id':key,'text':blocks[key]['text'],'pages':blocks[key].get('pages',[])} for key in exception_ids]
    if st in ('morph_bi','morph_ham','morph_compound','morph_var','morph_san'):
     exception_forms=set()
@@ -88,7 +93,14 @@ def evaluate(i,entry,blocks,rules):
      match['analysis'].pop('expected_if_hypothesis',None)
      match['analysis']['hypothesis'] += ' این صورت در شاهد استثنا یا واژگانی‌شدن نیز آمده است.'
   matches.append(match)
- return {'id':entry_id(i,entry),'index':i,'entry':entry,'status':'محتمل' if any(x['status']=='محتمل' for x in matches) else 'نامشخص','confidence':'متوسط' if any(x['status']=='محتمل' for x in matches) else 'پایین','matches':matches}
+ result={'id':entry_id(i,entry),'index':i,'entry':entry,'status':'محتمل' if any(x['status']=='محتمل' for x in matches) else 'نامشخص','confidence':'متوسط' if any(x['status']=='محتمل' for x in matches) else 'پایین','matches':matches}
+ # Parse only unambiguous spaced separators, without assuming equal meanings.
+ if analyze_variants and re.search(r'\s(?:/|-)\s',entry):
+  parts=[p.strip() for p in re.split(r'\s+(?:/|-)\s+',entry)]
+  if 1<len(parts)<=5 and all(plain_word(p) for p in parts):
+   result['variants']=[{'form':part,'status':child['status'],'matches':child['matches']} for part in parts for child in [evaluate(i,part,blocks,rules,False)]]
+   result['variants_note']='صورت‌ها جداگانه بررسی شده‌اند؛ یکسانی معنا یا رابطۀ صورت‌ها فرض نشده است.'
+ return result
 
 def run(dbpath,batch=500,limit=None):
  entries,blocks,rules=load();db=sqlite3.connect(dbpath)
@@ -110,7 +122,7 @@ def report(dbpath,out):
  if meta!=expected:raise ValueError('Source, rules or engine changed; create a new checkpoint database')
  rows=[json.loads(x[0]) for x in db.execute('SELECT payload FROM results ORDER BY idx')];db.close()
  if len({x['id'] for x in rows})!=len(rows) or any(entries[x['index']]!=x['entry'] for x in rows):raise ValueError('checkpoint mismatch')
- counts=collections.Counter(x['status'] for x in rows);stats={'total':len(entries),'processed':len(rows),'unprocessed':len(entries)-len(rows),'consistent':counts['سازگار'],'inconsistent':counts['ناسازگار مستند'],'possible':counts['محتمل'],'unknown':counts['نامشخص'],'no_rule':sum(not x['matches'] for x in rows),'errors':0,'source_sha256':{p:digest(ROOT/p) for p in ('dictionary.json','book.json')},'rules_sha256':digest(HERE/'rules.json'),'engine_sha256':digest(HERE/'engine.py')}
+ counts=collections.Counter(x['status'] for x in rows);stats={'total':len(entries),'processed':len(rows),'unprocessed':len(entries)-len(rows),'consistent':counts['سازگار'],'inconsistent':counts['ناسازگار مستند'],'possible':counts['محتمل'],'unknown':counts['نامشخص'],'no_rule':sum(not x['matches'] and not any(v['matches'] for v in x.get('variants',[])) for x in rows),'entries_with_variant_analysis':sum('variants' in x for x in rows),'entries_with_variant_matches':sum(any(v['matches'] for v in x.get('variants',[])) for x in rows),'errors':0,'source_sha256':{p:digest(ROOT/p) for p in ('dictionary.json','book.json')},'rules_sha256':digest(HERE/'rules.json'),'engine_sha256':digest(HERE/'engine.py')}
  out.mkdir(parents=True,exist_ok=True)
  with (out/'results.jsonl').open('w',encoding='utf8') as f:
   for x in rows:f.write(json.dumps(x,ensure_ascii=False)+'\n')

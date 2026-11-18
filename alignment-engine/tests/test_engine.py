@@ -59,6 +59,19 @@ class EngineTests(unittest.TestCase):
     if 'separator' in case:self.assertEqual(m['analysis']['observed_separator'],case['separator'])
     if 'rule_expected' in case:self.assertEqual(m['analysis']['expected_if_hypothesis'],case['rule_expected'])
     if 'exception' in case:self.assertEqual(m['analysis']['exception_or_lexicalized'],case['exception'])
+ def test_variants_are_analyzed_separately_without_deciding_meaning(self):
+  entry='آب‌زدایی / آب‌زدائی';i=self.entries.index(entry);r=engine.evaluate(i,entry,self.blocks,self.rules)
+  self.assertEqual([v['form'] for v in r['variants']],['آب‌زدایی','آب‌زدائی']);self.assertEqual(r['status'],'نامشخص')
+  r=engine.evaluate(0,'بی‌پایان / بیپایان',self.blocks,self.rules)
+  self.assertEqual([v['form'] for v in r['variants']],['بی‌پایان','بیپایان'])
+  for v in r['variants']:self.assertTrue(any(m['rule_id']=='morph_bi' for m in v['matches']))
+  self.assertEqual(r['status'],'نامشخص')
+ def test_qualified_alternatives_are_not_split(self):
+  for entry in ('بی‌پایان / بیپایان (صفت)','بی‌پایان/بیپایان'):
+   self.assertNotIn('variants',engine.evaluate(0,entry,self.blocks,self.rules))
+ def test_comparative_requires_explicit_boundary(self):
+  self.assertFalse(any(x['rule_id']=='morph_comparative' for x in engine.evaluate(0,'دفتر',self.blocks,self.rules)['matches']))
+  self.assertFalse(any(x['rule_id']=='morph_comparative' for x in engine.evaluate(0,'بیشتر',self.blocks,self.rules)['matches']))
  def test_inventory_contains_every_source_block(self):
   with tempfile.TemporaryDirectory() as d:
    result=engine.write_book_inventory(Path(d));self.assertEqual(result['blocks'],len(self.blocks))

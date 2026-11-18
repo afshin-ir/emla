@@ -185,5 +185,19 @@
     "required": "morph_var",
     "block": "item-329",
     "exception": false
+  },
+  {
+    "entry": "ازموباریک‌تر",
+    "required": "morph_comparative",
+    "block": "item-205",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
+  },
+  {
+    "entry": "هرچه‌تمام‌تر",
+    "required": "morph_comparative",
+    "block": "item-205",
+    "separator": "نیم‌فاصله",
+    "rule_expected": "نیم‌فاصله"
   }
 ]

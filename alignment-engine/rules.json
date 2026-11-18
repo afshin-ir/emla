@@ -241,5 +241,14 @@
     "conditions": "سان در نقش پسوند",
     "exceptions": "همسان و یکسان در item-334؛ نقش جزء",
     "strategy": "morph_san"
+  },
+  {
+    "id": "morph_comparative",
+    "category": "پیشوندها و پسوندها",
+    "rule": "item-205",
+    "examples": "item-206",
+    "conditions": "تر یا ترین در نقش پسوند تفضیلی یا عالی",
+    "exceptions": "item-206 و وابستگی نقش به معنا و دستور زبان",
+    "strategy": "morph_comparative"
   }
 ]
