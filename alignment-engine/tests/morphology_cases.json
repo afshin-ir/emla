@@ -1,0 +1,15 @@
+[
+ {"word":"بی‌پایان","rule":"morph_bi","parts":["بی","پایان"],"observed":"نیم‌فاصله","expected":"نیم‌فاصله","exception":false},
+ {"word":"بیپایان","rule":"morph_bi","parts":["بی","پایان"],"observed":"پیوسته","expected":"نیم‌فاصله","exception":false},
+ {"word":"بیگانه","rule":"morph_bi","parts":["بی","گانه"],"observed":"پیوسته","expected":"نیم‌فاصله","exception":true},
+ {"word":"بیجا","rule":"morph_bi","parts":["بی","جا"],"observed":"پیوسته","expected":"نیم‌فاصله","exception":true},
+ {"word":"هم‌مسیر","rule":"morph_ham","parts":["هم","مسیر"],"observed":"نیم‌فاصله","expected":"نیم‌فاصله","exception":false},
+ {"word":"همکار","rule":"morph_ham","parts":["هم","کار"],"observed":"پیوسته","expected":"نیم‌فاصله","exception":true},
+ {"word":"نیم‌ساعت","rule":"morph_nim","parts":["نیم","ساعت"],"observed":"نیم‌فاصله","expected":"نیم‌فاصله"},
+ {"word":"نیمساعت","rule":"morph_nim","parts":["نیم","ساعت"],"observed":"پیوسته","expected":"نیم‌فاصله"},
+ {"word":"آتش‌فام","rule":"morph_fam","parts":["آتش","فام"],"observed":"نیم‌فاصله","expected":"نیم‌فاصله"},
+ {"word":"آبفام","rule":"morph_fam","parts":["آب","فام"],"observed":"پیوسته","expected":"نیم‌فاصله"},
+ {"word":"گلخانه","rule":"morph_khane","parts":["گل","خانه"],"observed":"پیوسته","expected":"نیم‌فاصله","exception":true},
+ {"word":"سفرنامه","rule":"morph_khane","parts":["سفر","نامه"],"observed":"پیوسته","expected":"بی‌فاصله","exception":false},
+ {"word":"سنگواره","rule":"morph_vare","parts":["سنگ","واره"],"observed":"پیوسته","expected":"پیوسته"}
+]

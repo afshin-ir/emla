@@ -1,0 +1,564 @@
+{"id": "table-1", "kind": "table", "section": "آغاز کتاب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-2", "kind": "table", "section": "آغاز کتاب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-3", "kind": "table", "section": "آغاز کتاب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-4", "kind": "table", "section": "آغاز کتاب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-5", "kind": "table", "section": "آغاز کتاب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-6", "kind": "heading", "section": "مقدّمه", "pages": [7], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-7", "kind": "paragraph", "section": "مقدّمه", "pages": [7], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-8", "kind": "paragraph", "section": "مقدّمه", "pages": [7], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-9", "kind": "paragraph", "section": "مقدّمه", "pages": [8], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-10", "kind": "paragraph", "section": "مقدّمه", "pages": [8, 9], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-11", "kind": "paragraph", "section": "مقدّمه", "pages": [10], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-12", "kind": "paragraph", "section": "مقدّمه", "pages": [10, 11], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-13", "kind": "paragraph", "section": "مقدّمه", "pages": [10, 11], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-14", "kind": "paragraph", "section": "مقدّمه", "pages": [11], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-15", "kind": "paragraph", "section": "مقدّمه", "pages": [11], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-16", "kind": "paragraph", "section": "مقدّمه", "pages": [11], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-17", "kind": "paragraph", "section": "مقدّمه", "pages": [12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-18", "kind": "paragraph", "section": "مقدّمه", "pages": [11, 12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-19", "kind": "paragraph", "section": "مقدّمه", "pages": [12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-20", "kind": "paragraph", "section": "مقدّمه", "pages": [12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-21", "kind": "paragraph", "section": "مقدّمه", "pages": [12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-22", "kind": "paragraph", "section": "مقدّمه", "pages": [12], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-23", "kind": "paragraph", "section": "مقدّمه", "pages": [13], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-24", "kind": "paragraph", "section": "مقدّمه", "pages": [13, 14], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-25", "kind": "paragraph", "section": "مقدّمه", "pages": [13], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-26", "kind": "paragraph", "section": "مقدّمه", "pages": [13, 14], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-27", "kind": "paragraph", "section": "مقدّمه", "pages": [14], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-28", "kind": "paragraph", "section": "مقدّمه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-29", "kind": "paragraph", "section": "مقدّمه", "pages": [14], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-30", "kind": "paragraph", "section": "مقدّمه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-31", "kind": "heading", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [15], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-32", "kind": "paragraph", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [15], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-33", "kind": "paragraph", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [15, 16], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-34", "kind": "paragraph", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-35", "kind": "paragraph", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [17], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-36", "kind": "paragraph", "section": "مقدّمۀ چاپ چهارم از ویراست نخست", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-37", "kind": "heading", "section": "مقدّمۀ ویراست دوم", "pages": [17], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-38", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [17], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-39", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [18], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-40", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [18], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-41", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [19, 20], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-42", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-43", "kind": "paragraph", "section": "مقدّمۀ ویراست دوم", "pages": [20], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-44", "kind": "heading", "section": "قواعد کلّی", "pages": [21], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-45", "kind": "paragraph", "section": "قواعد کلّی", "pages": [21], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-46", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-47", "kind": "paragraph", "section": "قواعد کلّی", "pages": [21], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-48", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-49", "kind": "paragraph", "section": "قواعد کلّی", "pages": [21], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-50", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-51", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-52", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-53", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-54", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-55", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-56", "kind": "paragraph", "section": "قواعد کلّی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-57", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-58", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-59", "kind": "paragraph", "section": "قواعد کلّی", "pages": [22], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-60", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-61", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-62", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": ["spacing", "zwnj_flag"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-63", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": ["spacing", "zwnj_flag"], "coverage": "فقط شاهد"}
+{"id": "item-64", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-65", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-66", "kind": "paragraph", "section": "قواعد کلّی", "pages": [23], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-67", "kind": "heading", "section": "ویژگی‌های خطّ فارسی", "pages": [24], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-68", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [24], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-69", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [24], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-70", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-71", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-72", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-73", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-74", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-75", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-76", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-77", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-78", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-79", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [25], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-80", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-81", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-82", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-83", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-84", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [25], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-85", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-86", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [25], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-87", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-88", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-89", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-90", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-91", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-92", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-93", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-94", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-95", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-96", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-97", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-98", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-99", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-100", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-101", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-102", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-103", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-104", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-105", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-106", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-107", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-108", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-109", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-110", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-111", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-112", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-113", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-114", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-115", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-116", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-117", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-118", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-119", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-120", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-121", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-122", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-123", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [27], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-124", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [28], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-125", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [28], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-126", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-127", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-128", "kind": "table", "section": "ویژگی‌های خطّ فارسی", "pages": [29, 30, 31, 32], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-129", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [26], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-130", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-131", "kind": "table", "section": "ویژگی‌های خطّ فارسی", "pages": [33], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-132", "kind": "paragraph", "section": "ویژگی‌های خطّ فارسی", "pages": [34], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-133", "kind": "heading", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [34], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-134", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-135", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-136", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-137", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-138", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-139", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-140", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-141", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-142", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-143", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-144", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [35], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-145", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-146", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-147", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-148", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-149", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-150", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-151", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-152", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-153", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-154", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-155", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-156", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-157", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [36], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-158", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-159", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-160", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-161", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-162", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-163", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [37, 38], "referenced_as_rule": ["prefixes"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-164", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["prefixes"], "coverage": "فقط شاهد"}
+{"id": "item-165", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-166", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-167", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-168", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": ["morph_nim"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-169", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": ["morph_nim"], "coverage": "فقط شاهد"}
+{"id": "item-170", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-171", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-172", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [38], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-173", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-174", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-175", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-176", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-177", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-178", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-179", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-180", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-181", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-182", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-183", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-184", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-185", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [39, 40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-186", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-187", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-188", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-189", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-190", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-191", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": ["prefix_bi", "morph_bi"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-192", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["prefix_bi"], "coverage": "فقط شاهد"}
+{"id": "item-193", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": ["morph_bi"], "coverage": "فقط شاهد"}
+{"id": "item-194", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-195", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-196", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-197", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-198", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [40], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-199", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-200", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-201", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-202", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": ["prefix_ham", "exceptions_ham", "morph_ham"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-203", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": ["prefix_ham"], "coverage": "فقط شاهد"}
+{"id": "item-204", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": ["exceptions_ham", "morph_ham"], "coverage": "فقط شاهد"}
+{"id": "item-205", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": ["morph_comparative"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-206", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["morph_comparative"], "coverage": "فقط شاهد"}
+{"id": "item-207", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-208", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-209", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [41], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-210", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-211", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-212", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-213", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-214", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-215", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-216", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-217", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-218", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-219", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-220", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-221", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-222", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-223", "kind": "paragraph", "section": "املای بعضی از واژه‌ها و پیشوندها و پسوندها", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-224", "kind": "heading", "section": "مجموعۀ ام، ای، است، ایم، اید، اند", "pages": [42], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-225", "kind": "paragraph", "section": "مجموعۀ ام، ای، است، ایم، اید، اند", "pages": [43], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-226", "kind": "table", "section": "مجموعۀ ام، ای، است، ایم، اید، اند", "pages": [43, 44], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-227", "kind": "heading", "section": "ضمایر ملکی و مفعولی", "pages": [44], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-228", "kind": "paragraph", "section": "ضمایر ملکی و مفعولی", "pages": [45], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-229", "kind": "table", "section": "ضمایر ملکی و مفعولی", "pages": [45, 46], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-230", "kind": "heading", "section": "یای نکره و مصدری و نسبت", "pages": [46], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-231", "kind": "paragraph", "section": "یای نکره و مصدری و نسبت", "pages": [47], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-232", "kind": "table", "section": "یای نکره و مصدری و نسبت", "pages": [47], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-233", "kind": "heading", "section": "کسرۀ اضافه", "pages": [47], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-234", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [48], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-235", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-236", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [48], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-237", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [48], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-238", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-239", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [48], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-240", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-241", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [48], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-242", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-243", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [49], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-244", "kind": "paragraph", "section": "کسرۀ اضافه", "pages": [49], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-245", "kind": "heading", "section": "نشانۀ همزه", "pages": [49], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-246", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": ["hamza_table"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-247", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [50], "referenced_as_rule": ["hamza_fatha"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-248", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["hamza_fatha"], "coverage": "فقط شاهد"}
+{"id": "item-249", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-250", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [50], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-251", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [50], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-252", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-253", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-254", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-255", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-256", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": ["hamza"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-257", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": [], "referenced_as_example": ["hamza"], "coverage": "فقط شاهد"}
+{"id": "item-258", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-259", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-260", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": ["hamza_end"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-261", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["hamza_end"], "coverage": "فقط شاهد"}
+{"id": "item-262", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-263", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-264", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-265", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-266", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [51], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-267", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-268", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [52], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-269", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [52], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-270", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [52], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-271", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [52], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-272", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-273", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [52], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-274", "kind": "paragraph", "section": "نشانۀ همزه", "pages": [53], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-275", "kind": "table", "section": "نشانۀ همزه", "pages": [52, 53, 54], "referenced_as_rule": [], "referenced_as_example": ["hamza_table"], "coverage": "فقط شاهد"}
+{"id": "section-276", "kind": "heading", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [54], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-277", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-278", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-279", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-280", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-281", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-282", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-283", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-284", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-285", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-286", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-287", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-288", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-289", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-290", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-291", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-292", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-293", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-294", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-295", "kind": "paragraph", "section": "واژه‌ها و ترکیب‌ها و عبارت‌های برگرفته از عربی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-296", "kind": "heading", "section": "تنوین، تشدید، حرکت‌گذاری،", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-297", "kind": "heading", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [56], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-298", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-299", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-300", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-301", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-302", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-303", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-304", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-305", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-306", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-307", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-308", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-309", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-310", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-311", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-312", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-313", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-314", "kind": "paragraph", "section": "هجای میانی و پایانی «ـ‌ وو ـ»", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-315", "kind": "heading", "section": "ترکیب‌ها", "pages": [58], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-316", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-317", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-318", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-319", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-320", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-321", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-322", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-323", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-324", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [60], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-325", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-326", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-327", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-328", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-329", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": ["morph_var"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-330", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": [], "referenced_as_example": ["morph_var"], "coverage": "فقط شاهد"}
+{"id": "item-331", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": ["suffix_vare", "morph_vare"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-332", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["suffix_vare", "morph_vare"], "coverage": "فقط شاهد"}
+{"id": "item-333", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": ["morph_san"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-334", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["morph_san"], "coverage": "فقط شاهد"}
+{"id": "item-335", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-336", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [61], "referenced_as_rule": ["suffix_fam", "morph_fam"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-337", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": ["suffix_fam", "morph_fam"], "coverage": "فقط شاهد"}
+{"id": "item-338", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": ["exceptions_khane", "morph_khane"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-339", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": ["exceptions_khane", "morph_khane"], "coverage": "فقط شاهد"}
+{"id": "item-340", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": ["compounds"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-341", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": ["compounds"], "coverage": "فقط شاهد"}
+{"id": "item-342", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-343", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-344", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-345", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [62], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-346", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-347", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-348", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-349", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-350", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-351", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-352", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-353", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-354", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-355", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-356", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [63, 64, 65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-357", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-358", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-359", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": ["compound_verbs"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-360", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": ["compound_verbs"], "coverage": "فقط شاهد"}
+{"id": "item-361", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-362", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-363", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-364", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-365", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [64], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-366", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-367", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-368", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-369", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-370", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-371", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-372", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-373", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-374", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-375", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [65], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-376", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [66], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-377", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [66], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-378", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-379", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [66], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-380", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [66], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-381", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [66], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-382", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-383", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-384", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-385", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-386", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-387", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-388", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-389", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-390", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-391", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-392", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-393", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-394", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-395", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-396", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [67], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-397", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-398", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-399", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-400", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-401", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-402", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-403", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-404", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-405", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-406", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": ["compound_adjectives"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-407", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [68], "referenced_as_rule": [], "referenced_as_example": ["compound_adjectives"], "coverage": "فقط شاهد"}
+{"id": "item-408", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-409", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-410", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-411", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-412", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-413", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-414", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-415", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-416", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-417", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-418", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-419", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-420", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-421", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-422", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-423", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-424", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-425", "kind": "paragraph", "section": "ترکیب‌ها", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-426", "kind": "heading", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [69], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-427", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-428", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-429", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-430", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-431", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-432", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-433", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-434", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-435", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-436", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-437", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [71, 72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-438", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-439", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-440", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-441", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-442", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-443", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-444", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-445", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-446", "kind": "paragraph", "section": "فاصله‌گذاری در حروف اضافۀ مرکّب و حروف ربط مرکّب", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-447", "kind": "heading", "section": "واژه‌های چنداملایی", "pages": [72], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-448", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": ["multi_flag", "multiple_table-456", "multiple_table-458"], "referenced_as_example": [], "coverage": "ارجاع محدود در موتور"}
+{"id": "item-449", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-450", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-451", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-452", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-453", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-454", "kind": "paragraph", "section": "واژه‌های چنداملایی", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "section-455", "kind": "heading", "section": "فهرست واژه‌های عامّ دو یا چنداملایی", "pages": [73], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-456", "kind": "table", "section": "فهرست واژه‌های عامّ دو یا چنداملایی", "pages": [74, 75, 76, 77, 78, 80, 81, 82], "referenced_as_rule": [], "referenced_as_example": ["multi_flag", "multiple_table-456"], "coverage": "فقط شاهد"}
+{"id": "section-457", "kind": "heading", "section": "فهرست نام‌های خاصّ (اَعلام) دو یا چنداملایی", "pages": [82], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "table-458", "kind": "table", "section": "فهرست نام‌های خاصّ (اَعلام) دو یا چنداملایی", "pages": [84, 85, 86], "referenced_as_rule": [], "referenced_as_example": ["multiple_table-458"], "coverage": "فقط شاهد"}
+{"id": "section-459", "kind": "heading", "section": "نمایه", "pages": [86], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-460", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-461", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-462", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-463", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-464", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-465", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-466", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-467", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-468", "kind": "paragraph", "section": "نمایه", "pages": [88], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-469", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-470", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-471", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-472", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-473", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-474", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-475", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-476", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-477", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-478", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-479", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-480", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-481", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-482", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-483", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-484", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-485", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-486", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-487", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-488", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-489", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-490", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-491", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-492", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-493", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-494", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-495", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-496", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-497", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-498", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-499", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-500", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-501", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-502", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-503", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-504", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-505", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-506", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-507", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-508", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-509", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-510", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-511", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-512", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-513", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-514", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-515", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-516", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-517", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-518", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-519", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-520", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-521", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-522", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-523", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-524", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-525", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-526", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-527", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-528", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-529", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-530", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-531", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-532", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-533", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-534", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-535", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-536", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-537", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-538", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-539", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-540", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-541", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-542", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-543", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-544", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-545", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-546", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-547", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-548", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-549", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-550", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-551", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-552", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-553", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-554", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-555", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-556", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-557", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-558", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-559", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-560", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-561", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-562", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-563", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
+{"id": "item-564", "kind": "paragraph", "section": "نمایه", "pages": [], "referenced_as_rule": [], "referenced_as_example": [], "coverage": "بدون پیاده‌سازی مستقیم"}
