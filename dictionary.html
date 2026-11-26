@@ -27,7 +27,7 @@ h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);m
 .results{display:grid;gap:8px;margin-top:14px}.item{border:1px solid var(--line);border-radius:12px;padding:11px 14px;background:#fff}
 .item strong{font-weight:600}.item mark{background:#fcebbf;color:#5a4519;border-radius:3px;padding:0 2px}
 .empty{padding:28px;text-align:center;color:var(--muted);background:#f7faf8;border-radius:12px}
-.pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:18px}.pager button{border:1px solid var(--line);border-radius:9px;background:#fff;padding:7px 13px;color:var(--green-dark);font:inherit}.pager button:disabled{opacity:.4}
+.pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:18px}.pager button{border:1px solid var(--line);border-radius:9px;background:#fff;padding:7px 13px;color:var(--green-dark);font:inherit}.pager button:disabled{opacity:.4}.pager[hidden]{display:none}
 .note{margin-top:24px;padding:12px 14px;border-right:3px solid #8bc1a5;background:#f7faf8;border-radius:9px;color:var(--muted);font-size:.78rem}
 .related{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.related h2{font-size:1rem;margin:0 0 8px}.related a{display:inline-block;margin:3px 5px;padding:4px 10px;border-radius:999px;background:var(--mint);font-size:.8rem}
 @media(max-width:600px){.shell{padding:12px}.paper{border-radius:16px;padding:19px 15px}.top{align-items:flex-start}.intro-header{gap:14px;margin-bottom:20px}.book-cover{width:clamp(88px,25vw,112px)}h1{font-size:1.35rem}.intro{font-size:.82rem}}
@@ -60,7 +60,7 @@ h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);m
 <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" autocomplete="off" placeholder="واژه‌ای را جست‌وجو کنید…" aria-label="جست‌وجو در فرهنگ املایی خط فارسی"><button id="clear" type="button">پاک‌کردن</button></label>
 <div class="meta"><span id="count" aria-live="polite">در حال بارگذاری فرهنگ…</span><span>جست‌وجو در صورت‌های ثبت‌شده</span></div>
 <section id="results" class="results" aria-live="polite"><div class="empty">در حال بارگذاری…</div></section>
-<nav class="pager" aria-label="صفحه‌بندی"><button id="prev" type="button" disabled>قبلی</button><span id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
+<nav class="pager" id="pager" aria-label="صفحه‌بندی" hidden><button id="prev" type="button" disabled>قبلی</button><span id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
 <div class="note">صورت‌های واژگانی و جایگزین‌ها همان‌گونه که در منبع آمده‌اند نمایش داده می‌شوند. نمایش یک صورت در این فهرست به‌تنهایی به معنای درست‌تر یا مرجّح‌بودن آن نیست.</div>
 <section class="related"><h2>مطالب مرتبط</h2>
 <a href="./#q=ترکیب‌ها">ترکیب‌ها و پیوسته‌نویسی</a>
@@ -82,7 +82,7 @@ if(!query){count.textContent='فرهنگ آمادهٔ جست‌وجو است';re
 const total=filtered.length,pages=Math.max(1,Math.ceil(total/size));page=Math.min(page,pages-1);const rows=filtered.slice(page*size,(page+1)*size);
 count.textContent=fa(total)+' نتیجه برای «'+query+'»';
 results.innerHTML=rows.length?rows.map(x=>'<article class="item"><strong>'+highlight(x,q.value)+'</strong></article>').join(''):'<div class="empty">برای این جست‌وجو مدخلی پیدا نشد.</div>';
-$('page').textContent=fa(page+1)+' از '+fa(pages);$('prev').disabled=page===0;$('next').disabled=page>=pages-1}
+$('pager').hidden=pages<=1;$('page').textContent=fa(page+1)+' از '+fa(pages);$('prev').disabled=page===0;$('next').disabled=page>=pages-1}
 function search(){
  const query=norm(q.value);page=0;
  if(!query)filtered=[];
