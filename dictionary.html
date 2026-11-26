@@ -73,6 +73,7 @@ const $=id=>document.getElementById(id),q=$('q'),results=$('results'),count=$('c
 let entries=[],filtered=[],page=0;const size=50;
 const norm=s=>String(s||'').normalize('NFKC').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[ۀة]/g,'ه').replace(/[\u064b-\u065f\u0670ـ]/g,'').replace(/[\u200c\u200d\s]+/g,' ').trim().toLowerCase();
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const faCount=n=>fa(String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'٬'));
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function highlight(s,query){const n=norm(query);if(!n)return esc(s);const raw=String(s),needle=query.trim();let at=raw.indexOf(needle);if(at<0)return esc(raw);return esc(raw.slice(0,at))+'<mark>'+esc(raw.slice(at,at+needle.length))+'</mark>'+esc(raw.slice(at+needle.length))}
 function render(){const query=q.value.trim();
