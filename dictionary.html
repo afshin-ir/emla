@@ -23,7 +23,7 @@ h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);m
 .search button{flex:0 0 auto;border:1px solid #dce9e0;border-radius:10px;background:#edf5ef;color:var(--green-dark);padding:7px 12px;font:inherit;font-size:.82rem;transition:background .18s,border-color .18s}
 .search button:hover{background:#e1f0e6;border-color:#b8d7c3}
 .search button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin:13px 2px}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;margin:13px 2px}.meta[hidden]{display:none}
 .results{display:grid;gap:8px;margin-top:14px}.item{border:1px solid var(--line);border-radius:12px;padding:11px 14px;background:#fff}
 .item strong{font-weight:600}.item mark{background:#fcebbf;color:#5a4519;border-radius:3px;padding:0 2px}.entry-count{color:var(--green);font-weight:800}
 .empty{padding:28px;text-align:center;color:var(--muted);background:#f7faf8;border-radius:12px}
@@ -100,7 +100,7 @@ function search(){
 q.addEventListener('input',search);$('clear').addEventListener('click',()=>{q.value='';search();q.focus()});
 $('prev').addEventListener('click',()=>{if(page>0){page--;render();window.scrollTo({top:0,behavior:'smooth'})}});
 $('next').addEventListener('click',()=>{if((page+1)*size<filtered.length){page++;render();window.scrollTo({top:0,behavior:'smooth'})}});
-fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];$('entry-total').textContent=faCount(entries.length);search()}).catch(()=>{count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
+fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];$('entry-total').textContent=faCount(entries.length);search()}).catch(()=>{$('meta').hidden=false;count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script><script>
