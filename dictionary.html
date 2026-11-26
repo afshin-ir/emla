@@ -78,7 +78,7 @@ const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function highlight(s,query){const n=norm(query);if(!n)return esc(s);const raw=String(s),needle=query.trim();let at=raw.indexOf(needle);if(at<0)return esc(raw);return esc(raw.slice(0,at))+'<mark>'+esc(raw.slice(at,at+needle.length))+'</mark>'+esc(raw.slice(at+needle.length))}
 function render(){const query=q.value.trim();
-if(!query){count.textContent='فرهنگ آمادهٔ جست‌وجو است';results.innerHTML='<div class="empty">برای دیدن مدخل‌ها، واژه‌ای را جست‌وجو کنید.</div>';$('page').textContent='';$('prev').disabled=true;$('next').disabled=true;return}
+if(!query){count.textContent='فرهنگ آمادهٔ جست‌وجو است';results.innerHTML='<div class="empty">برای دیدن مدخل‌ها، واژه‌ای را جست‌وجو کنید.</div>';$('pager').hidden=true;$('page').textContent='';$('prev').disabled=true;$('next').disabled=true;return}
 const total=filtered.length,pages=Math.max(1,Math.ceil(total/size));page=Math.min(page,pages-1);const rows=filtered.slice(page*size,(page+1)*size);
 count.textContent=fa(total)+' نتیجه برای «'+query+'»';
 results.innerHTML=rows.length?rows.map(x=>'<article class="item"><strong>'+highlight(x,q.value)+'</strong></article>').join(''):'<div class="empty">برای این جست‌وجو مدخلی پیدا نشد.</div>';
