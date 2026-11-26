@@ -21,6 +21,7 @@
   cursor:pointer;
   transition:background-color .15s,border-color .15s,color .15s;
 }
+.site-nav-button[hidden]{display:none!important}
 .site-nav-button:hover{
   border-color:#b9d7c6;
   background:#e8f4ee;
