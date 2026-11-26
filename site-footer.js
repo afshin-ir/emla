@@ -15,12 +15,12 @@
     footer.appendChild(note);
   }
   note.className='site-credit';
-  note.textContent=phrase;
+  note.innerHTML='طراحی سایت و توسعهٔ <a href="https://afshin-ir.github.io/emla/afra.html">اپلیکیشن اَفرا</a> توسط: افشین فلاطونی © ۱۴۰۵';
 
   if(!document.getElementById('site-footer-style')){
     const style=document.createElement('style');
     style.id='site-footer-style';
-    style.textContent='.site-footer{max-width:1440px;margin:22px auto 0;padding:0 24px 16px}.site-credit{margin:0;padding:12px 8px 0;border-top:1px solid #e1e9e4;text-align:center;color:#89958e;font-size:.72rem;line-height:1.8;opacity:.82}.dark .site-credit{border-color:#34483e;color:#9aa8a0}@media(max-width:580px){.site-footer{padding:0 13px 14px}.site-credit{font-size:.68rem}}';
+    style.textContent='.site-footer{max-width:1440px;margin:22px auto 0;padding:0 24px 16px}.site-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}.site-credit a:hover{opacity:1}.site-credit{margin:0;padding:12px 8px 0;border-top:1px solid #e1e9e4;text-align:center;color:#89958e;font-size:.72rem;line-height:1.8;opacity:.82}.dark .site-credit{border-color:#34483e;color:#9aa8a0}@media(max-width:580px){.site-footer{padding:0 13px 14px}.site-credit{font-size:.68rem}}';
     document.head.appendChild(style);
   }
 })();
