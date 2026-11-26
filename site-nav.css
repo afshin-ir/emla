@@ -101,7 +101,7 @@
 .nav-tools[open] .nav-tools-chevron{transform:rotate(180deg)}
 .nav-new-badge{display:inline-grid;place-items:center;margin-inline-start:1px;padding:1px 6px;border-radius:999px;background:#f7edcf;color:#79551f;font-size:.64rem;font-weight:750;line-height:1.5}
 .nav-tools-menu{position:absolute;top:calc(100% + 7px);inset-inline-end:0;z-index:50;display:grid;gap:3px;width:min(290px,calc(100vw - 24px));padding:7px;border:1px solid #dfe9e3;border-radius:12px;background:#fff;box-shadow:0 10px 28px #183f331a}
-.nav-tools-link{display:grid;gap:0;padding:8px 10px;border-radius:8px;color:#105b48;text-decoration:none;font-size:.84rem;font-weight:700;line-height:1.5}
+.nav-tools-link{display:grid;gap:0;padding:8px 10px;border-radius:8px;color:#105b48;text-decoration:none;font-size:.95rem;font-weight:800;line-height:1.5}
 .nav-tools-link:hover,.nav-tools-link:focus-visible{background:#e8f4ee;color:#105b48;text-decoration:none}
 .nav-tools-link:focus-visible{outline:2px solid #16765d;outline-offset:1px}
-.nav-tools-link small{margin-top:4px;color:#687a73;font-size:.72rem;font-weight:400;line-height:1.5}
+.nav-tools-link small{margin-top:6px;color:#687a73;font-size:.72rem;font-weight:400;line-height:1.5}
