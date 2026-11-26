@@ -53,11 +53,11 @@ h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 5px}.intro{color:var(--muted);m
 <main class="paper">
 <div class="intro-header">
 <div class="intro-copy"><h1>فرهنگ املایی خط فارسی</h1>
-<p class="intro">جست‌وجو در فهرست واژه‌ها و صورت‌های املایی ثبت‌شده در کتاب فرهنگ املایی خط فارسی.</p></div>
+<p class="intro">جست‌وجو در میان <strong id="entry-total" class="entry-count">۳۱٬۷۹۴</strong> صورتِ املاییِ ثبت‌شده در کتاب فرهنگ املایی خط فارسی.</p></div>
 <a class="book-cover-link" href="./dictionary.webp" aria-label="نمایش تصویر جلد کتاب"><img class="book-cover" src="./dictionary.webp" alt="جلد کتاب فرهنگ املایی خط فارسی" loading="lazy" decoding="async"></a>
 </div>
 <label class="search"><span aria-hidden="true">⌕</span><input id="q" type="search" autocomplete="off" placeholder="واژه‌ای را جست‌وجو کنید…" aria-label="جست‌وجو در فرهنگ املایی خط فارسی"><button id="clear" type="button">پاک‌کردن</button></label>
-<div class="meta"><span id="count" aria-live="polite">در حال بارگذاری فرهنگ…</span><span>جست‌وجو در صورت‌های ثبت‌شده</span></div>
+<div class="meta" id="meta" hidden><span id="count" aria-live="polite"></span></div>
 <section id="results" class="results" aria-live="polite"><div class="empty">در حال بارگذاری…</div></section>
 <nav class="pager" id="pager" aria-label="صفحه‌بندی" hidden><button id="prev" type="button" disabled>قبلی</button><span id="page"></span><button id="next" type="button" disabled>بعدی</button></nav>
 <section class="related"><h2>مطالب مرتبط</h2>
@@ -76,9 +76,9 @@ const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function highlight(s,query){const n=norm(query);if(!n)return esc(s);const raw=String(s),needle=query.trim();let at=raw.indexOf(needle);if(at<0)return esc(raw);return esc(raw.slice(0,at))+'<mark>'+esc(raw.slice(at,at+needle.length))+'</mark>'+esc(raw.slice(at+needle.length))}
 function render(){const query=q.value.trim();
-if(!query){count.innerHTML='فرهنگ آمادهٔ جست‌وجو در <strong class="entry-count">'+fa(entries.length)+'</strong> مدخل است';results.innerHTML='';$('pager').hidden=true;$('page').textContent='';$('prev').disabled=true;$('next').disabled=true;return}
+if(!query){count.textContent='';$('meta').hidden=true;results.innerHTML='';$('pager').hidden=true;$('page').textContent='';$('prev').disabled=true;$('next').disabled=true;return}
 const total=filtered.length,pages=Math.max(1,Math.ceil(total/size));page=Math.min(page,pages-1);const rows=filtered.slice(page*size,(page+1)*size);
-count.textContent=fa(total)+' نتیجه برای «'+query+'»';
+$('meta').hidden=false;count.textContent=fa(total)+' نتیجه برای «'+query+'»';
 results.innerHTML=rows.length?rows.map(x=>'<article class="item"><strong>'+highlight(x,q.value)+'</strong></article>').join(''):'<div class="empty">برای این جست‌وجو مدخلی پیدا نشد.</div>';
 $('pager').hidden=pages<=1;$('page').textContent=fa(page+1)+' از '+fa(pages);$('prev').disabled=page===0;$('next').disabled=page>=pages-1}
 function search(){
@@ -99,7 +99,7 @@ function search(){
 q.addEventListener('input',search);$('clear').addEventListener('click',()=>{q.value='';search();q.focus()});
 $('prev').addEventListener('click',()=>{if(page>0){page--;render();window.scrollTo({top:0,behavior:'smooth'})}});
 $('next').addEventListener('click',()=>{if((page+1)*size<filtered.length){page++;render();window.scrollTo({top:0,behavior:'smooth'})}});
-fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];search()}).catch(()=>{count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
+fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];$('entry-total').textContent=faCount(entries.length);search()}).catch(()=>{count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script><script>
