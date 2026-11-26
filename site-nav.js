@@ -24,7 +24,9 @@
       return path===currentPath||(path.endsWith('/articles')&&currentPath.startsWith(path+'/'));
     };
     nav.querySelectorAll(':scope > a').forEach(link=>{
-      if(matches(link))link.setAttribute('aria-current','page');
+      const isCurrent=matches(link);
+      link.hidden=isCurrent;
+      if(isCurrent)link.setAttribute('aria-current','page');
     });
     const tools=nav.querySelector(':scope > .nav-tools');
     if(tools){
