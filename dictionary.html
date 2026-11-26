@@ -77,13 +77,15 @@ const norm=s=>String(s||'').normalize('NFKC').replace(/[يى]/g,'ی').replace(/�
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function highlight(s,query){const n=norm(query);if(!n)return esc(s);const raw=String(s),needle=query.trim();let at=raw.indexOf(needle);if(at<0)return esc(raw);return esc(raw.slice(0,at))+'<mark>'+esc(raw.slice(at,at+needle.length))+'</mark>'+esc(raw.slice(at+needle.length))}
-function render(){const total=filtered.length,pages=Math.max(1,Math.ceil(total/size));page=Math.min(page,pages-1);const rows=filtered.slice(page*size,(page+1)*size);
-count.textContent=fa(total)+' نتیجه'+(q.value.trim()?' برای «'+q.value.trim()+'»':' در فرهنگ');
+function render(){const query=q.value.trim();
+if(!query){count.textContent='فرهنگ آمادهٔ جست‌وجو است';results.innerHTML='<div class="empty">برای دیدن مدخل‌ها، واژه‌ای را جست‌وجو کنید.</div>';$('page').textContent='';$('prev').disabled=true;$('next').disabled=true;return}
+const total=filtered.length,pages=Math.max(1,Math.ceil(total/size));page=Math.min(page,pages-1);const rows=filtered.slice(page*size,(page+1)*size);
+count.textContent=fa(total)+' نتیجه برای «'+query+'»';
 results.innerHTML=rows.length?rows.map(x=>'<article class="item"><strong>'+highlight(x,q.value)+'</strong></article>').join(''):'<div class="empty">برای این جست‌وجو مدخلی پیدا نشد.</div>';
 $('page').textContent=fa(page+1)+' از '+fa(pages);$('prev').disabled=page===0;$('next').disabled=page>=pages-1}
 function search(){
  const query=norm(q.value);page=0;
- if(!query)filtered=entries.slice();
+ if(!query)filtered=[];
  else{
   const tokens=query.split(' ').filter(Boolean);
   filtered=entries.map((entry,index)=>({entry,index,n: norm(entry)}))
@@ -99,7 +101,7 @@ function search(){
 q.addEventListener('input',search);$('clear').addEventListener('click',()=>{q.value='';search();q.focus()});
 $('prev').addEventListener('click',()=>{if(page>0){page--;render();window.scrollTo({top:0,behavior:'smooth'})}});
 $('next').addEventListener('click',()=>{if((page+1)*size<filtered.length){page++;render();window.scrollTo({top:0,behavior:'smooth'})}});
-fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];filtered=entries;search()}).catch(()=>{count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
+fetch('./dictionary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{entries=d.entries||[];search()}).catch(()=>{count.textContent='بارگذاری ناموفق بود';results.innerHTML='<div class="empty">فایل داده‌های فرهنگ پیدا نشد. مطمئن شوید dictionary.json در کنار این صفحه قرار دارد.</div>'});
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
 </script><script>
