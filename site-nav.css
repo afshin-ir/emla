@@ -100,10 +100,16 @@
 .nav-tools>summary{list-style:none}
 .nav-tools>summary::-webkit-details-marker{display:none}
 .nav-tools-trigger{gap:6px}
+.nav-tools.is-current>.nav-tools-trigger{
+  border-color:#9ac9ad;
+  background:#e8f4ee;
+  color:#105b48;
+  box-shadow:inset 0 0 0 1px currentColor,0 2px 5px #1e2d2b20;
+}
 .nav-tools-chevron{font-size:.78em;line-height:1;transition:transform .15s}
 .nav-tools[open] .nav-tools-chevron{transform:rotate(180deg)}
 .nav-new-badge{display:inline-grid;place-items:center;margin-inline-start:1px;padding:1px 6px;border-radius:999px;background:#f7edcf;color:#79551f;font-size:.64rem;font-weight:750;line-height:1.5}
 .nav-tools-menu{position:absolute;top:calc(100% + 7px);inset-inline-end:0;z-index:50;display:grid;gap:3px;width:min(290px,calc(100vw - 24px));padding:7px;border:1px solid #dfe9e3;border-radius:12px;background:#fff;box-shadow:0 10px 28px #183f331a}
 .nav-tools-link{display:flex;align-items:center;min-height:42px;padding:8px 12px;border-radius:8px;color:#105b48;text-decoration:none;font-size:.9rem;font-weight:750;line-height:1.6;white-space:nowrap}
-.nav-tools-link:hover,.nav-tools-link:focus-visible{background:#e8f4ee;color:#105b48;text-decoration:none}
+.nav-tools-link:hover,.nav-tools-link:focus-visible,.nav-tools-link[aria-current="page"]{background:#e8f4ee;color:#105b48;text-decoration:none}
 .nav-tools-link:focus-visible{outline:2px solid #16765d;outline-offset:1px}
