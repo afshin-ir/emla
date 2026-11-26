@@ -20,7 +20,9 @@
     const links=Array.from(nav.querySelectorAll('a'));
     links.forEach(link=>link.removeAttribute('aria-current'));
     const matches=link=>{
-      const path=normalizePath(new URL(link.href,location.href).pathname);
+      const url=new URL(link.href,location.href);
+      if(url.hash)return false;
+      const path=normalizePath(url.pathname);
       return path===currentPath||(path.endsWith('/articles')&&currentPath.startsWith(path+'/'));
     };
     nav.querySelectorAll(':scope > a').forEach(link=>{
